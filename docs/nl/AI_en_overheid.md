@@ -39,6 +39,7 @@ Enkele praktijkverhalen van het inzetten van AI binnen de Nederlandse overheid.
 - [Praktijkverhalen AI & Algoritmes](https://aienalgoritmes.pleio.nl/page/view/67f8e63c-82b4-474e-a003-6ab8923d5184/praktijkverhalen-nieuw)
 - [Agenda Digitale Stad Amsterdam](https://www.amsterdam.nl/innovatie/agenda-digitale-stad/)
 - [Sammie: stikstof chatbot](https://www.binnenlandsbestuur.nl/digitaal/kunstmatige-intelligentie/sammie-de-ai-weet-alles-over-stikstof)
+- [Eigen AI-platform Nederlandse overheid (door SSC-ICT)](https://www.dutchitleaders.nl/interview/715504/nardie-scharenborg-ssc-ict-met-eigen-ai-platform-kan-rijksoverheid-weer-volop-meedoen)
 
 ## Europese AI
 
