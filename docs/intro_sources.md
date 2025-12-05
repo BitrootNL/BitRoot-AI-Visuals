@@ -3,6 +3,8 @@
 To get an introduction to what AI means and what it can do, you can explore the sources below. 
 If you are a beginner or business user of AI, this is the best place to start.
 
+Nederlandse bronnen vindt je [hier](nl/AI_nl.md).
+
 ## Source Types
 
 - [Articles](#articles)
@@ -33,13 +35,22 @@ an entertaining way.
 - [Albert Learns How To Walk (Reinforcement Learning)](https://www.youtube.com/watch?v=L_4BPjLBF4E)
 - [Helix Logistics: AI in the work force](https://www.youtube.com/watch?v=f6ChFc8eUuo)
 
+## Fields
+
+For more specific use cases, tools and general information, check out the 
+articles below to learn more about AI in specific fields.
+
+- [AI & the Dutch Government](nl/AI_en_overheid.md) (Dutch)
+- [AI Law & Ethics](AI_ethics.md)
+- [AI & Finance](AI_finance.md)
+- [AI & Healthcare](AI_healthcare.md)
+
 ## Read More
 
 Use the links below to jump to different overviews of sources.
 
 - [AI Sources Overview](AI_sources.md)
 - [AI Use Cases](AI_use_cases.md)
-- [AI Law & Ethics](AI_ethics.md)
 - [AI & The Future](AI_future.md)
 - [Large Language Models](LLM_sources.md)
 - [Machine Learning](ML_sources.md)

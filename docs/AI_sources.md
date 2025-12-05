@@ -11,7 +11,8 @@ to different categories, sources can be found within the subdocuments.
 Sources in the Dutch language or directly applicable to the Netherlands can 
 be found in the overview below.
 
-- [Nederlandse AI bronnen](AI_nl.md)
+- [Nederlandse AI bronnen](nl/AI_nl.md)
+- [AI bij de Nederlandse overheid](nl/AI_en_overheid.md)
 
 ## Sources by subject
 

@@ -2,6 +2,12 @@
 
 The following sources discuss ethics and law in AI, as well as related fields.
 
+## AI Law
+
+- [Read: EU AI Act](https://artificialintelligenceact.eu/the-act/)
+- [Read: EU AI Act: How it Protects You](https://www.europarl.europa.eu/topics/en/article/20230601STO93804/eu-ai-act-first-regulation-on-artificial-intelligence)
+- [Read: Changes EU AI Act november for better business growth](https://commission.europa.eu/news-and-media/news/simpler-digital-rules-help-eu-businesses-grow-2025-11-19)
+
 ## AI Ethics
 
 General guidelines:
@@ -11,7 +17,6 @@ General guidelines:
 - [Article: Trustworthy AI Guidelines (full document)](https://www.europarl.europa.eu/cmsdata/196377/AI%20HLEG_Ethics%20Guidelines%20for%20Trustworthy%20AI.pdf)
 - [Article: Friendly AI](https://www.opentrain.ai/glossary/friendly-artificial-intelligence-fai)
 - [Book: AI Safety for Fleshy Humans](https://aisafety.dance/)
-
 
 ### Copyright
 
@@ -28,11 +33,6 @@ who aim to source AI training data lawfully and ethically.
 ### Privacy
 
 - [Read: LLMs ranked by privacy](https://blog.incogni.com/ai-llm-privacy-ranking-2025/)
-
-## AI Law
-
-- [Read: EU AI Act](https://artificialintelligenceact.eu/the-act/)
-- [Read: EU AI Act: How it Protects You](https://www.europarl.europa.eu/topics/en/article/20230601STO93804/eu-ai-act-first-regulation-on-artificial-intelligence)
 
 ## Interactive Learning
 
@@ -58,3 +58,4 @@ Use the links below to jump to different overviews of sources.
 
 - [AI Sources Overview](AI_sources.md)
 - [AI Use Cases](AI_use_cases.md)
+- [AI & the Dutch Government](nl/AI_en_overheid.md) (Dutch)

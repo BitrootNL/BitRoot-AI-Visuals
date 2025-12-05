@@ -5,7 +5,7 @@ impacts businesses in their everyday work.
 
 These sources are particularly interesting for business-related trainings.
 
-If you are interested in use cases in NL specifically, check out the [NL AI Sources](AI_nl).
+If you are interested in use cases in NL specifically, check out the [NL AI Sources](nl/AI_nl.md).
 
 ## Contents
 
