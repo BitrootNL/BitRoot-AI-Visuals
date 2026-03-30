@@ -58,7 +58,6 @@ bekend.
 - [Workflow-automatisering met low-code met make.com](https://www.make.com/en) (Duitsland)
 - [Workflow-automatisering met UIPath](https://www.uipath.com/) (Roemenië)
 - [Deployment van AI (DeployAI)](https://www.deployaiproject.eu/) (Gesponsord door EU-commissie)
-- 
 
 ## Meer lezen
 
