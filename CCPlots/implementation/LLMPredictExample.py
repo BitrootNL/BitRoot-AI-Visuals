@@ -7,6 +7,8 @@ from CCPlots.config import COLOR_PALETTE, OUTPUT_PATH
 
 class LLMPredictExample(PlotExample):
 
+    output_file = "recolor/computrain_llm_predict_next.png"
+
     # Define the colormap using the given colors
     custom_colormap = mcolors.ListedColormap([
         COLOR_PALETTE['base_colors']['dark_green'],
@@ -47,7 +49,7 @@ class LLMPredictExample(PlotExample):
         plt.title(f"Predicting the Next Word for: '{prompt}'")
 
         # Display the chart
-        plt.savefig(OUTPUT_PATH + "llm_predict_next.png")
+        plt.savefig(OUTPUT_PATH + self.output_file)
 
 if __name__ == "__main__":
     LLMPredictExample().main()

@@ -10,7 +10,9 @@ class TokenizationExample(PlotExample):
     sentence: str
     subword_tokens: str
 
-    green = COLOR_PALETTE['base_colors']['medium_green']
+    # CodeCafé
+    color = COLOR_PALETTE['base_colors']['medium_green']
+    output_file = "tokenization_example.png"
 
     def __init__(self, sentence = "Tokenization is essential for NLP models!", tokens = ["Tok", "en", "ization", "is", "es", "sen", "tial", "for", "NLP", "mod", "els", "!"]):
         # Example sentence
@@ -26,7 +28,7 @@ class TokenizationExample(PlotExample):
 
         # Create the plot
         plt.figure(figsize=(12, 3))
-        plt.scatter(x_positions, [1]*len(self.subword_tokens), color=self.green, s=100)
+        plt.scatter(x_positions, [1] * len(self.subword_tokens), color=self.color, s=100)
 
         # Add subword tokens as labels
         for i, token in enumerate(self.subword_tokens):
@@ -43,7 +45,7 @@ class TokenizationExample(PlotExample):
         plt.title("Subword Tokenization Process", fontsize=14, fontweight='bold')
         plt.ylim(0.8, 1.2)
         plt.grid(False)
-        plt.savefig(OUTPUT_PATH + "tokenization_example.png")
+        plt.savefig(OUTPUT_PATH + self.output_file)
 
 if __name__ == "__main__":
     TokenizationExample().main()
