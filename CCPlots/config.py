@@ -1,8 +1,11 @@
+import os
 import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 
 # Where to store the plots
-OUTPUT_PATH = "../../plots/"
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+OUTPUT_PATH = os.path.join(PROJECT_ROOT, "plots") + os.sep
+os.makedirs(OUTPUT_PATH, exist_ok=True)
 
 # matplotlib theme
 THEME = "ocean"
