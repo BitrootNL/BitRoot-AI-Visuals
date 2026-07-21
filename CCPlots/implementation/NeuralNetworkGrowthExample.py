@@ -5,15 +5,15 @@ NeuralNetworkGrowthExample.py
 import matplotlib.pyplot as plt
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import OUTPUT_PATH, COLOR_PALETTE
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
 class NeuralNetworkGrowthExample(PlotExample):
 
     # Plot colours
-    deep_teal = COLOR_PALETTE['analogous_colors']['deep_teal']
-    mint_green = COLOR_PALETTE['accent_colors']['mint_green']
-    light_gray = COLOR_PALETTE['neutral_colors']['light_gray']
+    primary = BITROOT_PALETTE['primary']
+    tertiary = BITROOT_PALETTE['tertiary']
+    light_gray = BITROOT_PALETTE['grid']
 
     def main(self):
         # Data for the models
@@ -22,23 +22,25 @@ class NeuralNetworkGrowthExample(PlotExample):
         parameters = [60e6, 138e6, 340e6, 175e9]
 
         # Plotting the line figure
-        plt.figure(figsize=(10, 6))
-        plt.plot(years, parameters, marker='o', color=self.deep_teal)
-        plt.fill_between(years, parameters, color=self.mint_green, alpha=0.6)
+        plt.figure(figsize=(10, 6), facecolor=BITROOT_PALETTE['background'])
+        plt.plot(years, parameters, marker='o', color=self.primary)
+        plt.fill_between(years, parameters, color=self.tertiary, alpha=0.35)
         for i, txt in enumerate(models):
-            plt.text(years[i], parameters[i], txt, fontsize=10, ha='right')
+            plt.text(years[i], parameters[i], txt, fontsize=10, ha='right', color=BITROOT_PALETTE['text'])
 
         # Plot y logarithmically (exponential growth)
         plt.yscale('log')
 
         # Plot labeling
-        plt.title("Growth in Neural Network Parameters Over Time", fontsize=14)
-        plt.xlabel("Year")
+        plt.title("Growth in Neural Network Parameters Over Time", fontsize=14, color=BITROOT_PALETTE['text'])
+        plt.xlabel("Year", color=BITROOT_PALETTE['text'])
         plt.xlim(min(years), max(years))
-        plt.ylabel("Parameters (log scale)")
+        plt.ylabel("Parameters (log scale)", color=BITROOT_PALETTE['text'])
 
-        plt.grid(True, color=self.light_gray)
-        plt.savefig(OUTPUT_PATH + "neural_network_growth_line_log.png")
+        ax = plt.gca()
+        apply_bitroot_style(ax)
+        ax.grid(True, color=self.light_gray)
+        plt.savefig(output_path("neural_network_growth_line_log.png"))
 
 
 if __name__ == "__main__":

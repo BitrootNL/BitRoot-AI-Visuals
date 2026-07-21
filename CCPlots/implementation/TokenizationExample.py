@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import COLOR_PALETTE, OUTPUT_PATH
+from CCPlots.config import BITROOT_PALETTE, output_path
 
 
 class TokenizationExample(PlotExample):
@@ -11,7 +11,7 @@ class TokenizationExample(PlotExample):
     subword_tokens: str
 
     # CodeCafé
-    color = COLOR_PALETTE['base_colors']['medium_green']
+    color = BITROOT_PALETTE['tertiary']
     output_file = "tokenization_example.png"
 
     def __init__(self, sentence = "Tokenization is essential for NLP models!", tokens = ["Tok", "en", "ization", "is", "es", "sen", "tial", "for", "NLP", "mod", "els", "!"]):
@@ -27,7 +27,7 @@ class TokenizationExample(PlotExample):
         x_positions = np.arange(len(self.subword_tokens))
 
         # Create the plot
-        plt.figure(figsize=(12, 3))
+        plt.figure(figsize=(12, 3), facecolor=BITROOT_PALETTE['background'])
         plt.scatter(x_positions, [1] * len(self.subword_tokens), color=self.color, s=100)
 
         # Add subword tokens as labels
@@ -42,10 +42,10 @@ class TokenizationExample(PlotExample):
         # Formatting the visualization
         plt.xticks([])
         plt.yticks([])
-        plt.title("Subword Tokenization Process", fontsize=14, fontweight='bold')
+        plt.title("Subword Tokenization Process", fontsize=14, fontweight='bold', color=BITROOT_PALETTE['text'])
         plt.ylim(0.8, 1.2)
         plt.grid(False)
-        plt.savefig(OUTPUT_PATH + self.output_file)
+        plt.savefig(output_path(self.output_file))
 
 if __name__ == "__main__":
     TokenizationExample().main()

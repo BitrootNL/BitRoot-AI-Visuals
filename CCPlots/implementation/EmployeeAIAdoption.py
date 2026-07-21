@@ -1,14 +1,14 @@
 import matplotlib.pyplot as plt
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import COLOR_PALETTE
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 # Colour scheme
 BAR_C = [
-        COLOR_PALETTE["base_colors"]["dark_green"],
-        COLOR_PALETTE["base_colors"]["medium_green"],
-        COLOR_PALETTE["base_colors"]["bright_teal"],
-        COLOR_PALETTE["base_colors"]["bright_yellow"],
+        BITROOT_PALETTE["primary"],
+        BITROOT_PALETTE["tertiary"],
+        BITROOT_PALETTE["secondary"],
+        BITROOT_PALETTE["warning"],
     ]
 
 class EmployeeAIAdoption(PlotExample):
@@ -19,14 +19,15 @@ class EmployeeAIAdoption(PlotExample):
         values = [90, 85, 84, 83]
 
         # Create the bar chart
-        plt.figure(figsize=(10, 5))
+        plt.figure(figsize=(10, 5), facecolor=BITROOT_PALETTE["background"])
+        ax = plt.gca()
+        ax.set_facecolor(BITROOT_PALETTE["background"])
         plt.bar(categories, values, color=BAR_C)
-        plt.title('Impact van AI op werkervaring (% van de medewerkers eens)')
-        plt.ylabel('Percentage')
+        plt.title('Impact van AI op werkervaring (% van de medewerkers eens)', color=BITROOT_PALETTE["text"])
+        plt.ylabel('Percentage', color=BITROOT_PALETTE["text"])
         plt.ylim(0, 100)
-
-        # Show the plot
-        plt.show()
+        apply_bitroot_style(ax)
+        plt.savefig(output_path('employee_ai_adoption.png'))
 
 if __name__ == '__main__':
     EmployeeAIAdoption().main()

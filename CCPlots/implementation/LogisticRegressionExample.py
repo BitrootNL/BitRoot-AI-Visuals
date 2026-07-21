@@ -10,7 +10,7 @@ from matplotlib.animation import FuncAnimation
 from matplotlib.colors import ListedColormap
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import THEME, COLOR_PALETTE, OUTPUT_PATH
+from CCPlots.config import THEME, BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
 class LogisticRegressionExample(PlotExample):
@@ -18,13 +18,10 @@ class LogisticRegressionExample(PlotExample):
     cmap_light = plt.get_cmap(THEME)
 
     # Define a high-contrast color palette for the classes
-    cmap_bold = [
-        COLOR_PALETTE["complementary_colors"]["deep_burgundy"],  # Higher contrast color
-        COLOR_PALETTE["analogous_colors"]["soft_green"]  # Contrasting but distinct
-    ]
+    cmap_bold = [BITROOT_PALETTE["secondary"], BITROOT_PALETTE["tertiary"]]
 
     # Use the dark green from our palette instead of black
-    dark_green = COLOR_PALETTE['base_colors']['dark_green']
+    accent = BITROOT_PALETTE['primary']
 
     def __init__(self, n_samples=200):
         self.n_samples = n_samples
@@ -59,7 +56,7 @@ class LogisticRegressionExample(PlotExample):
             c.remove()
 
         self.contourf = self.ax.contourf(self.xx, self.yy, Z, alpha=0.3, cmap=self.cmap_light)
-        self.contour = self.ax.contour(self.xx, self.yy, Z, levels=[0.5], linewidths=2, colors=self.dark_green)
+        self.contour = self.ax.contour(self.xx, self.yy, Z, levels=[0.5], linewidths=2, colors=self.accent)
 
         return self.contourf.collections + self.contour.collections + [self.scatter]
 
@@ -71,9 +68,9 @@ class LogisticRegressionExample(PlotExample):
         fig, self.ax = plt.subplots()
         self.ax.set_xlim(self.X[:, 0].min() - 1, self.X[:, 0].max() + 1)
         self.ax.set_ylim(self.X[:, 1].min() - 1, self.X[:, 1].max() + 1)
-        self.ax.set_title("Logistic Regression Example: Spam vs. not spam", fontsize=16)
-        self.ax.set_xlabel("Number of links in Email", fontsize=14)
-        self.ax.set_ylabel("Email length (in characters)", fontsize=14)
+        self.ax.set_title("Logistic Regression Example: Spam vs. not spam", fontsize=16, color=BITROOT_PALETTE['text'])
+        self.ax.set_xlabel("Number of links in Email", fontsize=14, color=BITROOT_PALETTE['text'])
+        self.ax.set_ylabel("Email length (in characters)", fontsize=14, color=BITROOT_PALETTE['text'])
 
         # Mesh grid for the background
         self.xx, self.yy = np.meshgrid(np.arange(self.X[:, 0].min() - 1, self.X[:, 0].max() + 1, 0.1),
@@ -82,17 +79,19 @@ class LogisticRegressionExample(PlotExample):
         # Initial contour plot
         Z = np.zeros_like(self.xx)
         self.contourf = self.ax.contourf(self.xx, self.yy, Z, alpha=0.8, cmap=self.cmap_light)
-        self.contour = self.ax.contour(self.xx, self.yy, Z, levels=[0.5], linewidths=2, colors=self.dark_green)
+        self.contour = self.ax.contour(self.xx, self.yy, Z, levels=[0.5], linewidths=2, colors=self.accent)
 
         # Scatter plot of the data points, now with higher contrast colors
         self.scatter = self.ax.scatter(self.X[:, 0], self.X[:, 1], c=self.y, cmap=ListedColormap(self.cmap_bold),
-                                       edgecolor=self.dark_green, s=40)
+                                       edgecolor=self.accent, s=40)
+
+        apply_bitroot_style(self.ax)
 
         # Create the animation
         ani = FuncAnimation(fig, self.update, frames=30, init_func=self.init_func, interval=200, repeat=False)
 
         # Save the animation as a GIF
-        ani.save(OUTPUT_PATH + "logistic_regression_animation.gif", writer='pillow')
+        ani.save(output_path("logistic_regression_animation.gif"), writer='pillow')
 
 
 if __name__ == "__main__":

@@ -12,15 +12,15 @@ from matplotlib.animation import FuncAnimation
 from sklearn.linear_model import LinearRegression
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import COLOR_PALETTE, OUTPUT_PATH
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
 class MultivariateRegressionExample(PlotExample):
 
     # Set colors for the plot
-    green = COLOR_PALETTE['base_colors']['medium_green']
-    mint = COLOR_PALETTE['accent_colors']['mint_green']
-    light_gray = COLOR_PALETTE['neutral_colors']['light_gray']
+    green = BITROOT_PALETTE['primary']
+    mint = BITROOT_PALETTE['tertiary']
+    light_gray = BITROOT_PALETTE['grid']
 
     def main(self):
         # Generate a simple dataset for multivariate linear regression (House Size, Number of Rooms vs. Price)
@@ -36,15 +36,16 @@ class MultivariateRegressionExample(PlotExample):
         prices = prices[sorted_indices]
 
         # Create the figure and 3D axis for the animation
-        fig = plt.figure(figsize=(14, 14))
+        fig = plt.figure(figsize=(14, 14), facecolor=BITROOT_PALETTE['background'])
         ax = fig.add_subplot(111, projection='3d')
+        ax.set_facecolor(BITROOT_PALETTE['background'])
         ax.set_xlim(min(house_sizes) - 100, max(house_sizes) + 100)
         ax.set_ylim(min(num_rooms) - 1, max(num_rooms) + 1)
         ax.set_zlim(min(prices) - 10000, max(prices) + 10000)
-        ax.set_title("Multivariate Regression Example: House Size, Rooms vs. Price", fontsize=16)
-        ax.set_xlabel("House Size (sq ft)", fontsize=14)
-        ax.set_ylabel("Number of Rooms", fontsize=14)
-        ax.set_zlabel("Price ($)", fontsize=14)
+        ax.set_title("Multivariate Regression Example: House Size, Rooms vs. Price", fontsize=16, color=BITROOT_PALETTE['text'])
+        ax.set_xlabel("House Size (sq ft)", fontsize=14, color=BITROOT_PALETTE['text'])
+        ax.set_ylabel("Number of Rooms", fontsize=14, color=BITROOT_PALETTE['text'])
+        ax.set_zlabel("Price ($)", fontsize=14, color=BITROOT_PALETTE['text'])
         # Light gray grid
         plt.grid(True, color=self.light_gray)
 
@@ -93,7 +94,7 @@ class MultivariateRegressionExample(PlotExample):
         # Create the animation
         ani = FuncAnimation(fig, update, frames=len(house_sizes), init_func=init, blit=False, interval=100)
 
-        # Save the animation as a GIF
-        ani.save(OUTPUT_PATH + "multivariate_regression_animation.gif", writer='pillow')
+        apply_bitroot_style(ax)
 
-        fig.show()
+        # Save the animation as a GIF
+        ani.save(output_path("multivariate_regression_animation.gif"), writer='pillow')

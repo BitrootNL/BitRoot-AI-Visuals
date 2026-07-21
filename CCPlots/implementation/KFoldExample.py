@@ -5,13 +5,13 @@ from sklearn.model_selection import KFold
 import seaborn as sns
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import OUTPUT_PATH, COLOR_PALETTE
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
 class KFoldExample(PlotExample):
 
     # This example specifically needs a binary colour map
-    colors = [COLOR_PALETTE['base_colors']['medium_green'], COLOR_PALETTE['base_colors']['bright_yellow']]
+    colors = [BITROOT_PALETTE['tertiary'], BITROOT_PALETTE['secondary']]
 
     def __init__(self):
         # Initiate the color map
@@ -39,10 +39,13 @@ class KFoldExample(PlotExample):
             cv_splits[i, test_index] = 2  # Mark test indices as 2
 
         # Plot the K-Fold cross-validation splits
-        plt.figure()
+        plt.figure(figsize=(10, 4), facecolor=BITROOT_PALETTE['background'])
+        ax = plt.gca()
+        ax.set_facecolor(BITROOT_PALETTE['background'])
         plt.imshow(cv_splits, aspect='auto', cmap=self.cmap, interpolation='nearest')
         plt.colorbar(label='Fold number')
-        plt.xlabel('Index in the dataset')
-        plt.ylabel('Fold number')
-        plt.title('Visualization of K-Fold Cross-Validation')
-        plt.savefig(OUTPUT_PATH + "kfold_validation.png")
+        plt.xlabel('Index in the dataset', color=BITROOT_PALETTE['text'])
+        plt.ylabel('Fold number', color=BITROOT_PALETTE['text'])
+        plt.title('Visualization of K-Fold Cross-Validation', color=BITROOT_PALETTE['text'])
+        apply_bitroot_style(ax)
+        plt.savefig(output_path("kfold_validation.png"))

@@ -12,14 +12,14 @@ from matplotlib.animation import FuncAnimation
 from sklearn.linear_model import LinearRegression
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import COLOR_PALETTE, OUTPUT_PATH
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
 class LinearRegressionExample(PlotExample):
 
     # Set colours for the plot
-    green = COLOR_PALETTE['base_colors']['medium_green']
-    mint = COLOR_PALETTE['accent_colors']['mint_green']
+    green = BITROOT_PALETTE['primary']
+    mint = BITROOT_PALETTE['tertiary']
 
     def main(self):
         # Generate a simple dataset for linear regression (House Size vs. Price)
@@ -33,12 +33,13 @@ class LinearRegressionExample(PlotExample):
         prices = prices[sorted_indices]
 
         # Create the figure and axis for the animation
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(facecolor=BITROOT_PALETTE['background'])
+        ax.set_facecolor(BITROOT_PALETTE['background'])
         ax.set_xlim(min(house_sizes) - 100, max(house_sizes) + 100)
         ax.set_ylim(min(prices) - 10000, max(prices) + 10000)
-        ax.set_title("Linear Regression Example: House Size vs. Price", fontsize=16)
-        ax.set_xlabel("House Size (sq ft)", fontsize=14)
-        ax.set_ylabel("Price ($)", fontsize=14)
+        ax.set_title("Linear Regression Example: House Size vs. Price", fontsize=16, color=BITROOT_PALETTE['text'])
+        ax.set_xlabel("House Size (sq ft)", fontsize=14, color=BITROOT_PALETTE['text'])
+        ax.set_ylabel("Price ($)", fontsize=14, color=BITROOT_PALETTE['text'])
 
         # Scatter plot of the data points
         scatter = ax.scatter(house_sizes, prices, color=self.mint)
@@ -76,10 +77,10 @@ class LinearRegressionExample(PlotExample):
         # Create the animation
         ani = FuncAnimation(fig, update, frames=len(house_sizes), init_func=init, blit=True, interval=10)
 
-        # Save the animation as a GIF (I have no idea why
-        ani.save(OUTPUT_PATH + "linear_regression_animation.gif", writer='pillow')
+        apply_bitroot_style(ax)
 
-        plt.show()
+        # Save the animation as a GIF (I have no idea why
+        ani.save(output_path("linear_regression_animation.gif"), writer='pillow')
 
 
 if __name__ == "__main__":

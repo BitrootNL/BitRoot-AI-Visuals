@@ -7,6 +7,13 @@ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUTPUT_PATH = os.path.join(PROJECT_ROOT, "plots") + os.sep
 os.makedirs(OUTPUT_PATH, exist_ok=True)
 
+
+def output_path(filename: str) -> str:
+    """Return a writable output path and create any required parent directories."""
+    full_path = os.path.join(OUTPUT_PATH, filename)
+    os.makedirs(os.path.dirname(full_path), exist_ok=True)
+    return full_path
+
 # matplotlib theme
 THEME = "ocean"
 
@@ -84,7 +91,9 @@ def apply_bitroot_style(ax=None, *, background=None, text=None, grid=None, title
     grid = grid or BITROOT_PALETTE["grid"]
 
     ax.set_facecolor(background)
-    ax.figure.patch.set_facecolor(background)
+    figure = ax.figure
+    if figure is not None:
+        figure.patch.set_facecolor(background)
     ax.grid(True, color=grid, linestyle="-", linewidth=0.8, alpha=0.9)
     ax.set_axisbelow(True)
 

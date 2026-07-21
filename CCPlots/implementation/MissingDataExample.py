@@ -2,13 +2,13 @@ import pandas as pd
 import df2img
 from sklearn.datasets import fetch_openml
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import OUTPUT_PATH, COLOR_PALETTE
+from CCPlots.config import BITROOT_PALETTE, output_path
 
 
 class MissingDataExample(PlotExample):
 
-    green: str = COLOR_PALETTE['base_colors']['medium_green']
-    white: str = COLOR_PALETTE["neutral_colors"]["white"]
+    green: str = BITROOT_PALETTE['tertiary']
+    white: str = BITROOT_PALETTE["card_background"]
 
     def main(self) -> None:
         # This dataset is from the real world and is also missing some data!
@@ -42,7 +42,7 @@ class MissingDataExample(PlotExample):
         )
 
         # Save as an image file
-        image_path = OUTPUT_PATH + "naturally_missing_data_table.png"
+        image_path = output_path("naturally_missing_data_table.png")
         df2img.save_dataframe(fig, image_path)
 
         print(f"Image saved successfully as {image_path}")

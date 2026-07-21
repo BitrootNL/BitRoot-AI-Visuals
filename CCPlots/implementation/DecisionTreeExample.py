@@ -7,7 +7,7 @@ from sklearn.datasets import load_iris
 from sklearn.tree import DecisionTreeClassifier
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import OUTPUT_PATH
+from CCPlots.config import BITROOT_PALETTE, output_path
 
 
 class DecisionTreeExample(PlotExample):
@@ -22,8 +22,8 @@ class DecisionTreeExample(PlotExample):
         clf = clf.fit(X, y)
 
         # Plot the decision tree
-        plt.figure()
+        plt.figure(facecolor=BITROOT_PALETTE['background'])
 
         # This function does not accept many styling parameters at all, so we will have to suffer.
         tree.plot_tree(clf, filled=True, feature_names=iris.feature_names, class_names=iris.target_names)
-        plt.savefig(OUTPUT_PATH + "decision_tree_iris.png")
+        plt.savefig(output_path("decision_tree_iris.png"))

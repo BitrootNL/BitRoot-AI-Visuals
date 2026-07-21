@@ -8,13 +8,13 @@ from sklearn.metrics import mean_squared_error
 from sklearn.datasets import make_regression
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import COLOR_PALETTE, OUTPUT_PATH
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
 class MSEExample(PlotExample):
     # Set our colors from the palette
-    green = COLOR_PALETTE['base_colors']['medium_green']
-    light_gray = COLOR_PALETTE['neutral_colors']['light_gray']
+    primary = BITROOT_PALETTE['primary']
+    light_gray = BITROOT_PALETTE['grid']
 
     def __init__(self, n_samples=100, iterations=50, learning_rate=0.01):
         self.n_samples = n_samples
@@ -46,21 +46,22 @@ class MSEExample(PlotExample):
 
     def plot_mse(self):
         """Plot the MSE over iterations."""
-        plt.figure(figsize=(10, 6))
+        plt.figure(figsize=(10, 6), facecolor=BITROOT_PALETTE['background'])
 
         # Plotting the MSE values
-        plt.plot(range(1, self.iterations + 1), self.mse_values, color=self.green, marker='o')
+        plt.plot(range(1, self.iterations + 1), self.mse_values, color=self.primary, marker='o')
 
         # Title and labels
-        plt.title('MSE over Iterations', fontsize=16)
-        plt.xlabel('Iteration', fontsize=14)
-        plt.ylabel('Mean Squared Error', fontsize=14)
+        plt.title('MSE over Iterations', fontsize=16, color=BITROOT_PALETTE['text'])
+        plt.xlabel('Iteration', fontsize=14, color=BITROOT_PALETTE['text'])
+        plt.ylabel('Mean Squared Error', fontsize=14, color=BITROOT_PALETTE['text'])
 
-        # Light gray grid
-        plt.grid(True, color=self.light_gray)
+        ax = plt.gca()
+        apply_bitroot_style(ax)
+        ax.grid(True, color=self.light_gray)
 
         # Save the plot to the specified output path
-        plt.savefig(OUTPUT_PATH + "mse_over_iterations.png")
+        plt.savefig(output_path("mse_over_iterations.png"))
 
 
 if __name__ == "__main__":

@@ -14,14 +14,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import COLOR_PALETTE, OUTPUT_PATH
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
 class ContinuousDiscreteExample(PlotExample):
 
     # Set colours for the plot
-    green = COLOR_PALETTE['base_colors']['medium_green']
-    mint = COLOR_PALETTE['accent_colors']['mint_green']
+    primary = BITROOT_PALETTE['primary']
+    tertiary = BITROOT_PALETTE['tertiary']
 
     def main(self) -> None:
         # Simulated continuous data: ages (with some exceptionally high ages for realism)
@@ -44,20 +44,26 @@ class ContinuousDiscreteExample(PlotExample):
         })
 
         # Plot
-        fig, axs = plt.subplots(1, 2, figsize=(14, 5))
+        fig, axs = plt.subplots(1, 2, figsize=(14, 5), facecolor=BITROOT_PALETTE['background'])
+        fig.patch.set_facecolor(BITROOT_PALETTE['background'])
 
         # Categorical version: bar plot
-        sns.countplot(x='Age Group', data=df, ax=axs[1], color=self.mint, order=labels)
-        axs[1].set_title("Ages divided into age categories")
-        axs[1].set_xlabel("Age group")
+        sns.countplot(x='Age Group', data=df, ax=axs[1], color=self.tertiary, order=labels)
+        axs[1].set_title("Ages divided into age categories", color=BITROOT_PALETTE['text'])
+        axs[1].set_xlabel("Age group", color=BITROOT_PALETTE['text'])
+        axs[1].set_ylabel("Count", color=BITROOT_PALETTE['text'])
 
         # Continuous data: histogram
-        sns.histplot(df['Age'], kde=True, ax=axs[0], color=self.green)
-        axs[0].set_title("Age distribution in real life")
-        axs[0].set_xlabel("Actual age")
+        sns.histplot(df['Age'], kde=True, ax=axs[0], color=self.primary)
+        axs[0].set_title("Age distribution in real life", color=BITROOT_PALETTE['text'])
+        axs[0].set_xlabel("Actual age", color=BITROOT_PALETTE['text'])
+        axs[0].set_ylabel("Count", color=BITROOT_PALETTE['text'])
+
+        for ax in axs:
+            apply_bitroot_style(ax)
 
         plt.tight_layout()
-        plt.savefig(OUTPUT_PATH + "continuous_discrete_example.png")
+        plt.savefig(output_path("continuous_discrete_example.png"))
 
 
 if __name__ == "__main__":

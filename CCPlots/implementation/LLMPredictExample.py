@@ -2,12 +2,12 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import COLOR_PALETTE, OUTPUT_PATH
+from CCPlots.config import COLOR_PALETTE, output_path
 
 
 class LLMPredictExample(PlotExample):
 
-    output_file = "recolor/computrain_llm_predict_next.png"
+    output_file = "llm_predict_next.png"
 
     # Define the colormap using the given colors
     custom_colormap = mcolors.ListedColormap([
@@ -49,7 +49,7 @@ class LLMPredictExample(PlotExample):
         plt.title(f"Predicting the Next Word for: '{prompt}'")
 
         # Display the chart
-        plt.savefig(OUTPUT_PATH + self.output_file)
+        plt.savefig(output_path(self.output_file))
 
 if __name__ == "__main__":
     LLMPredictExample().main()

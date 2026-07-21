@@ -12,7 +12,7 @@ from matplotlib.animation import FuncAnimation
 from matplotlib.colors import to_rgba
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import CMAP_BRAND, OUTPUT_PATH, COLOR_PALETTE
+from CCPlots.config import CMAP_BRAND, COLOR_PALETTE, output_path
 
 
 def darken_color(color, factor=0.35):
@@ -84,10 +84,10 @@ class KMeansExample(PlotExample):
                             interval=10,
                             repeat=False)
         # Save the animation
-        ani.save(OUTPUT_PATH + f"kmeans_animation_k{self.n_clusters}.gif", writer='pillow')
+        ani.save(output_path(f"kmeans_animation_k{self.n_clusters}.gif"), writer='pillow')
 
         # Also save the last frame for non-animated use
-        fig.savefig(OUTPUT_PATH + f"kmeans_clustering_k{self.n_clusters}.png")
+        fig.savefig(output_path(f"kmeans_clustering_k{self.n_clusters}.png"))
 
     def update(self, frame):
         # Fit KMeans incrementally for each frame

@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import COLOR_PALETTE, OUTPUT_PATH
+from CCPlots.config import BITROOT_PALETTE, output_path
 
 import math
 import random
@@ -49,26 +49,25 @@ class TravelingSalesmanVisualization(PlotExample):
         """Plot the graph and highlight the TSP path."""
         pos = nx.spring_layout(self.G, seed=42)
 
-        plt.figure(figsize=(12, 8))
+        plt.figure(figsize=(12, 8), facecolor=BITROOT_PALETTE['background'])
         ax = plt.gca()
-        ax.set_facecolor('white')
+        ax.set_facecolor(BITROOT_PALETTE['background'])
 
         # Draw all edges
-        nx.draw(self.G, pos, with_labels=True, node_color=COLOR_PALETTE['base_colors']['bright_teal'], node_size=500)
+        nx.draw(self.G, pos, with_labels=True, node_color=BITROOT_PALETTE['primary'], node_size=500)
 
         # Highlight the TSP path in a different color
         tsp_edges = [(path[i], path[i + 1]) for i in range(len(path) - 1)] + [(path[-1], path[0])]
         nx.draw_networkx_edges(self.G, pos, edgelist=tsp_edges, width=2,
-                               edge_color=COLOR_PALETTE['accent_colors']['mint_green'])
+                               edge_color=BITROOT_PALETTE['tertiary'])
 
         # Add edge labels (distances)
         edge_labels = nx.get_edge_attributes(self.G, 'weight')
         nx.draw_networkx_edge_labels(self.G, pos, edge_labels=edge_labels)
 
         plt.title(f"Traveling Salesman Problem Solution ({self.n_cities} cities)\n"
-                  f"Total routes: {total_routes:,}")
-        plt.savefig(OUTPUT_PATH + filename)
-        plt.show()
+                  f"Total routes: {total_routes:,}", color=BITROOT_PALETTE['text'])
+        plt.savefig(output_path(filename))
 
     def main(self):
         """Main entry point to generate and visualize the TSP."""
@@ -85,12 +84,11 @@ class TravelingSalesmanVisualization(PlotExample):
             # For larger graphs, we only show the graph itself (too expensive to brute force)
             pos = nx.spring_layout(self.G, seed=42)
 
-            plt.figure(figsize=(12, 8))
-            nx.draw(self.G, pos, with_labels=True, node_color=COLOR_PALETTE['accent_colors']['mint_green'],
+            plt.figure(figsize=(12, 8), facecolor=BITROOT_PALETTE['background'])
+            nx.draw(self.G, pos, with_labels=True, node_color=BITROOT_PALETTE['tertiary'],
                     node_size=500)
-            plt.title(f"TSP Graph ({self.n_cities} cities)\nTotal possible routes: {total_routes:,}")
-            plt.savefig(OUTPUT_PATH + f"tsp_large_{self.n_cities}_cities.png")
-            plt.show()
+            plt.title(f"TSP Graph ({self.n_cities} cities)\nTotal possible routes: {total_routes:,}", color=BITROOT_PALETTE['text'])
+            plt.savefig(output_path(f"tsp_large_{self.n_cities}_cities.png"))
 
 
 if __name__ == "__main__":

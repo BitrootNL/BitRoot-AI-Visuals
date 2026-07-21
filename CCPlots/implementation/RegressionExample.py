@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.ticker as ticker
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import OUTPUT_PATH, BITROOT_PALETTE, apply_bitroot_style
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
 class RegressionExample(PlotExample):
@@ -34,11 +34,11 @@ class RegressionExample(PlotExample):
         plt.plot(x, y, label="Female Height Distribution World-wide", color=self.primary)
 
         # Shade the regions under the curve
-        plt.fill_between(x, y, where=(x <= mean - 2*std_dev), color=self.tertiary, alpha=0.22)
-        plt.fill_between(x, y, where=((x > mean - 2*std_dev) & (x <= mean - std_dev)), color=self.calm_blue, alpha=0.25)
-        plt.fill_between(x, y, where=((x > mean - std_dev) & (x < mean + std_dev)), color=self.calm_purple, alpha=0.18)
-        plt.fill_between(x, y, where=((x >= mean + std_dev) & (x < mean + 2*std_dev)), color=self.calm_blue, alpha=0.25)
-        plt.fill_between(x, y, where=(x >= mean + 2*std_dev), color=self.tertiary, alpha=0.22)
+        plt.fill_between(x, y, where=(x <= mean - 2 * std_dev).tolist(), color=self.tertiary, alpha=0.22)
+        plt.fill_between(x, y, where=((x > mean - 2 * std_dev) & (x <= mean - std_dev)).tolist(), color=self.calm_blue, alpha=0.25)
+        plt.fill_between(x, y, where=((x > mean - std_dev) & (x < mean + std_dev)).tolist(), color=self.calm_purple, alpha=0.18)
+        plt.fill_between(x, y, where=((x >= mean + std_dev) & (x < mean + 2 * std_dev)).tolist(), color=self.calm_blue, alpha=0.25)
+        plt.fill_between(x, y, where=(x >= mean + 2 * std_dev).tolist(), color=self.tertiary, alpha=0.22)
 
         # Add labels for the IQ scores and standard deviations
         plt.axvline(mean, color=self.secondary, linestyle='dashed', linewidth=1)
@@ -68,7 +68,7 @@ class RegressionExample(PlotExample):
         ax.set_ylim(0, max(y) * 1.1)
 
         # Show the plot
-        plt.savefig(OUTPUT_PATH + "regression_example.png")
+        plt.savefig(output_path("regression_example.png"))
 
 
 if __name__ == "__main__":

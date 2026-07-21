@@ -1,17 +1,18 @@
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import OUTPUT_PATH, COLOR_PALETTE
+from CCPlots.config import BITROOT_PALETTE, output_path
 
 
 class PerceptronExample(PlotExample):
 
-    PERCEPTRON_COLOR = COLOR_PALETTE['base_colors']['bright_yellow']
+    PERCEPTRON_COLOR = BITROOT_PALETTE['warning']
 
     def main(self) -> None:
         import matplotlib.pyplot as plt
         import matplotlib.patches as patches
 
         # Set up the figure
-        fig, ax = plt.subplots(figsize=(8, 6))
+        fig, ax = plt.subplots(figsize=(8, 6), facecolor=BITROOT_PALETTE['background'])
+        ax.set_facecolor(BITROOT_PALETTE['background'])
         ax.set_xlim(0, 10)
         ax.set_ylim(0, 10)
         ax.axis('off')
@@ -37,7 +38,7 @@ class PerceptronExample(PlotExample):
         ax.text(8.5, 5, 'Output', fontsize=12, ha='left')
 
         plt.tight_layout()
-        plt.savefig(OUTPUT_PATH + "perceptron_schematic.png")
+        plt.savefig(output_path("perceptron_schematic.png"))
 
 if __name__ == "__main__":
     PerceptronExample().main()

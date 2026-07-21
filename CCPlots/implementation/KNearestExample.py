@@ -6,18 +6,21 @@ by visualizing how a new data point is classified based on its nearest neighbors
 based on the size of the house and the number of rooms.
 """
 
+from typing import cast
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+from mpl_toolkits.mplot3d.axes3d import Axes3D
 from sklearn.neighbors import KNeighborsRegressor
 
-from CCPlots.config import COLOR_PALETTE, OUTPUT_PATH
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
 class KNearestExample:
     # Set colors for the plot
-    green = COLOR_PALETTE['base_colors']['medium_green']
-    periwinkle = COLOR_PALETTE['accent_colors']['periwinkle_blue']
+    green = BITROOT_PALETTE['tertiary']
+    periwinkle = BITROOT_PALETTE['secondary']
 
     def main(self):
         # Generate a simple dataset (House Size, Number of Rooms vs. Price)
@@ -28,18 +31,19 @@ class KNearestExample:
                     np.random.randn(100) * 10000)  # Price = 150 * size + 20000 * rooms + noise
 
         # Create the figure and 3D axis for the animation
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
+        fig = plt.figure(facecolor=BITROOT_PALETTE['background'])
+        ax = cast(Axes3D, fig.add_subplot(111, projection='3d'))
+        ax.set_facecolor(BITROOT_PALETTE['background'])
         ax.set_xlim(min(house_sizes) - 100, max(house_sizes) + 100)
         ax.set_ylim(min(num_rooms) - 1, max(num_rooms) + 1)
         ax.set_zlim(min(prices) - 10000, max(prices) + 10000)
-        ax.set_title("K-Nearest Neighbors for Housing")
-        ax.set_xlabel("House Size (sq ft)")
-        ax.set_ylabel("Number of Rooms")
-        ax.set_zlabel("Price ($)")
+        ax.set_title("K-Nearest Neighbors for Housing", color=BITROOT_PALETTE['text'])
+        ax.set_xlabel("House Size (sq ft)", color=BITROOT_PALETTE['text'])
+        ax.set_ylabel("Number of Rooms", color=BITROOT_PALETTE['text'])
+        ax.set_zlabel("Price ($)", color=BITROOT_PALETTE['text'])
 
         # Scatter plot of the data points
-        scatter = ax.scatter(house_sizes, num_rooms, prices, color=self.green)
+        scatter = ax.scatter(house_sizes.tolist(), num_rooms.tolist(), prices.tolist(), color=self.green)
 
         # Initialize the KNN model
         knn = KNeighborsRegressor(n_neighbors=5)  # Using 5 nearest neighbors
@@ -77,5 +81,7 @@ class KNearestExample:
         # Create the animation
         ani = FuncAnimation(fig, update, frames=len(house_sizes), init_func=init, blit=False, interval=200)
 
+        apply_bitroot_style(ax)
+
         # Save the animation as a GIF
-        ani.save(OUTPUT_PATH + "knn_visualization_animation.gif", writer='pillow')
+        ani.save(output_path("knn_visualization_animation.gif"), writer='pillow')

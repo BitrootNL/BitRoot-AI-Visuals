@@ -5,61 +5,46 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import OUTPUT_PATH, COLOR_PALETTE
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
 class NeuralNetworkActivationFunctionsExample(PlotExample):
 
     # Line colors
-    dark_green = COLOR_PALETTE["base_colors"]["dark_green"]
-    rusty_red = COLOR_PALETTE["complementary_colors"]["rusty_red"]
-    medium_green = COLOR_PALETTE["base_colors"]["medium_green"]
-    deep_teal = COLOR_PALETTE["analogous_colors"]["deep_teal"]
-    deep_burgundy = COLOR_PALETTE["complementary_colors"]["deep_burgundy"]
-    periwinkle_blue = COLOR_PALETTE["accent_colors"]["periwinkle_blue"]
+    primary = BITROOT_PALETTE["primary"]
+    secondary = BITROOT_PALETTE["secondary"]
+    tertiary = BITROOT_PALETTE["tertiary"]
+    highlight = BITROOT_PALETTE["highlight"]
+    success = BITROOT_PALETTE["success"]
+    info = BITROOT_PALETTE["info"]
 
     # Grid
-    light_gray = COLOR_PALETTE['neutral_colors']['light_gray']
+    light_gray = BITROOT_PALETTE['grid']
 
     def main(self):
         # Define the range of inputs
         x = np.linspace(-10, 10, 400)
 
         # Plotting the activation functions
-        plt.figure(figsize=(12, 8))
+        plt.figure(figsize=(12, 8), facecolor=BITROOT_PALETTE['background'])
 
-        plt.subplot(2, 3, 1)
-        plt.plot(x, self.sigmoid(x), color=self.dark_green)
-        plt.title('Sigmoid')
-        plt.grid(True, color=self.light_gray)
-
-        plt.subplot(2, 3, 2)
-        plt.plot(x, self.tanh(x), color=self.rusty_red)
-        plt.title('Tanh')
-        plt.grid(True, color=self.light_gray)
-
-        plt.subplot(2, 3, 3)
-        plt.plot(x, self.relu(x), color=self.medium_green)
-        plt.title('ReLU')
-        plt.grid(True, color=self.light_gray)
-
-        plt.subplot(2, 3, 4)
-        plt.plot(x, self.leaky_relu(x), color=self.deep_teal)
-        plt.title('Leaky ReLU')
-        plt.grid(True, color=self.light_gray)
-
-        plt.subplot(2, 3, 5)
-        plt.plot(x, self.swish(x), color=self.deep_burgundy)
-        plt.title('Swish')
-        plt.grid(True, color=self.light_gray)
-
-        plt.subplot(2, 3, 6)
-        plt.plot(x, self.softplus(x), color=self.periwinkle_blue)
-        plt.title('Softplus')
-        plt.grid(True, color=self.light_gray)
+        for idx, (func, color, title) in enumerate([
+            (self.sigmoid, self.primary, 'Sigmoid'),
+            (self.tanh, self.secondary, 'Tanh'),
+            (self.relu, self.tertiary, 'ReLU'),
+            (self.leaky_relu, self.info, 'Leaky ReLU'),
+            (self.swish, self.success, 'Swish'),
+            (self.softplus, self.highlight, 'Softplus'),
+        ], start=1):
+            plt.subplot(2, 3, idx)
+            plt.plot(x, func(x), color=color, linewidth=2)
+            plt.title(title, color=BITROOT_PALETTE['text'])
+            ax = plt.gca()
+            apply_bitroot_style(ax, background=BITROOT_PALETTE['background'])
+            ax.grid(True, color=self.light_gray)
 
         plt.tight_layout()
-        plt.savefig(OUTPUT_PATH + "neural_network_activation_functions.png")
+        plt.savefig(output_path("neural_network_activation_functions.png"))
 
     def sigmoid(self, x):
         return 1 / (1 + np.exp(-x))

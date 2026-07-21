@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import COLOR_PALETTE, OUTPUT_PATH
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 class NeuralNetSchematic(PlotExample):
 
@@ -30,9 +30,9 @@ class NeuralNetSchematic(PlotExample):
 
         # Colors per layer
         colors = [
-            COLOR_PALETTE['accent_colors']['mint_green'],  # Input layer
-            *([COLOR_PALETTE['base_colors']['medium_green']] * (layer_count - 2)),  # Hidden layers
-            COLOR_PALETTE['base_colors']['bright_yellow']  # Output layer
+            BITROOT_PALETTE['primary'],
+            *([BITROOT_PALETTE['tertiary']] * (layer_count - 2)),
+            BITROOT_PALETTE['secondary']
         ]
 
         # Build the network graph
@@ -54,9 +54,9 @@ class NeuralNetSchematic(PlotExample):
                 neuron_index += 1
 
         # Plotting
-        plt.figure(figsize=(12, 6))
+        plt.figure(figsize=(12, 6), facecolor=BITROOT_PALETTE['background'])
         ax = plt.gca()
-        ax.set_facecolor('white')
+        ax.set_facecolor(BITROOT_PALETTE['background'])
 
         # Draw edges first so nodes overlay them
         nx.draw_networkx_edges(G, pos=positions, edge_color="gray", width=1.5)
@@ -75,9 +75,10 @@ class NeuralNetSchematic(PlotExample):
             y_bottom = min(y for (xx, y) in positions.values())
             plt.text(x, y_bottom - 0.75, label, ha='center', fontsize=12, fontweight='bold', color='black')
 
-        plt.title("Neural Network Schematic", fontsize=14)
+        plt.title("Neural Network Schematic", fontsize=14, color=BITROOT_PALETTE['text'])
+        apply_bitroot_style(ax)
         plt.axis('off')
-        plt.savefig(OUTPUT_PATH + "nn_schematic.png")
+        plt.savefig(output_path("nn_schematic.png"))
 
 if __name__ == "__main__":
     # Example: 3 input neurons, 2 hidden layers (5 and 4 neurons), 2 output neurons

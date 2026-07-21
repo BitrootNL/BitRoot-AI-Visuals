@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import THEME, COLOR_PALETTE, OUTPUT_PATH, BITROOT_PALETTE, apply_bitroot_style
+from CCPlots.config import THEME, COLOR_PALETTE, BITROOT_PALETTE, apply_bitroot_style, output_path
 
 RANDOM_SEED = 42
 
@@ -86,7 +86,7 @@ class ClassificationExample(PlotExample):
         plt.ylabel(ylabel, fontsize=14, color=BITROOT_PALETTE['text'])
         ax = plt.gca()
         apply_bitroot_style(ax, background=BITROOT_PALETTE['card_background'])
-        plt.savefig(OUTPUT_PATH + fname)
+        plt.savefig(output_path(fname))
 
     def plot_decision_boundary(self, fname: str, title: str,
                                xlabel: str = "Age",
@@ -117,7 +117,7 @@ class ClassificationExample(PlotExample):
         plt.grid(True)
         ax = plt.gca()
         apply_bitroot_style(ax)
-        plt.savefig(OUTPUT_PATH + fname)
+        plt.savefig(output_path(fname))
 
     def generate_data(self) -> None:
         """ Generate some dummy data to simulate a diabetes classification problem. """

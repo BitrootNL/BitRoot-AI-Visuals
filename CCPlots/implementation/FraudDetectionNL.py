@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import OUTPUT_PATH, CMAP_CONTRAST
+from CCPlots.config import BITROOT_PALETTE, CMAP_CONTRAST, output_path
 
 
 class FraudDetectionNL(PlotExample):
@@ -45,7 +45,8 @@ class FraudDetectionNL(PlotExample):
         Z = Z.reshape(xx.shape)
 
         # Visualisatie
-        fig, ax = plt.subplots(figsize=(7, 5))
+        fig, ax = plt.subplots(figsize=(7, 5), facecolor=BITROOT_PALETTE['background'])
+        ax.set_facecolor(BITROOT_PALETTE['background'])
 
         # Decision boundary
         ax.contourf(xx, yy, Z, alpha=0.3, cmap=CMAP_CONTRAST)
@@ -63,12 +64,12 @@ class FraudDetectionNL(PlotExample):
         # Labels en titel in het Nederlands
         handles, labels = scatter.legend_elements()
         ax.legend(handles, ["Geen Fraude", "Fraude"], title="Klassen")
-        ax.set_title("Beslissingsgrens voor Fraudedetectie", fontsize=13)
-        ax.set_xlabel("Kenmerk 1 (gestandaardiseerd)")
-        ax.set_ylabel("Kenmerk 2 (gestandaardiseerd)")
+        ax.set_title("Beslissingsgrens voor Fraudedetectie", fontsize=13, color=BITROOT_PALETTE['text'])
+        ax.set_xlabel("Kenmerk 1 (gestandaardiseerd)", color=BITROOT_PALETTE['text'])
+        ax.set_ylabel("Kenmerk 2 (gestandaardiseerd)", color=BITROOT_PALETTE['text'])
 
         fig.tight_layout()
-        fig.savefig(OUTPUT_PATH + "decision_boundary_fraud_NL.png")
+        fig.savefig(output_path("decision_boundary_fraud_NL.png"))
 
 if __name__ == "__main__":
     FraudDetectionNL().main()

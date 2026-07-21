@@ -10,18 +10,18 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import OUTPUT_PATH, COLOR_PALETTE
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
 class OverfittingUnderfittingExample(PlotExample):
 
-    output_file: str = "recolor/computrain_overfitting_underfitting.png"
+    output_file: str = "overfitting_underfitting.png"
 
-    prediction_color = "#e51e2e"#COLOR_PALETTE['base_colors']['medium_green']
-    training_color = "#ff8487"#COLOR_PALETTE['accent_colors']['mint_green']
-    test_color = "#0c71c3"#COLOR_PALETTE['accent_colors']['periwinkle_blue']
+    prediction_color = BITROOT_PALETTE['highlight']
+    training_color = BITROOT_PALETTE['secondary']
+    test_color = BITROOT_PALETTE['primary']
 
-    light_gray = COLOR_PALETTE['neutral_colors']['light_gray']
+    light_gray = BITROOT_PALETTE['grid']
 
     def main(self):
         # Generate synthetic data
@@ -71,32 +71,34 @@ class OverfittingUnderfittingExample(PlotExample):
         mse_over_test = mean_squared_error(y_test, y_pred_over_test)
 
         # Plotting
-        plt.figure(figsize=(14, 6))
+        plt.figure(figsize=(14, 6), facecolor=BITROOT_PALETTE['background'])
 
         # Underfitting
         plt.subplot(1, 2, 1)
         plt.scatter(X_train, y_train, color=self.training_color, label='Training Data')
         plt.scatter(X_test, y_test, color=self.test_color, label='Test Data')
         plt.plot(X_range, y_range_pred_under, color=self.prediction_color, label='Model (Underfitting)')
-        plt.title(f'Underfitting\nTrain MSE: {mse_under_train:.2f}, Test MSE: {mse_under_test:.2f}')
-        plt.xlabel('X')
-        plt.ylabel('y')
+        plt.title(f'Underfitting\nTrain MSE: {mse_under_train:.2f}, Test MSE: {mse_under_test:.2f}', color=BITROOT_PALETTE['text'])
+        plt.xlabel('X', color=BITROOT_PALETTE['text'])
+        plt.ylabel('y', color=BITROOT_PALETTE['text'])
         plt.legend()
         plt.grid(True, c=self.light_gray)
+        apply_bitroot_style(plt.gca())
 
         # Overfitting
         plt.subplot(1, 2, 2)
         plt.scatter(X_train, y_train, color=self.training_color, label='Training Data')
         plt.scatter(X_test, y_test, color=self.test_color, label='Test Data')
         plt.plot(X_range, y_range_pred_over, color=self.prediction_color, label='Model (Overfitting)')
-        plt.title(f'Overfitting\nTrain MSE: {mse_over_train:.2f}, Test MSE: {mse_over_test:.2f}')
-        plt.xlabel('X')
-        plt.ylabel('y')
+        plt.title(f'Overfitting\nTrain MSE: {mse_over_train:.2f}, Test MSE: {mse_over_test:.2f}', color=BITROOT_PALETTE['text'])
+        plt.xlabel('X', color=BITROOT_PALETTE['text'])
+        plt.ylabel('y', color=BITROOT_PALETTE['text'])
         plt.legend()
         plt.grid(True, c=self.light_gray)
+        apply_bitroot_style(plt.gca())
 
         plt.tight_layout()
-        plt.savefig(OUTPUT_PATH + self.output_file)
+        plt.savefig(output_path(self.output_file))
 
 if __name__ == "__main__":
     OverfittingUnderfittingExample().main()

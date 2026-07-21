@@ -3,7 +3,7 @@ import numpy as np
 import seaborn as sns
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import OUTPUT_PATH, CMAP_WHITE
+from CCPlots.config import BITROOT_PALETTE, CMAP_WHITE, output_path
 
 
 class EvaluationMetricsExample(PlotExample):
@@ -22,18 +22,18 @@ class EvaluationMetricsExample(PlotExample):
         ]).reshape(2, 2)
 
         # Create the heatmap
-        plt.figure(figsize=(8, 6))
+        plt.figure(figsize=(8, 6), facecolor=BITROOT_PALETTE['background'])
         ax = sns.heatmap(conf_matrix, annot=group_labels, fmt="", cmap=CMAP_WHITE, cbar=True,
                          xticklabels=["Predicted Healthy", "Predicted Sick"],
                          yticklabels=["Is Healthy", "Is Sick"])
 
         # Add labels and title
-        plt.xlabel("Predicted Label")
-        plt.ylabel("Actual Label")
-        plt.title("Evaluating Results for Disease Diagnosis")
+        plt.xlabel("Predicted Label", color=BITROOT_PALETTE['text'])
+        plt.ylabel("Actual Label", color=BITROOT_PALETTE['text'])
+        plt.title("Evaluating Results for Disease Diagnosis", color=BITROOT_PALETTE['text'])
 
         # Show the plot
-        plt.savefig(OUTPUT_PATH + "confusion_matrix.png")
+        plt.savefig(output_path("confusion_matrix.png"))
 
 if __name__ == "__main__":
     EvaluationMetricsExample().main()

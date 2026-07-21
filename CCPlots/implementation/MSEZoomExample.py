@@ -7,17 +7,16 @@ from sklearn.linear_model import SGDRegressor
 from sklearn.datasets import make_regression
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import COLOR_PALETTE, OUTPUT_PATH
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
 class MSEZoomExample(PlotExample):
 
     # Set our colors from the palette
-    dark_green = COLOR_PALETTE['base_colors']['dark_green']
-    green = COLOR_PALETTE['base_colors']['medium_green']
-    bright_yellow = COLOR_PALETTE['base_colors']['bright_yellow']
-    mint_green = COLOR_PALETTE['accent_colors']['mint_green']
-    light_gray = COLOR_PALETTE['neutral_colors']['light_gray']
+    primary = BITROOT_PALETTE['primary']
+    secondary = BITROOT_PALETTE['secondary']
+    tertiary = BITROOT_PALETTE['tertiary']
+    light_gray = BITROOT_PALETTE['grid']
 
     # Array for the final predictions
     y_pred = None
@@ -54,31 +53,32 @@ class MSEZoomExample(PlotExample):
 
     def plot_mse_zoom(self):
         """Plot the data points, the fitted line, and the errors."""
-        plt.figure(figsize=(10, 6))
+        plt.figure(figsize=(10, 6), facecolor=BITROOT_PALETTE['background'])
 
         # Plot data points
-        plt.scatter(self.X, self.y, color=self.bright_yellow, label='Data points', edgecolor=self.dark_green)
+        plt.scatter(self.X, self.y, color=self.secondary, label='Data points', edgecolor=self.primary)
 
         # Plot the fitted line
-        plt.plot(self.X, self.y_pred, color=self.green, label='Fitted line')
+        plt.plot(self.X, self.y_pred, color=self.primary, label='Fitted line')
 
         # Plot the errors
         for i in range(len(self.X)):
-            plt.plot([self.X[i], self.X[i]], [self.y[i], self.y_pred[i]], color=self.mint_green, linestyle='--')
+            plt.plot([self.X[i], self.X[i]], [self.y[i], self.y_pred[i]], color=self.tertiary, linestyle='--', alpha=0.6)
 
         # Title and labels
-        plt.title('Differences between predicted function and actual values', fontsize=16)
-        plt.xlabel("X value (feature)", fontsize=14)
-        plt.ylabel("Y value (prediction/actual)", fontsize=14)
+        plt.title('Differences between predicted function and actual values', fontsize=16, color=BITROOT_PALETTE['text'])
+        plt.xlabel("X value (feature)", fontsize=14, color=BITROOT_PALETTE['text'])
+        plt.ylabel("Y value (prediction/actual)", fontsize=14, color=BITROOT_PALETTE['text'])
 
-        # Light gray grid
-        plt.grid(True, color=self.light_gray)
+        ax = plt.gca()
+        apply_bitroot_style(ax)
+        ax.grid(True, color=self.light_gray)
 
         # Add legend
         plt.legend()
 
         # Save the plot to the specified output path
-        plt.savefig(OUTPUT_PATH + "mse_zoom_iteration.png")
+        plt.savefig(output_path("mse_zoom_iteration.png"))
 
 if __name__ == "__main__":
     MSEZoomExample().main()
