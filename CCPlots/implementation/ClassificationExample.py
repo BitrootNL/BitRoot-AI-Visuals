@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import THEME, COLOR_PALETTE, OUTPUT_PATH
+from CCPlots.config import THEME, COLOR_PALETTE, OUTPUT_PATH, BITROOT_PALETTE, apply_bitroot_style
 
 RANDOM_SEED = 42
 
@@ -81,9 +81,11 @@ class ClassificationExample(PlotExample):
         # Plot the confusion matrix
         disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=self.classifier.classes_)
         disp.plot(cmap=THEME)
-        plt.title(title, fontsize=16)
-        plt.xlabel(xlabel, fontsize=14)
-        plt.ylabel(ylabel, fontsize=14)
+        plt.title(title, fontsize=16, color=BITROOT_PALETTE['text'])
+        plt.xlabel(xlabel, fontsize=14, color=BITROOT_PALETTE['text'])
+        plt.ylabel(ylabel, fontsize=14, color=BITROOT_PALETTE['text'])
+        ax = plt.gca()
+        apply_bitroot_style(ax, background=BITROOT_PALETTE['card_background'])
         plt.savefig(OUTPUT_PATH + fname)
 
     def plot_decision_boundary(self, fname: str, title: str,
@@ -106,13 +108,15 @@ class ClassificationExample(PlotExample):
         plt.scatter(self.X[:, 0], self.X[:, 1],
                     c=self.y,
                     cmap=THEME,
-                    edgecolor=COLOR_PALETTE['base_colors']['dark_green'],
+                    edgecolor=BITROOT_PALETTE['primary'],
                     s=100)
 
-        plt.title(title, fontsize=16)
-        plt.xlabel(xlabel, fontsize=14)
-        plt.ylabel(ylabel, fontsize=14)
+        plt.title(title, fontsize=16, color=BITROOT_PALETTE['text'])
+        plt.xlabel(xlabel, fontsize=14, color=BITROOT_PALETTE['text'])
+        plt.ylabel(ylabel, fontsize=14, color=BITROOT_PALETTE['text'])
         plt.grid(True)
+        ax = plt.gca()
+        apply_bitroot_style(ax)
         plt.savefig(OUTPUT_PATH + fname)
 
     def generate_data(self) -> None:
