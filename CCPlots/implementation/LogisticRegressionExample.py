@@ -7,18 +7,21 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
 from matplotlib.animation import FuncAnimation
-from matplotlib.colors import ListedColormap
+from matplotlib.colors import ListedColormap, to_rgba
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import THEME, BITROOT_PALETTE, apply_bitroot_style, output_path
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
 class LogisticRegressionExample(PlotExample):
-    # Use the specified colormap theme for the plot
-    cmap_light = plt.get_cmap(THEME)
+    # Use an explicit Bitroot-based colormap for the plot
+    cmap_light = ListedColormap([
+        to_rgba(BITROOT_PALETTE["background"], alpha=0.0),
+        to_rgba(BITROOT_PALETTE["primary"], alpha=0.25),
+    ])
 
-    # Define a high-contrast color palette for the classes
-    cmap_bold = [BITROOT_PALETTE["secondary"], BITROOT_PALETTE["tertiary"]]
+    # Define a primary-based color palette for the classes
+    cmap_bold = [to_rgba(BITROOT_PALETTE["primary"], alpha=0.65), BITROOT_PALETTE["primary"]]
 
     # Use the dark green from our palette instead of black
     accent = BITROOT_PALETTE['primary']

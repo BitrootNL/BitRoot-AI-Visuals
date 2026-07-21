@@ -1,22 +1,22 @@
-import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+import matplotlib.pyplot as plt
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import COLOR_PALETTE, output_path
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
 class LLMPredictExample(PlotExample):
 
     output_file = "llm_predict_next.png"
 
-    # Define the colormap using the given colors
-    custom_colormap = mcolors.ListedColormap([
-        COLOR_PALETTE['base_colors']['dark_green'],
-        COLOR_PALETTE['base_colors']['medium_green'],
-        COLOR_PALETTE['accent_colors']['mint_green'],
-        COLOR_PALETTE['base_colors']['bright_yellow'],
-        COLOR_PALETTE['accent_colors']['periwinkle_blue']
-    ], name="custom_colormap")
+    @staticmethod
+    def _probability_color(probability: float) -> str:
+        """Return a primary-based shade where higher probability is darker."""
+        base = mcolors.to_rgb(BITROOT_PALETTE["primary"])
+        dark = mcolors.to_rgb(BITROOT_PALETTE["secondary"])
+        blend = 0.05 + 0.95 * probability
+        blended = tuple((1 - blend) * base[i] + blend * dark[i] for i in range(3))
+        return mcolors.to_hex(blended)
 
     def main(self):
         # Re-import necessary libraries after execution state reset
@@ -37,19 +37,24 @@ class LLMPredictExample(PlotExample):
         # Extract words and their probabilities
         words = list(next_word_probs.keys())
         probabilities = list(next_word_probs.values())
+        bar_colors = [self._probability_color(probability) for probability in probabilities]
 
         # Create bar chart
-        plt.figure(figsize=(6, 4))
-        plt.bar(words, probabilities, color=self.custom_colormap.colors)
+        plt.figure(figsize=(6, 4), facecolor=BITROOT_PALETTE["background"])
+        ax = plt.gca()
+        ax.set_facecolor(BITROOT_PALETTE["background"])
+        ax.bar(words, probabilities, color=bar_colors, edgecolor=BITROOT_PALETTE["text"], linewidth=0.6)
 
         # Formatting the chart
         plt.ylim(0, 1)
-        plt.ylabel("Probability")
-        plt.xlabel("Predicted Next Word")
-        plt.title(f"Predicting the Next Word for: '{prompt}'")
+        plt.ylabel("Probability", color=BITROOT_PALETTE["text"])
+        plt.xlabel("Predicted Next Word", color=BITROOT_PALETTE["text"])
+        plt.title(f"Predicting the Next Word for: '{prompt}'", color=BITROOT_PALETTE["text"], pad=10)
+        apply_bitroot_style(ax)
+        plt.tight_layout(pad=1.2)
 
         # Display the chart
-        plt.savefig(output_path(self.output_file))
+        plt.savefig(output_path(self.output_file), bbox_inches="tight", pad_inches=0.1)
 
 if __name__ == "__main__":
     LLMPredictExample().main()

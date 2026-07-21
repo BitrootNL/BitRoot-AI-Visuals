@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 from CCPlots.PlotExample import PlotExample
 from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
-# Colour scheme
+# Colour scheme using consistent Bitroot palette shades
 BAR_C = [
         BITROOT_PALETTE["primary"],
-        BITROOT_PALETTE["tertiary"],
-        BITROOT_PALETTE["secondary"],
-        BITROOT_PALETTE["warning"],
+        BITROOT_PALETTE["primary_light"],
+        BITROOT_PALETTE["primary_soft"],
+        BITROOT_PALETTE["secondary_light"],
     ]
 
 class EmployeeAIAdoption(PlotExample):

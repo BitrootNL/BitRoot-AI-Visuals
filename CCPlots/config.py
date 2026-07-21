@@ -14,9 +14,6 @@ def output_path(filename: str) -> str:
     os.makedirs(os.path.dirname(full_path), exist_ok=True)
     return full_path
 
-# matplotlib theme
-THEME = "ocean"
-
 # Bitroot colour reference palette
 BITROOT_PALETTE = {
     "primary": "#269FBA",
@@ -33,6 +30,22 @@ BITROOT_PALETTE = {
     "card_background": "#FFFFFF",
     "grid": "#D8E0E0",
 }
+
+
+def _tint_color(color: str, amount: float) -> str:
+    """Return a lighter tint of a color based on the Bitroot palette."""
+    r, g, b = mcolors.to_rgb(color)
+    return mcolors.to_hex((1 - (1 - r) * (1 - amount), 1 - (1 - g) * (1 - amount), 1 - (1 - b) * (1 - amount)))
+
+
+BITROOT_PALETTE.update({
+    "primary_light": _tint_color(BITROOT_PALETTE["primary"], 0.35),
+    "primary_soft": _tint_color(BITROOT_PALETTE["primary"], 0.18),
+    "secondary_light": _tint_color(BITROOT_PALETTE["secondary"], 0.25),
+    "secondary_soft": _tint_color(BITROOT_PALETTE["secondary"], 0.12),
+    "tertiary_light": _tint_color(BITROOT_PALETTE["tertiary"], 0.25),
+    "tertiary_soft": _tint_color(BITROOT_PALETTE["tertiary"], 0.12),
+})
 
 # Backward-compatible palette aliases used by the existing examples
 COLOR_PALETTE = {

@@ -48,7 +48,7 @@ class ContinuousDiscreteExample(PlotExample):
         fig.patch.set_facecolor(BITROOT_PALETTE['background'])
 
         # Categorical version: bar plot
-        sns.countplot(x='Age Group', data=df, ax=axs[1], color=self.tertiary, order=labels)
+        sns.countplot(x='Age Group', data=df, ax=axs[1], color=self.primary, edgecolor=self.primary, order=labels)
         axs[1].set_title("Ages divided into age categories", color=BITROOT_PALETTE['text'])
         axs[1].set_xlabel("Age group", color=BITROOT_PALETTE['text'])
         axs[1].set_ylabel("Count", color=BITROOT_PALETTE['text'])

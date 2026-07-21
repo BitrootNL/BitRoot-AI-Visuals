@@ -19,8 +19,7 @@ from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 class KNearestExample:
     # Set colors for the plot
-    green = BITROOT_PALETTE['tertiary']
-    periwinkle = BITROOT_PALETTE['secondary']
+    primary = BITROOT_PALETTE['primary']
 
     def main(self):
         # Generate a simple dataset (House Size, Number of Rooms vs. Price)
@@ -43,7 +42,8 @@ class KNearestExample:
         ax.set_zlabel("Price ($)", color=BITROOT_PALETTE['text'])
 
         # Scatter plot of the data points
-        scatter = ax.scatter(house_sizes.tolist(), num_rooms.tolist(), prices.tolist(), color=self.green)
+        scatter = ax.scatter(house_sizes.tolist(), num_rooms.tolist(), prices.tolist(), color=self.primary,
+                             edgecolor=self.primary, s=60)
 
         # Initialize the KNN model
         knn = KNeighborsRegressor(n_neighbors=5)  # Using 5 nearest neighbors
@@ -71,10 +71,10 @@ class KNearestExample:
             predicted_price = knn.predict(new_point)
 
             # Plot the new point and the line connecting it to its predicted price
-            ax.scatter(new_point[0, 0], new_point[0, 1], predicted_price[0], color=self.periwinkle,
+            ax.scatter(new_point[0, 0], new_point[0, 1], predicted_price[0], color=self.primary,
                        label="New Point")
             ax.plot([new_point[0, 0], new_point[0, 0]], [new_point[0, 1], new_point[0, 1]],
-                    [ax.get_zlim()[0], predicted_price[0]], color=self.periwinkle, linestyle="--")
+                    [ax.get_zlim()[0], predicted_price[0]], color=self.primary, linestyle="--")
 
             return scatter,
 

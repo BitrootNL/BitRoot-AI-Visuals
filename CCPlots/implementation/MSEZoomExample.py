@@ -56,14 +56,16 @@ class MSEZoomExample(PlotExample):
         plt.figure(figsize=(10, 6), facecolor=BITROOT_PALETTE['background'])
 
         # Plot data points
-        plt.scatter(self.X, self.y, color=self.secondary, label='Data points', edgecolor=self.primary)
+        plt.scatter(self.X, self.y, color=self.tertiary, label='Data points', edgecolor=self.primary,
+                    linewidth=0.8, s=55, zorder=3)
 
         # Plot the fitted line
-        plt.plot(self.X, self.y_pred, color=self.primary, label='Fitted line')
+        plt.plot(self.X, self.y_pred, color=self.primary, label='Fitted line', linewidth=2.5, zorder=2)
 
         # Plot the errors
         for i in range(len(self.X)):
-            plt.plot([self.X[i], self.X[i]], [self.y[i], self.y_pred[i]], color=self.tertiary, linestyle='--', alpha=0.6)
+            plt.plot([self.X[i], self.X[i]], [self.y[i], self.y_pred[i]], color=self.primary, linestyle='--',
+                     alpha=0.35, linewidth=1.0, zorder=1)
 
         # Title and labels
         plt.title('Differences between predicted function and actual values', fontsize=16, color=BITROOT_PALETTE['text'])

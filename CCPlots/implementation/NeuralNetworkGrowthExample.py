@@ -3,6 +3,7 @@ NeuralNetworkGrowthExample.py
 """
 
 import matplotlib.pyplot as plt
+from matplotlib.colors import to_rgba
 
 from CCPlots.PlotExample import PlotExample
 from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
@@ -23,8 +24,8 @@ class NeuralNetworkGrowthExample(PlotExample):
 
         # Plotting the line figure
         plt.figure(figsize=(10, 6), facecolor=BITROOT_PALETTE['background'])
-        plt.plot(years, parameters, marker='o', color=self.primary)
-        plt.fill_between(years, parameters, color=self.tertiary, alpha=0.35)
+        plt.plot(years, parameters, marker='o', color=self.primary, linewidth=2.5, markersize=7)
+        plt.fill_between(years, parameters, color=to_rgba(self.primary, alpha=0.18))
         for i, txt in enumerate(models):
             plt.text(years[i], parameters[i], txt, fontsize=10, ha='right', color=BITROOT_PALETTE['text'])
 

@@ -18,8 +18,7 @@ from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 class LinearRegressionExample(PlotExample):
 
     # Set colours for the plot
-    green = BITROOT_PALETTE['primary']
-    mint = BITROOT_PALETTE['tertiary']
+    primary = BITROOT_PALETTE['primary']
 
     def main(self):
         # Generate a simple dataset for linear regression (House Size vs. Price)
@@ -42,10 +41,10 @@ class LinearRegressionExample(PlotExample):
         ax.set_ylabel("Price ($)", fontsize=14, color=BITROOT_PALETTE['text'])
 
         # Scatter plot of the data points
-        scatter = ax.scatter(house_sizes, prices, color=self.mint)
+        scatter = ax.scatter(house_sizes, prices, color=self.primary, edgecolor=BITROOT_PALETTE['secondary_text'], s=40)
 
         # Initialize the regression line plot
-        line, = ax.plot([], [], color=self.green, linewidth=2)
+        line, = ax.plot([], [], color=self.primary, linewidth=2)
 
         # Function to initialize the animation
         def init():

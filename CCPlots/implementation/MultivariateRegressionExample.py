@@ -18,8 +18,7 @@ from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 class MultivariateRegressionExample(PlotExample):
 
     # Set colors for the plot
-    green = BITROOT_PALETTE['primary']
-    mint = BITROOT_PALETTE['tertiary']
+    primary = BITROOT_PALETTE['primary']
     light_gray = BITROOT_PALETTE['grid']
 
     def main(self):
@@ -50,7 +49,7 @@ class MultivariateRegressionExample(PlotExample):
         plt.grid(True, color=self.light_gray)
 
         # Scatter plot of the data points
-        scatter = ax.scatter(house_sizes, num_rooms, prices, color=self.green)
+        scatter = ax.scatter(house_sizes, num_rooms, prices, color=self.primary, edgecolor=self.primary, s=45)
 
         # Create an initial meshgrid for the surface plot
         house_sizes_grid, num_rooms_grid = np.meshgrid(
@@ -60,12 +59,12 @@ class MultivariateRegressionExample(PlotExample):
         y_pred_initial = np.zeros_like(house_sizes_grid)  # Initial Z values for the plane
 
         # Initialize the regression plane plot
-        plane = [ax.plot_surface(house_sizes_grid, num_rooms_grid, y_pred_initial, color=self.mint, alpha=0.5)]
+        plane = [ax.plot_surface(house_sizes_grid, num_rooms_grid, y_pred_initial, color=self.primary, alpha=0.5)]
 
         # Function to initialize the animation
         def init():
             plane[0].remove()  # Remove the previous plot if exists
-            plane[0] = ax.plot_surface(house_sizes_grid, num_rooms_grid, y_pred_initial, color=self.mint, alpha=0.5)
+            plane[0] = ax.plot_surface(house_sizes_grid, num_rooms_grid, y_pred_initial, color=self.primary, alpha=0.5)
             return plane
 
         # Function to update the animation at each frame
@@ -87,7 +86,7 @@ class MultivariateRegressionExample(PlotExample):
 
             # Remove the previous plot and add a new one
             plane[0].remove()
-            plane[0] = ax.plot_surface(house_sizes_grid, num_rooms_grid, y_pred, color=self.green, alpha=0.5)
+            plane[0] = ax.plot_surface(house_sizes_grid, num_rooms_grid, y_pred, color=self.primary, alpha=0.5)
 
             return plane
 
