@@ -1,51 +1,109 @@
 import pandas as pd
-import df2img
+import matplotlib.pyplot as plt
 from sklearn.datasets import fetch_openml
+
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, output_path
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
+
+TEXT_BY_LOCALE = {
+    "en": {
+        "title": "Examples of missing data in the Adult data set",
+        "col_age": "Age",
+        "col_workclass": "Workclass",
+        "col_sex": "Sex",
+        "col_education": "Education",
+        "na_label": "?",
+        "note": "Rows with naturally occurring missing values",
+    },
+    "nl": {
+        "title": "Voorbeelden van ontbrekende gegevens in de Adult-dataset",
+        "col_age": "Leeftijd",
+        "col_workclass": "Werkklasse",
+        "col_sex": "Geslacht",
+        "col_education": "Opleiding",
+        "na_label": "?",
+        "note": "Rijen met van nature ontbrekende waarden",
+    },
+}
 
 
 class MissingDataExample(PlotExample):
 
-    green: str = BITROOT_PALETTE['tertiary']
-    white: str = BITROOT_PALETTE["card_background"]
-
     def main(self) -> None:
-        # This dataset is from the real world and is also missing some data!
-        # https://www.openml.org/search?type=data&status=active&id=1590&sort=runs
         dataset = fetch_openml(data_id=1590, as_frame=True)
-        df: pd.DataFrame = dataset.frame  # Convert to Pandas DataFrame
+        df: pd.DataFrame = dataset.frame
 
-        # Select rows that have naturally missing values
-        df_missing_rows = df[df.isnull().any(axis=1)]
-
-        # Check if there are any missing values; otherwise, print a message
-        if df_missing_rows.empty:
-            print("No naturally missing values found in the dataset.")
+        df_missing = df[df.isnull().any(axis=1)]
+        if df_missing.empty:
             return
 
-        fig = df2img.plot_dataframe(
-            # Select max 10 rows with missing data and display only the listed columns
-            df_missing_rows.head(10)[["age", "workclass", "sex", "education"]],
-            title=dict(
-                font_family="Poppins",
-                font_size=18,
-                text="Examples of missing data in the Adult data set",
-            ),
-            tbl_header={
-                "align": "left",
-                "fill_color": self.green,
-                "font_color": self.white,
-                "font_size": 14,
-            },
-            fig_size=(1000, 140),
-        )
+        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
+            fname = f"naturally_missing_data_table{'_NL' if locale == 'nl' else ''}.png"
+            display = df_missing.head(10)[["age", "workclass", "sex", "education"]].copy()
+            display.columns = [labels["col_age"], labels["col_workclass"],
+                               labels["col_sex"], labels["col_education"]]
 
-        # Save as an image file
-        image_path = output_path("naturally_missing_data_table.png")
-        df2img.save_dataframe(fig, image_path)
+            n_rows, n_cols = display.shape
+            fig = plt.figure(figsize=(10, 0.35 * n_rows + 0.6),
+                             facecolor=BITROOT_PALETTE['background'])
+            ax = fig.add_axes([0, 0, 1, 1])
+            ax.axis('off')
 
-        print(f"Image saved successfully as {image_path}")
+            cell_text = []
+            cell_colors = []
+            for row_idx in range(n_rows):
+                row_vals = []
+                row_colors = []
+                bg = BITROOT_PALETTE['white'] if row_idx % 2 == 0 else BITROOT_PALETTE['background']
+                for col_idx in range(n_cols):
+                    val = display.iloc[row_idx, col_idx]
+                    if pd.isna(val):
+                        row_vals.append(labels["na_label"])
+                    else:
+                        row_vals.append(str(val))
+                    row_colors.append(bg)
+                cell_text.append(row_vals)
+                cell_colors.append(row_colors)
+
+            header_color = BITROOT_PALETTE['primary']
+            header_text_color = BITROOT_PALETTE['white']
+
+            table = ax.table(
+                cellText=cell_text,
+                colLabels=list(display.columns),
+                cellColours=cell_colors,
+                colColours=[header_color] * n_cols,
+                cellLoc='left',
+                loc='center',
+            )
+
+            table.auto_set_font_size(False)
+            table.set_fontsize(10)
+
+            for key, cell in table.get_celld().items():
+                row, col = key
+                cell.set_edgecolor(BITROOT_PALETTE['grid'])
+                cell.set_linewidth(0.5)
+                if row == 0:
+                    cell.set_text_props(color=header_text_color, fontweight='bold')
+                    cell.set_height(0.06)
+                else:
+                    cell.set_text_props(color=BITROOT_PALETTE['text'])
+                    cell.set_height(0.045)
+
+            table.scale(1, 1.4)
+
+            ax.set_title(labels["title"], fontsize=13, color=BITROOT_PALETTE['text'],
+                         fontweight='bold', pad=8)
+
+            ax.text(0.5, -0.06, labels["note"], fontsize=8,
+                    color=BITROOT_PALETTE['secondary_text'],
+                    ha='center', va='top', transform=ax.transAxes)
+
+            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.08,
+                        dpi=150)
+            plt.close(fig)
+
 
 if __name__ == "__main__":
     MissingDataExample().main()
