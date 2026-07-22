@@ -79,5 +79,5 @@ and margins.
 
 ![Linear Regression Animation](plots/linear_regression_animation.gif)
 ![Linear Regression Animation](plots/multivariate_regression_animation.gif)
-![KMeans Clustering Animation](plots/kmeans_animation.gif)
+![KMeans Clustering Animation](plots/kmeans_animation_k3.gif)
 ![KNN Regression Animation](plots/knn_visualization_animation.gif)
