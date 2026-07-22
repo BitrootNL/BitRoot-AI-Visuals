@@ -18,9 +18,6 @@ from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
 class KNearestExample:
-    # Set colors for the plot
-    primary = BITROOT_PALETTE['primary']
-
     def main(self):
         # Generate a simple dataset (House Size, Number of Rooms vs. Price)
         np.random.seed(42)
@@ -30,20 +27,24 @@ class KNearestExample:
                     np.random.randn(100) * 10000)  # Price = 150 * size + 20000 * rooms + noise
 
         # Create the figure and 3D axis for the animation
-        fig = plt.figure(facecolor=BITROOT_PALETTE['background'])
+        fig = plt.figure(figsize=(12, 8), facecolor=BITROOT_PALETTE['background'])
         ax = cast(Axes3D, fig.add_subplot(111, projection='3d'))
+        fig.subplots_adjust(left=0.05, right=0.95, top=0.92, bottom=0.05)
         ax.set_facecolor(BITROOT_PALETTE['background'])
         ax.set_xlim(min(house_sizes) - 100, max(house_sizes) + 100)
         ax.set_ylim(min(num_rooms) - 1, max(num_rooms) + 1)
         ax.set_zlim(min(prices) - 10000, max(prices) + 10000)
         ax.set_title("K-Nearest Neighbors for Housing", color=BITROOT_PALETTE['text'])
-        ax.set_xlabel("House Size (sq ft)", color=BITROOT_PALETTE['text'])
-        ax.set_ylabel("Number of Rooms", color=BITROOT_PALETTE['text'])
-        ax.set_zlabel("Price ($)", color=BITROOT_PALETTE['text'])
+        ax.set_xlabel("House Size (sq ft)", color=BITROOT_PALETTE['text'], labelpad=18)
+        ax.set_ylabel("Number of Rooms", color=BITROOT_PALETTE['text'], labelpad=18)
+        ax.set_zlabel("Price ($)", color=BITROOT_PALETTE['text'], labelpad=18)
+        ax.tick_params(pad=10)
+        ax.dist = 12
 
-        # Scatter plot of the data points
-        scatter = ax.scatter(house_sizes.tolist(), num_rooms.tolist(), prices.tolist(), color=self.primary,
-                             edgecolor=self.primary, s=60)
+        # Scatter plot of the data points using the Bitroot primary colour
+        scatter = ax.scatter(house_sizes.tolist(), num_rooms.tolist(), prices.tolist(),
+                             color=BITROOT_PALETTE['primary'],
+                             edgecolor=BITROOT_PALETTE['primary'], s=60)
 
         # Initialize the KNN model
         knn = KNeighborsRegressor(n_neighbors=5)  # Using 5 nearest neighbors
@@ -71,10 +72,11 @@ class KNearestExample:
             predicted_price = knn.predict(new_point)
 
             # Plot the new point and the line connecting it to its predicted price
-            ax.scatter(new_point[0, 0], new_point[0, 1], predicted_price[0], color=self.primary,
-                       label="New Point")
+            ax.scatter(new_point[0, 0], new_point[0, 1], predicted_price[0],
+                       color=BITROOT_PALETTE['primary'], label="New Point")
             ax.plot([new_point[0, 0], new_point[0, 0]], [new_point[0, 1], new_point[0, 1]],
-                    [ax.get_zlim()[0], predicted_price[0]], color=self.primary, linestyle="--")
+                    [ax.get_zlim()[0], predicted_price[0]],
+                    color=BITROOT_PALETTE['primary'], linestyle="--")
 
             return scatter,
 
