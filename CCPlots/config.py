@@ -39,6 +39,17 @@ def darken_color(color: str, factor: float = 0.6) -> str:
     return mcolors.to_hex((r * factor, g * factor, b * factor))
 
 
+def probability_color(probability: float, light_color: str = "primary_soft", dark_color: str = "primary") -> str:
+    """Return a primary-based shade where higher probability is darker.
+
+    Blends between two palette colors based on probability (0 → light, 1 → dark).
+    """
+    light = mcolors.to_rgb(BITROOT_PALETTE[light_color])
+    dark = mcolors.to_rgb(BITROOT_PALETTE[dark_color])
+    blended = tuple(light[i] + probability * (dark[i] - light[i]) for i in range(3))
+    return mcolors.to_hex(blended)
+
+
 def _tint_color(color: str, amount: float) -> str:
     """Return a lighter tint of a color based on the Bitroot palette."""
     r, g, b = mcolors.to_rgb(color)
@@ -46,8 +57,10 @@ def _tint_color(color: str, amount: float) -> str:
 
 
 BITROOT_PALETTE.update({
+    "primary_dark": darken_color(BITROOT_PALETTE["primary"], 0.5),
     "primary_light": _tint_color(BITROOT_PALETTE["primary"], 0.35),
     "primary_soft": _tint_color(BITROOT_PALETTE["primary"], 0.18),
+    "primary_pale": _tint_color(BITROOT_PALETTE["primary"], 0.80),
     "secondary_light": _tint_color(BITROOT_PALETTE["secondary"], 0.25),
     "secondary_soft": _tint_color(BITROOT_PALETTE["secondary"], 0.12),
     "tertiary_light": _tint_color(BITROOT_PALETTE["tertiary"], 0.25),
