@@ -28,6 +28,14 @@ TEXT_BY_LOCALE = {
         "confusion_ylabel": "True label",
         "legend_no_diabetes": "No diabetes",
         "legend_diabetes_positive": "Diabetes positive",
+        "tn": "TN",
+        "tn_desc": "Correct: no diabetes",
+        "fp": "FP",
+        "fp_desc": "False alarm: labelled diabetic",
+        "fn": "FN",
+        "fn_desc": "Missed: told no diabetes",
+        "tp": "TP",
+        "tp_desc": "Correct: diabetes identified",
     },
     "nl": {
         "decision_title": "Diabetes classificatievoorbeeld",
@@ -38,6 +46,14 @@ TEXT_BY_LOCALE = {
         "confusion_ylabel": "Werkelijk label",
         "legend_no_diabetes": "Geen diabetes",
         "legend_diabetes_positive": "Diabetes positief",
+        "tn": "TN",
+        "tn_desc": "Geen diabetes, correct herkend",
+        "fp": "FP",
+        "fp_desc": "Geen diabetes, valse diagnose",
+        "fn": "FN",
+        "fn_desc": "Wel diabetes, niet herkend",
+        "tp": "TP",
+        "tp_desc": "Diabetes correct herkend",
     },
 }
 
@@ -93,26 +109,48 @@ class ClassificationExample(PlotExample):
                 xlabel=labels["confusion_xlabel"],
                 ylabel=labels["confusion_ylabel"],
                 legend_labels=(labels["legend_no_diabetes"], labels["legend_diabetes_positive"]),
+                cell_labels=labels,
             )
 
     def plot_confusion_matrix(self, fname: str, title: str,
                               xlabel: str = "Predicted label",
                               ylabel: str = "True label",
-                              legend_labels: tuple[str, str] | None = None) -> None:
+                              legend_labels: tuple[str, str] | None = None,
+                              cell_labels: dict | None = None) -> None:
         # Generate predictions and create a confusion matrix
         y_pred = self.classifier.predict(self.X_test)
         cm = confusion_matrix(self.y_test, y_pred)
 
         # Plot the confusion matrix
-        fig = plt.figure(figsize=(6, 5), facecolor=BITROOT_PALETTE['background'])
+        fig = plt.figure(figsize=(7, 5.5), facecolor=BITROOT_PALETTE['background'])
         ax = plt.gca()
         ax.set_facecolor(BITROOT_PALETTE['card_background'])
         disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=self.classifier.classes_)
-        disp.plot(cmap=self.confusion_cmap, values_format="d")
+        disp.plot(cmap=self.confusion_cmap, values_format="d", ax=ax)
         plt.title(title, fontsize=16, color=BITROOT_PALETTE['text'], pad=10)
         plt.xlabel(xlabel, fontsize=14, color=BITROOT_PALETTE['text'])
         plt.ylabel(ylabel, fontsize=14, color=BITROOT_PALETTE['text'])
+
+        # Add expanded cell labels (abbreviation + real-world meaning)
+        if cell_labels is not None:
+            labels_2x2 = [
+                cell_labels.get("tn", "TN"),  cell_labels.get("tn_desc", ""),
+                cell_labels.get("fp", "FP"),  cell_labels.get("fp_desc", ""),
+                cell_labels.get("fn", "FN"),  cell_labels.get("fn_desc", ""),
+                cell_labels.get("tp", "TP"),  cell_labels.get("tp_desc", ""),
+            ]
+            positions = [(0, 0), (1, 0), (0, 1), (1, 1)]
+            for idx, (col, row) in enumerate(positions):
+                text_color = disp.text_[row, col].get_color()
+                abbrev = labels_2x2[idx * 2]
+                desc = labels_2x2[idx * 2 + 1]
+                ax.text(col, row + 0.28, abbrev, ha='center', va='center',
+                        fontsize=9, fontweight='bold', color=text_color)
+                ax.text(col, row - 0.28, desc, ha='center', va='center',
+                        fontsize=7, color=text_color)
+
         apply_bitroot_style(ax, background=BITROOT_PALETTE['card_background'])
+        ax.grid(False)
         plt.tight_layout()
         plt.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.1)
 

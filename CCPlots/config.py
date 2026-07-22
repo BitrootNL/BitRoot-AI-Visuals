@@ -28,6 +28,7 @@ BITROOT_PALETTE = {
     "secondary_text": "#4D5C5C",
     "background": "#F8FAFA",
     "card_background": "#FFFFFF",
+    "white": "#F2F5F5",
     "grid": "#D8E0E0",
 }
 
