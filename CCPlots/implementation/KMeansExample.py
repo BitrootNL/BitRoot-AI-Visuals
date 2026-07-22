@@ -7,41 +7,31 @@ by the KMeans algorithm.
 
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
+import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from matplotlib.colors import to_rgba
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import CMAP_BRAND, COLOR_PALETTE, output_path
+from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, darken_color, output_path
 
-
-def darken_color(color, factor=0.35):
-    """
-    Darken a given RGBA color.
-
-    This function should eventually be moved to something like a helper class.
-    """
-    r, g, b, a = to_rgba(color)
-    return r * factor, g * factor, b * factor, a
+CLUSTER_PALETTE = [
+    BITROOT_PALETTE["primary"],
+    BITROOT_PALETTE["secondary"],
+    BITROOT_PALETTE["highlight"],
+    darken_color(BITROOT_PALETTE["primary"]),
+    darken_color(BITROOT_PALETTE["secondary"]),
+    darken_color(BITROOT_PALETTE["highlight"]),
+    darken_color(BITROOT_PALETTE["primary"], 0.4),
+]
 
 
 class KMeansExample(PlotExample):
 
-    # We use a dark gray for the edges of the data points, so they'll be
-    # visible using any brand's colours
-    DARK_GRAY = COLOR_PALETTE['neutral_colors']['dark_gray']
-
-    # Store centers and scatter centrally
     centers = None
     scatter = None
+    legend = None
 
     def __init__(self, n_clusters=4, n_samples=300):
-        """
-        Initialize the KMeansExample class using the desired number of clusters and samples.
-
-        :param n_clusters:  Number of clusters to generate.
-        :param n_samples:   Number of samples to generate.
-        """
         self.n_clusters = n_clusters
         self.n_samples = n_samples
         self.X, self.y = make_blobs(
@@ -57,53 +47,76 @@ class KMeansExample(PlotExample):
             algorithm='lloyd',
             random_state=42)
 
-        # Generate colors from the specified colormap
-        cmap = plt.get_cmap(CMAP_BRAND)
-        self.cluster_colors = [cmap(i / self.n_clusters) for i in range(self.n_clusters)]
-        self.center_colors = [darken_color(cmap(i / self.n_clusters)) for i in range(self.n_clusters)]
+        self.cluster_colors = [CLUSTER_PALETTE[i % len(CLUSTER_PALETTE)]
+                               for i in range(self.n_clusters)]
+
+    def _make_legend(self, ax):
+        patches = [
+            mpatches.Patch(facecolor=self.cluster_colors[i],
+                           edgecolor=BITROOT_PALETTE['text'],
+                           linewidth=0.5,
+                           label=f"Cluster {i + 1}")
+            for i in range(self.n_clusters)
+        ]
+        patches.append(
+            mpatches.Patch(facecolor='none', edgecolor='none', label=''))  # spacer
+        patches.append(
+            plt.Line2D([0], [0], marker='X', color=BITROOT_PALETTE['text'],
+                       markerfacecolor=BITROOT_PALETTE['white'],
+                       markeredgecolor=BITROOT_PALETTE['text'],
+                       markersize=10, markeredgewidth=2, label='Centroid'))
+        return ax.legend(handles=patches, title='Clusters', frameon=False,
+                         fontsize=8, title_fontsize=9,
+                         loc='upper right', ncol=2)
 
     def main(self):
-        """ Main method to run the KMeans example. """
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(8, 6),
+                               facecolor=BITROOT_PALETTE['background'])
         ax.set_xlim(-20, 20)
         ax.set_ylim(-20, 20)
 
-        # Initial points are grey, with a black outline
-        self.scatter = ax.scatter(self.X[:, 0], self.X[:, 1], s=30, c='grey', edgecolor=self.DARK_GRAY)
-        self.centers = ax.scatter([], [], s=100, marker='X')  # Centers will use darker versions of cluster colors
+        self.scatter = ax.scatter(self.X[:, 0], self.X[:, 1], s=30,
+                                  c='grey', edgecolor=BITROOT_PALETTE['text'],
+                                  linewidth=0.4)
+        self.centers = ax.scatter([], [], s=200, marker='X',
+                                  facecolor=BITROOT_PALETTE['white'],
+                                  edgecolor=BITROOT_PALETTE['text'],
+                                  linewidth=2)
 
-        ax.set_title("KMeans Clustering: Determining Species", fontsize=16)
-        ax.set_xlabel("Height of a penguin", fontsize=14)
-        ax.set_ylabel("Weight of a penguin", fontsize=14)
+        ax.set_title("KMeans Clustering: Determining Species",
+                     fontsize=16, color=BITROOT_PALETTE['text'], pad=10)
+        ax.set_xlabel("Height of a penguin",
+                      fontsize=14, color=BITROOT_PALETTE['text'])
+        ax.set_ylabel("Weight of a penguin",
+                      fontsize=14, color=BITROOT_PALETTE['text'])
 
-        # More frames and a smaller interval to show the process better
-        ani = FuncAnimation(fig,
-                            self.update,
-                            frames=30,
-                            init_func=self.init_func,
-                            interval=10,
+        self.legend = self._make_legend(ax)
+        apply_bitroot_style(ax)
+
+        ani = FuncAnimation(fig, self.update, frames=30,
+                            init_func=self.init_func, interval=10,
                             repeat=False)
-        # Save the animation
-        ani.save(output_path(f"kmeans_animation_k{self.n_clusters}.gif"), writer='pillow')
+        ani.save(output_path(f"kmeans_animation_k{self.n_clusters}.gif"),
+                 writer='pillow')
 
-        # Also save the last frame for non-animated use
-        fig.savefig(output_path(f"kmeans_clustering_k{self.n_clusters}.png"))
+        fig.savefig(output_path(f"kmeans_clustering_k{self.n_clusters}.png"),
+                    bbox_inches='tight', pad_inches=0.1)
+        plt.close(fig)
 
     def update(self, frame):
-        # Fit KMeans incrementally for each frame
         self.kmeans.max_iter = frame + 1
         self.kmeans.fit(self.X)
 
-        # Assign colors to clusters
         labels = self.kmeans.labels_
         scatter_colors = [self.cluster_colors[label] for label in labels]
 
-        # Now we need to update the plot to reflect the right colours and re-draw
-        # the edges for better visibility
         self.scatter.set_color(scatter_colors)
-        self.scatter.set_edgecolor(self.DARK_GRAY)
+        self.scatter.set_edgecolor(BITROOT_PALETTE['text'])
         self.centers.set_offsets(self.kmeans.cluster_centers_)
-        self.centers.set_color([self.center_colors[label] for label in range(self.n_clusters)])
+        center_colors = [self.cluster_colors[i] for i in range(self.n_clusters)]
+        self.centers.set_facecolor([BITROOT_PALETTE['white']] * self.n_clusters)
+        self.centers.set_edgecolor(center_colors)
+        self.centers.set_linewidth(2.5)
         return self.scatter, self.centers
 
     def init_func(self):
@@ -112,4 +125,5 @@ class KMeansExample(PlotExample):
 
 
 if __name__ == "__main__":
-    KMeansExample().main()
+    for k in (3, 4):
+        KMeansExample(n_clusters=k).main()

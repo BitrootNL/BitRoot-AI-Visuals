@@ -33,6 +33,12 @@ BITROOT_PALETTE = {
 }
 
 
+def darken_color(color: str, factor: float = 0.6) -> str:
+    """Return a darker shade of a color."""
+    r, g, b = mcolors.to_rgb(color)
+    return mcolors.to_hex((r * factor, g * factor, b * factor))
+
+
 def _tint_color(color: str, amount: float) -> str:
     """Return a lighter tint of a color based on the Bitroot palette."""
     r, g, b = mcolors.to_rgb(color)
