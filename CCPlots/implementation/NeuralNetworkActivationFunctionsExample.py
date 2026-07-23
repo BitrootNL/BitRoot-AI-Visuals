@@ -1,6 +1,3 @@
-"""
-NeuralNetworkActivationFunctionsExample.py
-"""
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -8,9 +5,30 @@ from CCPlots.PlotExample import PlotExample
 from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
+TEXT_BY_LOCALE = {
+    "en": {
+        "title": "Neural Network Activation Functions",
+        "sigmoid": "Sigmoid",
+        "tanh": "Tanh",
+        "relu": "ReLU",
+        "leaky_relu": "Leaky ReLU",
+        "swish": "Swish",
+        "softplus": "Softplus",
+    },
+    "nl": {
+        "title": "Neurale netwerk activatiefuncties",
+        "sigmoid": "Sigmoid",
+        "tanh": "Tanh",
+        "relu": "ReLU",
+        "leaky_relu": "Leaky ReLU",
+        "swish": "Swish",
+        "softplus": "Softplus",
+    },
+}
+
+
 class NeuralNetworkActivationFunctionsExample(PlotExample):
 
-    # Line colors
     primary = BITROOT_PALETTE["primary"]
     secondary = BITROOT_PALETTE["secondary"]
     tertiary = BITROOT_PALETTE["tertiary"]
@@ -18,33 +36,39 @@ class NeuralNetworkActivationFunctionsExample(PlotExample):
     success = BITROOT_PALETTE["success"]
     info = BITROOT_PALETTE["info"]
 
-    # Grid
     light_gray = BITROOT_PALETTE['grid']
 
     def main(self):
-        # Define the range of inputs
         x = np.linspace(-10, 10, 400)
 
-        # Plotting the activation functions
-        plt.figure(figsize=(12, 8), facecolor=BITROOT_PALETTE['background'])
+        func_specs = [
+            (self.sigmoid, self.primary, "sigmoid"),
+            (self.tanh, self.secondary, "tanh"),
+            (self.relu, self.tertiary, "relu"),
+            (self.leaky_relu, self.info, "leaky_relu"),
+            (self.swish, self.success, "swish"),
+            (self.softplus, self.highlight, "softplus"),
+        ]
 
-        for idx, (func, color, title) in enumerate([
-            (self.sigmoid, self.primary, 'Sigmoid'),
-            (self.tanh, self.secondary, 'Tanh'),
-            (self.relu, self.tertiary, 'ReLU'),
-            (self.leaky_relu, self.info, 'Leaky ReLU'),
-            (self.swish, self.success, 'Swish'),
-            (self.softplus, self.highlight, 'Softplus'),
-        ], start=1):
-            plt.subplot(2, 3, idx)
-            plt.plot(x, func(x), color=color, linewidth=2)
-            plt.title(title, color=BITROOT_PALETTE['text'])
-            ax = plt.gca()
-            apply_bitroot_style(ax, background=BITROOT_PALETTE['background'])
-            ax.grid(True, color=self.light_gray)
+        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
+            fname = f"neural_network_activation_functions{'_NL' if locale == 'nl' else ''}.png"
 
-        plt.tight_layout()
-        plt.savefig(output_path("neural_network_activation_functions.png"))
+            fig, axs = plt.subplots(2, 3, figsize=(12, 8),
+                                    facecolor=BITROOT_PALETTE['background'])
+            fig.patch.set_facecolor(BITROOT_PALETTE['background'])
+
+            for idx, (func, color, key) in enumerate(func_specs):
+                row, col = divmod(idx, 3)
+                ax = axs[row, col]
+                ax.plot(x, func(x), color=color, linewidth=2)
+                ax.set_title(labels[key], color=BITROOT_PALETTE['text'])
+                apply_bitroot_style(ax, background=BITROOT_PALETTE['background'])
+                ax.grid(True, color=self.light_gray)
+
+            fig.suptitle(labels["title"], fontsize=16, color=BITROOT_PALETTE['text'], y=1.02)
+
+            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.1)
+            plt.close(fig)
 
     def sigmoid(self, x):
         return 1 / (1 + np.exp(-x))
@@ -63,6 +87,3 @@ class NeuralNetworkActivationFunctionsExample(PlotExample):
 
     def softplus(self, x):
         return np.log(1 + np.exp(x))
-
-if __name__ == "__main__":
-    NeuralNetworkActivationFunctionsExample().main()

@@ -1,7 +1,3 @@
-"""
-OverfittingUnderfittingExample.py
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
@@ -11,6 +7,30 @@ from sklearn.metrics import mean_squared_error
 
 from CCPlots.PlotExample import PlotExample
 from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
+
+
+TEXT_BY_LOCALE = {
+    "en": {
+        "under_title": "Underfitting\nTrain MSE: {train_mse:.2f}, Test MSE: {test_mse:.2f}",
+        "over_title": "Overfitting\nTrain MSE: {train_mse:.2f}, Test MSE: {test_mse:.2f}",
+        "xlabel": "X",
+        "ylabel": "y",
+        "train_label": "Training Data",
+        "test_label": "Test Data",
+        "under_label": "Model (Underfitting)",
+        "over_label": "Model (Overfitting)",
+    },
+    "nl": {
+        "under_title": "Underfitting\nTrain MSE: {train_mse:.2f}, Test MSE: {test_mse:.2f}",
+        "over_title": "Overfitting\nTrain MSE: {train_mse:.2f}, Test MSE: {test_mse:.2f}",
+        "xlabel": "X",
+        "ylabel": "y",
+        "train_label": "Trainingsgegevens",
+        "test_label": "Testgegevens",
+        "under_label": "Model (underfitting)",
+        "over_label": "Model (overfitting)",
+    },
+}
 
 
 class OverfittingUnderfittingExample(PlotExample):
@@ -24,15 +44,12 @@ class OverfittingUnderfittingExample(PlotExample):
     light_gray = BITROOT_PALETTE['grid']
 
     def main(self):
-        # Generate synthetic data
         np.random.seed(0)
         X = np.sort(np.random.rand(40, 1) * 10, axis=0)
         y = np.sin(X).ravel() + np.random.normal(0, 0.2, X.shape[0])
 
-        # Split the data into training and testing sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=0)
 
-        # Create polynomial features for underfitting and overfitting
         poly_under = PolynomialFeatures(degree=2)
         poly_over = PolynomialFeatures(degree=11)
 
@@ -42,63 +59,57 @@ class OverfittingUnderfittingExample(PlotExample):
         X_train_over = poly_over.fit_transform(X_train)
         X_test_over = poly_over.transform(X_test)
 
-        # Fit linear regression models
         model_under = LinearRegression().fit(X_train_under, y_train)
         model_over = LinearRegression().fit(X_train_over, y_train)
 
-        # Generate predictions for the entire range of X for plotting
-        # using both the overfitting and underfitting model
         X_range = np.linspace(X.min(), X.max(), 500).reshape(-1, 1)
         X_range_under = poly_under.transform(X_range)
         X_range_over = poly_over.transform(X_range)
 
-        # Generate a continuous line of predictions for plotting
         y_range_pred_under = model_under.predict(X_range_under)
         y_range_pred_over = model_over.predict(X_range_over)
 
-        # Get training and test predictions for both models
         y_pred_under_train = model_under.predict(X_train_under)
         y_pred_under_test = model_under.predict(X_test_under)
 
         y_pred_over_train = model_over.predict(X_train_over)
         y_pred_over_test = model_over.predict(X_test_over)
 
-        # Calculate MSE
         mse_under_train = mean_squared_error(y_train, y_pred_under_train)
         mse_under_test = mean_squared_error(y_test, y_pred_under_test)
 
         mse_over_train = mean_squared_error(y_train, y_pred_over_train)
         mse_over_test = mean_squared_error(y_test, y_pred_over_test)
 
-        # Plotting
-        plt.figure(figsize=(14, 6), facecolor=BITROOT_PALETTE['background'])
+        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
+            fname = f"overfitting_underfitting{'_NL' if locale == 'nl' else ''}.png"
 
-        # Underfitting
-        plt.subplot(1, 2, 1)
-        plt.scatter(X_train, y_train, color=self.training_color, label='Training Data')
-        plt.scatter(X_test, y_test, color=self.test_color, label='Test Data')
-        plt.plot(X_range, y_range_pred_under, color=self.prediction_color, label='Model (Underfitting)')
-        plt.title(f'Underfitting\nTrain MSE: {mse_under_train:.2f}, Test MSE: {mse_under_test:.2f}', color=BITROOT_PALETTE['text'])
-        plt.xlabel('X', color=BITROOT_PALETTE['text'])
-        plt.ylabel('y', color=BITROOT_PALETTE['text'])
-        plt.legend()
-        plt.grid(True, c=self.light_gray)
-        apply_bitroot_style(plt.gca())
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6),
+                                           facecolor=BITROOT_PALETTE['background'])
 
-        # Overfitting
-        plt.subplot(1, 2, 2)
-        plt.scatter(X_train, y_train, color=self.training_color, label='Training Data')
-        plt.scatter(X_test, y_test, color=self.test_color, label='Test Data')
-        plt.plot(X_range, y_range_pred_over, color=self.prediction_color, label='Model (Overfitting)')
-        plt.title(f'Overfitting\nTrain MSE: {mse_over_train:.2f}, Test MSE: {mse_over_test:.2f}', color=BITROOT_PALETTE['text'])
-        plt.xlabel('X', color=BITROOT_PALETTE['text'])
-        plt.ylabel('y', color=BITROOT_PALETTE['text'])
-        plt.legend()
-        plt.grid(True, c=self.light_gray)
-        apply_bitroot_style(plt.gca())
+            # Underfitting
+            ax1.scatter(X_train, y_train, color=self.training_color, label=labels['train_label'])
+            ax1.scatter(X_test, y_test, color=self.test_color, label=labels['test_label'])
+            ax1.plot(X_range, y_range_pred_under, color=self.prediction_color, label=labels['under_label'])
+            ax1.set_title(labels['under_title'].format(train_mse=mse_under_train, test_mse=mse_under_test),
+                          color=BITROOT_PALETTE['text'])
+            ax1.set_xlabel(labels['xlabel'], color=BITROOT_PALETTE['text'])
+            ax1.set_ylabel(labels['ylabel'], color=BITROOT_PALETTE['text'])
+            ax1.legend()
+            ax1.grid(True, c=self.light_gray)
+            apply_bitroot_style(ax1)
 
-        plt.tight_layout()
-        plt.savefig(output_path(self.output_file))
+            # Overfitting
+            ax2.scatter(X_train, y_train, color=self.training_color, label=labels['train_label'])
+            ax2.scatter(X_test, y_test, color=self.test_color, label=labels['test_label'])
+            ax2.plot(X_range, y_range_pred_over, color=self.prediction_color, label=labels['over_label'])
+            ax2.set_title(labels['over_title'].format(train_mse=mse_over_train, test_mse=mse_over_test),
+                          color=BITROOT_PALETTE['text'])
+            ax2.set_xlabel(labels['xlabel'], color=BITROOT_PALETTE['text'])
+            ax2.set_ylabel(labels['ylabel'], color=BITROOT_PALETTE['text'])
+            ax2.legend()
+            ax2.grid(True, c=self.light_gray)
+            apply_bitroot_style(ax2)
 
-if __name__ == "__main__":
-    OverfittingUnderfittingExample().main()
+            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.1)
+            plt.close(fig)

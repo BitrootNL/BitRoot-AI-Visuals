@@ -1,70 +1,81 @@
-"""
-ContinuousDiscreteExample.py
-
-This example illustrates the difference between categorical and continuous variables.
-The intention is to also illustrate the concept of binning, which can turn a regression
-problem into a classification problem.
-
-@TODO: Finish up this example, it can be made clearer.
-"""
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 from CCPlots.PlotExample import PlotExample
 from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
+TEXT_BY_LOCALE = {
+    "en": {
+        "cat_title": "Ages divided into age categories",
+        "cat_xlabel": "Age group",
+        "cat_ylabel": "Count",
+        "cont_title": "Age distribution in real life",
+        "cont_xlabel": "Actual age",
+        "cont_ylabel": "Count",
+        "bins_labels": ['<18', '18\u201324', '25\u201334', '35\u201349', '50\u201364', '65\u201379', '80+'],
+    },
+    "nl": {
+        "cat_title": "Leeftijden verdeeld in leeftijdscategorie\u00ebn",
+        "cat_xlabel": "Leeftijdsgroep",
+        "cat_ylabel": "Aantal",
+        "cont_title": "Leeftijdsverdeling in het echt",
+        "cont_xlabel": "Werkelijke leeftijd",
+        "cont_ylabel": "Aantal",
+        "bins_labels": ['<18', '18\u201324', '25\u201334', '35\u201349', '50\u201364', '65\u201379', '80+'],
+    },
+}
+
+
 class ContinuousDiscreteExample(PlotExample):
 
-    # Set colours for the plot
     primary = BITROOT_PALETTE['primary']
     tertiary = BITROOT_PALETTE['tertiary']
 
     def main(self) -> None:
-        # Simulated continuous data: ages (with some exceptionally high ages for realism)
         np.random.seed(42)
         ages = np.concatenate([
-            np.random.normal(loc=35, scale=10, size=450),   # Most people between 25-45
-            np.random.normal(loc=75, scale=8, size=40),     # Older age group
-            np.random.normal(loc=95, scale=3, size=10)      # Exceptionally old
+            np.random.normal(loc=35, scale=10, size=450),
+            np.random.normal(loc=75, scale=8, size=40),
+            np.random.normal(loc=95, scale=3, size=10)
         ])
-        ages = np.clip(ages, 0, 115)  # Keep all values between 0 and 100
+        ages = np.clip(ages, 0, 115)
 
-        # Bin the continuous data into categories
         bins = [0, 18, 25, 35, 50, 65, 80, 100]
-        labels = ['<18', '18–24', '25–34', '35–49', '50–64', '65–79', '80+']
-        age_bins = pd.cut(ages, bins=bins, labels=labels, right=False)
 
-        df = pd.DataFrame({
-            'Age': ages,
-            'Age Group': age_bins
-        })
+        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
+            fname = f"continuous_discrete_example{'_NL' if locale == 'nl' else ''}.png"
 
-        # Plot
-        fig, axs = plt.subplots(1, 2, figsize=(14, 5), facecolor=BITROOT_PALETTE['background'])
-        fig.patch.set_facecolor(BITROOT_PALETTE['background'])
+            age_bins = pd.cut(ages, bins=bins, labels=labels["bins_labels"], right=False)
 
-        # Categorical version: bar plot
-        sns.countplot(x='Age Group', data=df, ax=axs[1], color=self.primary, edgecolor=self.primary, order=labels)
-        axs[1].set_title("Ages divided into age categories", color=BITROOT_PALETTE['text'])
-        axs[1].set_xlabel("Age group", color=BITROOT_PALETTE['text'])
-        axs[1].set_ylabel("Count", color=BITROOT_PALETTE['text'])
+            df = pd.DataFrame({
+                'Age': ages,
+                'Age Group': age_bins
+            })
 
-        # Continuous data: histogram
-        sns.histplot(df['Age'], kde=True, ax=axs[0], color=self.primary)
-        axs[0].set_title("Age distribution in real life", color=BITROOT_PALETTE['text'])
-        axs[0].set_xlabel("Actual age", color=BITROOT_PALETTE['text'])
-        axs[0].set_ylabel("Count", color=BITROOT_PALETTE['text'])
+            fig, axs = plt.subplots(1, 2, figsize=(14, 5),
+                                    facecolor=BITROOT_PALETTE['background'])
+            fig.patch.set_facecolor(BITROOT_PALETTE['background'])
 
-        for ax in axs:
-            apply_bitroot_style(ax)
+            cat_order = labels["bins_labels"]
+            cat_counts = df['Age Group'].value_counts()
+            cat_vals = [cat_counts.get(c, 0) for c in cat_order]
+            bar_positions = range(len(cat_order))
+            axs[1].bar(bar_positions, cat_vals, color=self.primary, edgecolor=self.primary)
+            axs[1].set_xticks(list(bar_positions))
+            axs[1].set_xticklabels(cat_order)
+            axs[1].set_title(labels["cat_title"], color=BITROOT_PALETTE['text'])
+            axs[1].set_xlabel(labels["cat_xlabel"], color=BITROOT_PALETTE['text'])
+            axs[1].set_ylabel(labels["cat_ylabel"], color=BITROOT_PALETTE['text'])
 
-        plt.tight_layout()
-        plt.savefig(output_path("continuous_discrete_example.png"))
+            axs[0].hist(df['Age'], bins=30, density=True, color=self.primary, alpha=0.7)
+            axs[0].set_title(labels["cont_title"], color=BITROOT_PALETTE['text'])
+            axs[0].set_xlabel(labels["cont_xlabel"], color=BITROOT_PALETTE['text'])
+            axs[0].set_ylabel(labels["cont_ylabel"], color=BITROOT_PALETTE['text'])
 
+            for ax in axs:
+                apply_bitroot_style(ax)
 
-if __name__ == "__main__":
-    ContinuousDiscreteExample().main()
+            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.1)
+            plt.close(fig)

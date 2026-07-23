@@ -1,10 +1,3 @@
-"""
-KMeansExample.py
-
-This example creates an animation and stores the final clusters as determined
-by the KMeans algorithm.
-"""
-
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 import matplotlib.patches as mpatches
@@ -13,6 +6,27 @@ from matplotlib.animation import FuncAnimation
 
 from CCPlots.PlotExample import PlotExample
 from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, darken_color, output_path
+
+
+TEXT_BY_LOCALE = {
+    "en": {
+        "title": "KMeans Clustering: Determining Species",
+        "xlabel": "Height of a penguin",
+        "ylabel": "Weight of a penguin",
+        "cluster_label": "Cluster {n}",
+        "centroid_label": "Centroid",
+        "legend_title": "Clusters",
+    },
+    "nl": {
+        "title": "KMeans-clustering: soorten bepalen",
+        "xlabel": "Hoogte van een pingu\u00efn",
+        "ylabel": "Gewicht van een pingu\u00efn",
+        "cluster_label": "Cluster {n}",
+        "centroid_label": "Centro\u00efde",
+        "legend_title": "Clusters",
+    },
+}
+
 
 CLUSTER_PALETTE = [
     BITROOT_PALETTE["primary"],
@@ -50,26 +64,29 @@ class KMeansExample(PlotExample):
         self.cluster_colors = [CLUSTER_PALETTE[i % len(CLUSTER_PALETTE)]
                                for i in range(self.n_clusters)]
 
-    def _make_legend(self, ax):
+    def _make_legend(self, ax, labels):
         patches = [
             mpatches.Patch(facecolor=self.cluster_colors[i],
                            edgecolor=BITROOT_PALETTE['text'],
                            linewidth=0.5,
-                           label=f"Cluster {i + 1}")
+                           label=labels['cluster_label'].format(n=i + 1))
             for i in range(self.n_clusters)
         ]
         patches.append(
-            mpatches.Patch(facecolor='none', edgecolor='none', label=''))  # spacer
+            mpatches.Patch(facecolor='none', edgecolor='none', label=''))
         patches.append(
             plt.Line2D([0], [0], marker='X', color=BITROOT_PALETTE['text'],
                        markerfacecolor=BITROOT_PALETTE['white'],
                        markeredgecolor=BITROOT_PALETTE['text'],
-                       markersize=10, markeredgewidth=2, label='Centroid'))
-        return ax.legend(handles=patches, title='Clusters', frameon=False,
+                       markersize=10, markeredgewidth=2, label=labels['centroid_label']))
+        return ax.legend(handles=patches, title=labels['legend_title'], frameon=False,
                          fontsize=8, title_fontsize=9,
                          loc='upper right', ncol=2)
 
-    def main(self):
+    def main(self, locale_key="en"):
+        labels = TEXT_BY_LOCALE[locale_key]
+        suffix = "_NL" if locale_key == "nl" else ""
+
         fig, ax = plt.subplots(figsize=(8, 6),
                                facecolor=BITROOT_PALETTE['background'])
         ax.set_xlim(-20, 20)
@@ -83,25 +100,30 @@ class KMeansExample(PlotExample):
                                   edgecolor=BITROOT_PALETTE['text'],
                                   linewidth=2)
 
-        ax.set_title("KMeans Clustering: Determining Species",
+        ax.set_title(labels['title'],
                      fontsize=16, color=BITROOT_PALETTE['text'], pad=10)
-        ax.set_xlabel("Height of a penguin",
+        ax.set_xlabel(labels['xlabel'],
                       fontsize=14, color=BITROOT_PALETTE['text'])
-        ax.set_ylabel("Weight of a penguin",
+        ax.set_ylabel(labels['ylabel'],
                       fontsize=14, color=BITROOT_PALETTE['text'])
 
-        self.legend = self._make_legend(ax)
+        self.legend = self._make_legend(ax, labels)
         apply_bitroot_style(ax)
 
         ani = FuncAnimation(fig, self.update, frames=30,
                             init_func=self.init_func, interval=10,
                             repeat=False)
-        ani.save(output_path(f"kmeans_animation_k{self.n_clusters}.gif"),
+        ani.save(output_path(f"kmeans_animation_k{self.n_clusters}{suffix}.gif"),
                  writer='pillow')
 
-        fig.savefig(output_path(f"kmeans_clustering_k{self.n_clusters}.png"),
+        fig.savefig(output_path(f"kmeans_clustering_k{self.n_clusters}{suffix}.png"),
                     bbox_inches='tight', pad_inches=0.1)
         plt.close(fig)
+
+    @classmethod
+    def run_all_locales(cls, n_clusters):
+        for locale_key in ("en", "nl"):
+            cls(n_clusters=n_clusters).main(locale_key=locale_key)
 
     def update(self, frame):
         self.kmeans.max_iter = frame + 1
@@ -126,4 +148,4 @@ class KMeansExample(PlotExample):
 
 if __name__ == "__main__":
     for k in (3, 4):
-        KMeansExample(n_clusters=k).main()
+        KMeansExample.run_all_locales(n_clusters=k)

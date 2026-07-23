@@ -1,11 +1,3 @@
-"""
-LinearRegressionExample.py
-
-Create an animated plot of a linear regression example. The plot demonstrates the concept of linear regression
-by visualizing how the regression line evolves as more data points are added. This example uses house prices
-based on the size of the house.
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
@@ -15,72 +7,73 @@ from CCPlots.PlotExample import PlotExample
 from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
 
 
+TEXT_BY_LOCALE = {
+    "en": {
+        "title": "Linear Regression Example: House Size vs. Price",
+        "xlabel": "House Size (sq ft)",
+        "ylabel": "Price ($)",
+    },
+    "nl": {
+        "title": "Lineair regressievoorbeeld: huismaat vs. prijs",
+        "xlabel": "Huismaat (m\u00b2)",
+        "ylabel": "Prijs (\u20ac)",
+    },
+}
+
+
 class LinearRegressionExample(PlotExample):
 
-    # Set colours for the plot
     primary = BITROOT_PALETTE['primary']
 
     def main(self):
-        # Generate a simple dataset for linear regression (House Size vs. Price)
         np.random.seed(42)
-        house_sizes = np.random.rand(100) * 2000 + 500  # House sizes between 500 and 2500 sq ft
-        prices = house_sizes * 200 + (np.random.randn(100) * 10000)  # Price = 200 * size + noise
+        house_sizes = np.random.rand(100) * 2000 + 500
+        prices = house_sizes * 200 + (np.random.randn(100) * 10000)
 
-        # Sort the data for better visualization
         sorted_indices = np.argsort(house_sizes)
         house_sizes = house_sizes[sorted_indices]
         prices = prices[sorted_indices]
 
-        # Create the figure and axis for the animation
-        fig, ax = plt.subplots(facecolor=BITROOT_PALETTE['background'])
-        ax.set_facecolor(BITROOT_PALETTE['background'])
-        ax.set_xlim(min(house_sizes) - 100, max(house_sizes) + 100)
-        ax.set_ylim(min(prices) - 10000, max(prices) + 10000)
-        ax.set_title("Linear Regression Example: House Size vs. Price", fontsize=16, color=BITROOT_PALETTE['text'])
-        ax.set_xlabel("House Size (sq ft)", fontsize=14, color=BITROOT_PALETTE['text'])
-        ax.set_ylabel("Price ($)", fontsize=14, color=BITROOT_PALETTE['text'])
+        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
+            fname = f"linear_regression_animation{'_NL' if locale == 'nl' else ''}.gif"
 
-        # Scatter plot of the data points
-        scatter = ax.scatter(house_sizes, prices, color=self.primary, edgecolor=BITROOT_PALETTE['secondary_text'], s=40)
+            fig, ax = plt.subplots(facecolor=BITROOT_PALETTE['background'])
+            ax.set_facecolor(BITROOT_PALETTE['background'])
+            ax.set_xlim(min(house_sizes) - 100, max(house_sizes) + 100)
+            ax.set_ylim(min(prices) - 10000, max(prices) + 10000)
+            ax.set_title(labels["title"], fontsize=16, color=BITROOT_PALETTE['text'])
+            ax.set_xlabel(labels["xlabel"], fontsize=14, color=BITROOT_PALETTE['text'])
+            ax.set_ylabel(labels["ylabel"], fontsize=14, color=BITROOT_PALETTE['text'])
 
-        # Initialize the regression line plot
-        line, = ax.plot([], [], color=self.primary, linewidth=2)
+            scatter = ax.scatter(house_sizes, prices, color=self.primary,
+                                 edgecolor=BITROOT_PALETTE['secondary_text'], s=40)
 
-        # Function to initialize the animation
-        def init():
-            line.set_data([], [])
-            return line,
+            line, = ax.plot([], [], color=self.primary, linewidth=2)
 
-        # Function to update the animation at each frame
-        def update(frame):
-            if frame < 2:  # Ensure at least 2 points are available for fitting
+            def init():
+                line.set_data([], [])
                 return line,
 
-            # Use data up to the current frame
-            X = house_sizes[:frame].reshape(-1, 1)
-            y = prices[:frame]
+            def update(frame):
+                if frame < 2:
+                    return line,
 
-            # Perform linear regression
-            regressor = LinearRegression()
-            regressor.fit(X, y)
+                X = house_sizes[:frame].reshape(-1, 1)
+                y = prices[:frame]
 
-            # Predict values across the full range of house sizes
-            X_full = np.linspace(min(house_sizes), max(house_sizes), 100).reshape(-1, 1)
-            y_pred = regressor.predict(X_full)
+                regressor = LinearRegression()
+                regressor.fit(X, y)
 
-            # Update the line data
-            line.set_data(X_full.flatten(), y_pred)
+                X_full = np.linspace(min(house_sizes), max(house_sizes), 100).reshape(-1, 1)
+                y_pred = regressor.predict(X_full)
 
-            return line,
+                line.set_data(X_full.flatten(), y_pred)
 
-        # Create the animation
-        ani = FuncAnimation(fig, update, frames=len(house_sizes), init_func=init, blit=True, interval=10)
+                return line,
 
-        apply_bitroot_style(ax)
+            ani = FuncAnimation(fig, update, frames=len(house_sizes), init_func=init, blit=True, interval=10)
 
-        # Save the animation as a GIF (I have no idea why
-        ani.save(output_path("linear_regression_animation.gif"), writer='pillow')
+            apply_bitroot_style(ax)
 
-
-if __name__ == "__main__":
-    LinearRegressionExample().main()
+            ani.save(output_path(fname), writer='pillow')
+            plt.close(fig)
