@@ -9,19 +9,25 @@ import random
 import itertools
 
 
+TEXT_BY_LOCALE = {
+    "en": {
+        "title_small": "Traveling Salesman Problem Solution ({n_cities} cities)\nTotal routes: {total_routes:,}",
+        "title_large": "TSP Graph ({n_cities} cities)\nTotal possible routes: {total_routes:,}",
+    },
+    "nl": {
+        "title_small": "Handelsreizigersprobleem oplossing ({n_cities} steden)\nTotaal routes: {total_routes:,}",
+        "title_large": "TSP-graaf ({n_cities} steden)\nTotaal mogelijke routes: {total_routes:,}",
+    },
+}
+
+
 class TravelingSalesmanVisualization(PlotExample):
 
     def __init__(self, n_cities=10):
-        """
-        Initialize the Traveling Salesman Problem visualization.
-
-        n_cities        int     Number of cities (nodes) in the graph
-        """
         self.n_cities = n_cities
         self.G = self._generate_random_graph()
 
     def _generate_random_graph(self):
-        """Generate a complete graph with random distances between cities."""
         G = nx.complete_graph(self.n_cities)
 
         for (u, v) in G.edges():
@@ -30,14 +36,13 @@ class TravelingSalesmanVisualization(PlotExample):
         return G
 
     def _solve_tsp_brute_force(self):
-        """Solve TSP using brute force (only works for small graphs)."""
         nodes = list(self.G.nodes)
         min_path = None
         min_cost = float('inf')
 
         for path in itertools.permutations(nodes):
             cost = sum(self.G[path[i]][path[i + 1]]['weight'] for i in range(len(path) - 1))
-            cost += self.G[path[-1]][path[0]]['weight']  # Return to the starting city
+            cost += self.G[path[-1]][path[0]]['weight']
 
             if cost < min_cost:
                 min_cost = cost
@@ -45,52 +50,61 @@ class TravelingSalesmanVisualization(PlotExample):
 
         return min_path, min_cost
 
-    def _plot_tsp_solution(self, path, filename, total_routes, cost):
-        """Plot the graph and highlight the TSP path."""
+    def _plot_tsp_solution(self, path, filename, total_routes, cost, labels):
         pos = nx.spring_layout(self.G, seed=42)
 
-        plt.figure(figsize=(12, 8), facecolor=BITROOT_PALETTE['background'])
-        ax = plt.gca()
+        fig, ax = plt.subplots(figsize=(12, 8), facecolor=BITROOT_PALETTE['background'])
         ax.set_facecolor(BITROOT_PALETTE['background'])
 
-        # Draw all edges
-        nx.draw(self.G, pos, with_labels=True, node_color=BITROOT_PALETTE['primary'], node_size=500)
+        nx.draw(self.G, pos, with_labels=True, node_color=BITROOT_PALETTE['primary'],
+                node_size=500, ax=ax)
 
-        # Highlight the TSP path in a different color
         tsp_edges = [(path[i], path[i + 1]) for i in range(len(path) - 1)] + [(path[-1], path[0])]
         nx.draw_networkx_edges(self.G, pos, edgelist=tsp_edges, width=2,
-                               edge_color=BITROOT_PALETTE['tertiary'])
+                               edge_color=BITROOT_PALETTE['success'], ax=ax)
 
-        # Add edge labels (distances)
         edge_labels = nx.get_edge_attributes(self.G, 'weight')
-        nx.draw_networkx_edge_labels(self.G, pos, edge_labels=edge_labels)
+        nx.draw_networkx_edge_labels(self.G, pos, edge_labels=edge_labels, ax=ax)
 
-        plt.title(f"Traveling Salesman Problem Solution ({self.n_cities} cities)\n"
-                  f"Total routes: {total_routes:,}", color=BITROOT_PALETTE['text'])
-        plt.savefig(output_path(filename))
+        ax.set_title(
+            labels["title_small"].format(n_cities=self.n_cities, total_routes=total_routes),
+            color=BITROOT_PALETTE['text'])
+        ax.axis('off')
+
+        fig.savefig(output_path(filename), bbox_inches='tight', pad_inches=0.1)
+        plt.close(fig)
 
     def main(self):
-        """Main entry point to generate and visualize the TSP."""
         total_routes = math.factorial(self.n_cities)
 
-        if self.n_cities <= 20:
-            path, cost = self._solve_tsp_brute_force()
-            print(f"Optimal path: {path}")
-            print(f"Total cost: {cost}")
-            print(f"Total possible routes: {total_routes:,}")
+        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
+            suffix = f"{'_NL' if locale == 'nl' else ''}.png"
 
-            self._plot_tsp_solution(path, f"tsp_small_{self.n_cities}_cities.png", total_routes, cost)
-        else:
-            # For larger graphs, we only show the graph itself (too expensive to brute force)
-            pos = nx.spring_layout(self.G, seed=42)
+            if self.n_cities <= 20:
+                path, cost = self._solve_tsp_brute_force()
+                print(f"Optimal path: {path}")
+                print(f"Total cost: {cost}")
+                print(f"Total possible routes: {total_routes:,}")
 
-            plt.figure(figsize=(12, 8), facecolor=BITROOT_PALETTE['background'])
-            nx.draw(self.G, pos, with_labels=True, node_color=BITROOT_PALETTE['tertiary'],
-                    node_size=500)
-            plt.title(f"TSP Graph ({self.n_cities} cities)\nTotal possible routes: {total_routes:,}", color=BITROOT_PALETTE['text'])
-            plt.savefig(output_path(f"tsp_large_{self.n_cities}_cities.png"))
+                self._plot_tsp_solution(
+                    path, f"tsp_small_{self.n_cities}_cities{suffix}",
+                    total_routes, cost, labels)
+            else:
+                pos = nx.spring_layout(self.G, seed=42)
+
+                fig, ax = plt.subplots(figsize=(12, 8), facecolor=BITROOT_PALETTE['background'])
+                nx.draw(self.G, pos, with_labels=True, node_color=BITROOT_PALETTE['tertiary'],
+                        node_size=500, ax=ax)
+                ax.set_title(
+                    labels["title_large"].format(n_cities=self.n_cities, total_routes=total_routes),
+                    color=BITROOT_PALETTE['text'])
+                ax.axis('off')
+
+                fig.savefig(output_path(f"tsp_large_{self.n_cities}_cities{suffix}"),
+                            bbox_inches='tight', pad_inches=0.1)
+                plt.close(fig)
 
 
 if __name__ == "__main__":
-    # Example
-    TravelingSalesmanVisualization(n_cities=12).main()
+    for n in [4, 6, 8, 10]:
+        TravelingSalesmanVisualization(n_cities=n).main()
