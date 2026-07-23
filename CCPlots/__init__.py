@@ -3,15 +3,18 @@ import os
 
 
 def load_classes():
-    """ Load the different classes, ignore the utilities and execute the demos """
-    current_dir = os.path.dirname(__file__)
-    for filename in os.listdir(current_dir):
-        if filename.endswith(".py") and filename not in ["__init__.py", "config.py", "utils.py"]:
-            module_name = filename[:-3]  # Remove .py extension
-            module = importlib.import_module(f'.{module_name}', package='CCPlots')
-            for name, cls in module.__dict__.items():
-                if isinstance(cls, type):
-                    globals()[name] = cls
+    """ Load implementation classes from the implementation subdirectory. """
+    impl_dir = os.path.join(os.path.dirname(__file__), "implementation")
+    for filename in os.listdir(impl_dir):
+        if not filename.endswith(".py") or filename in ("__init__.py",):
+            continue
+        try:
+            module = importlib.import_module(f'CCPlots.implementation.{filename[:-3]}')
+        except Exception:
+            continue
+        for name, cls in module.__dict__.items():
+            if isinstance(cls, type):
+                globals()[name] = cls
 
 
 load_classes()

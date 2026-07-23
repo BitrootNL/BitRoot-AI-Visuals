@@ -26,15 +26,6 @@ def all_plots():
     # Run all examples
     for cls in classes: instance = cls().main()
 
-
-def plot_scratch():
-    """ Scratchpad for whatever needs re-generation. """
-#    from CCPlots.LinearRegressionExample import LinearRegressionExample
-#    LinearRegressionExample().main()
-
 if __name__ == "__main__":
     # This takes a while, comment out at your own risk
     all_plots()
-
-    # Plot only what is needed
-    #plot_scratch()
