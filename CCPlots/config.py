@@ -42,7 +42,7 @@ def darken_color(color: str, factor: float = 0.6) -> str:
 def probability_color(probability: float, light_color: str = "primary_soft", dark_color: str = "primary") -> str:
     """Return a primary-based shade where higher probability is darker.
 
-    Blends between two palette colors based on probability (0 → light, 1 → dark).
+    Blends between two palette colors based on probability (0 -> light, 1 -> dark).
     """
     light = mcolors.to_rgb(BITROOT_PALETTE[light_color])
     dark = mcolors.to_rgb(BITROOT_PALETTE[dark_color])
@@ -57,61 +57,11 @@ def _tint_color(color: str, amount: float) -> str:
 
 
 BITROOT_PALETTE.update({
-    "primary_dark": darken_color(BITROOT_PALETTE["primary"], 0.5),
-    "primary_light": _tint_color(BITROOT_PALETTE["primary"], 0.35),
     "primary_soft": _tint_color(BITROOT_PALETTE["primary"], 0.18),
     "primary_pale": _tint_color(BITROOT_PALETTE["primary"], 0.80),
     "secondary_light": _tint_color(BITROOT_PALETTE["secondary"], 0.25),
     "secondary_soft": _tint_color(BITROOT_PALETTE["secondary"], 0.12),
-    "tertiary_light": _tint_color(BITROOT_PALETTE["tertiary"], 0.25),
-    "tertiary_soft": _tint_color(BITROOT_PALETTE["tertiary"], 0.12),
 })
-
-# Backward-compatible palette aliases used by the existing examples
-COLOR_PALETTE = {
-    "base_colors": {
-        "dark_green": BITROOT_PALETTE["primary"],
-        "medium_green": BITROOT_PALETTE["tertiary"],
-        "bright_teal": BITROOT_PALETTE["primary"],
-        "bright_yellow": BITROOT_PALETTE["warning"],
-    },
-    "complementary_colors": {
-        "deep_burgundy": BITROOT_PALETTE["highlight"],
-        "warm_brown": "#8A5722",
-        "rusty_red": "#7A2D2A",
-        "soft_coral": "#D9746E",
-    },
-    "analogous_colors": {
-        "deep_teal": BITROOT_PALETTE["primary"],
-        "soft_green": BITROOT_PALETTE["tertiary"],
-        "light_yellow": BITROOT_PALETTE["warning"],
-        "golden_yellow": "#D9B23F",
-    },
-    "neutral_colors": {
-        "white": "#FFFFFF",
-        "light_gray": "#F3F7F7",
-        "medium_gray": "#8A9393",
-        "dark_gray": BITROOT_PALETTE["secondary_text"],
-        "charcoal": BITROOT_PALETTE["text"],
-    },
-    "accent_colors": {
-        "coral_pink": BITROOT_PALETTE["error"],
-        "periwinkle_blue": BITROOT_PALETTE["secondary"],
-        "mint_green": BITROOT_PALETTE["tertiary"],
-        "light_beige": BITROOT_PALETTE["background"],
-    },
-}
-
-
-def get_series_colors(count: int, start_index: int = 0):
-    """Return a list of colors following the Bitroot recommended series order."""
-    series = [
-        BITROOT_PALETTE["primary"],
-        BITROOT_PALETTE["secondary"],
-        BITROOT_PALETTE["tertiary"],
-        BITROOT_PALETTE["highlight"],
-    ]
-    return [series[(index + start_index) % len(series)] for index in range(count)]
 
 
 def apply_bitroot_style(ax=None, *, background=None, text=None, grid=None, title_size=16, label_size=14):
@@ -145,28 +95,3 @@ def apply_bitroot_style(ax=None, *, background=None, text=None, grid=None, title
         ax.yaxis.label.set_fontsize(label_size)
 
     return ax
-
-
-# Define a list of colors for a colour map (white to green)
-CMAP_WHITE = mcolors.LinearSegmentedColormap.from_list(
-    name="white_cmap",
-    colors=[COLOR_PALETTE["neutral_colors"]["white"], COLOR_PALETTE["base_colors"]["medium_green"]],
-    N=256,
-)
-CMAP_CONTRAST = mcolors.LinearSegmentedColormap.from_list(
-    name="contrast_cmap",
-    colors=[COLOR_PALETTE["base_colors"]["medium_green"], COLOR_PALETTE["complementary_colors"]["deep_burgundy"]],
-    N=256,
-)
-
-# Colourful custom colour map
-CMAP_BRAND = mcolors.LinearSegmentedColormap.from_list(
-    name="bitroot_brand_cmap",
-    colors=[BITROOT_PALETTE["warning"], BITROOT_PALETTE["tertiary"], BITROOT_PALETTE["primary"]],
-    N=256,
-)
-CMAP_BITROOT = mcolors.LinearSegmentedColormap.from_list(
-    name="bitroot_cmap",
-    colors=[BITROOT_PALETTE["background"], BITROOT_PALETTE["primary"], BITROOT_PALETTE["secondary"]],
-    N=256,
-)
