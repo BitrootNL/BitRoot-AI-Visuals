@@ -1,4 +1,5 @@
 {
+    "description": "Animated linear regression fitting a line to house-size vs. price data as data points are added one by one.",
     "key": "linear_regression",
     "output_files": {
         "animation": "linear_regression_animation{suffix}.gif"

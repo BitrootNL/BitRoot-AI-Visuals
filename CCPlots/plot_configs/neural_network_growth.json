@@ -1,4 +1,5 @@
 {
+    "description": "Log-scale line chart showing the explosion of parameters in landmark neural networks from AlexNet (2012, 60M) to GPT-3 (2020, 175B).",
     "key": "neural_network_growth",
     "output_files": {
         "default": "neural_network_growth_line_log{suffix}.png"

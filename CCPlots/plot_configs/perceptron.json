@@ -1,4 +1,5 @@
 {
+    "description": "Schematic diagram of a single perceptron showing inputs, weights, activation function, and binary output.",
     "key": "perceptron",
     "output_files": {
         "default": "perceptron_schematic{suffix}.png"

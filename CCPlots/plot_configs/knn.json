@@ -1,4 +1,5 @@
 {
+    "description": "3D animated K-Nearest Neighbors regression: gradually adds points and predicts prices on a housing dataset.",
     "key": "knn",
     "output_files": {
         "animation": "knn_visualization_animation{suffix}.gif"

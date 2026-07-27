@@ -1,4 +1,5 @@
 {
+    "description": "Two-panel comparison of underfitting (degree-2 polynomial) vs. overfitting (degree-11 polynomial) with training and test MSE annotations.",
     "key": "overfitting_underfitting",
     "output_files": {
         "default": "overfitting_underfitting{suffix}.png"

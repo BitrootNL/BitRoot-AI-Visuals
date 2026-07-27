@@ -1,4 +1,5 @@
 {
+    "description": "2x3 subplot grid of six activation functions (Sigmoid, Tanh, ReLU, Leaky ReLU, Swish, Softplus) each drawn in a distinct Bitroot colour.",
     "key": "neural_network_activation",
     "output_files": {
         "default": "neural_network_activation_functions{suffix}.png"

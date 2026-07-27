@@ -1,4 +1,5 @@
 {
+    "description": "Illustrates subword tokenization: a sentence broken into tokens displayed as a connected scatter row.",
     "key": "tokenization",
     "output_files": {
         "default": "tokenization_example{suffix}.png"

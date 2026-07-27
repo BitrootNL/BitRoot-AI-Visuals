@@ -1,4 +1,5 @@
 {
+    "description": "Table rendering of naturally occurring missing values from the Adult dataset, with ? markers for NA cells and a header note.",
     "key": "missing_data",
     "output_files": {
         "default": "naturally_missing_data_table{suffix}.png"

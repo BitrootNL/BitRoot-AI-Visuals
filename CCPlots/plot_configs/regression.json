@@ -1,4 +1,5 @@
 {
+    "description": "Normal distribution curve showing female height distribution with shaded standard-deviation regions.",
     "key": "regression",
     "output_files": {
         "default": "regression_example{suffix}.png"

@@ -1,4 +1,5 @@
 {
+    "description": "Horizontal bar chart showing the percentage of employees who agree that AI improves various work metrics, with a Primary-pale gradient.",
     "key": "employee_ai_adoption",
     "output_files": {
         "default": "employee_ai_adoption{suffix}.png"

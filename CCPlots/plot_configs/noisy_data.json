@@ -1,4 +1,5 @@
 {
+    "description": "Illustrates noise in data: a clean sin(x) curve overlaid with noisy observations.",
     "key": "noisy_data",
     "output_files": {
         "default": "noisy_data_example{suffix}.png"

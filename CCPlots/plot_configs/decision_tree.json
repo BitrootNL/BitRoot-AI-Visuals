@@ -1,0 +1,9 @@
+{
+    "description": "Decision tree trained on the Iris dataset (max_depth=3) with Bitroot-coloured node backgrounds and white/dark text for readability.",
+    "key": "decision_tree",
+    "output_files": {
+        "default": "decision_tree_iris{suffix}.png"
+    },
+    "figsize": [12, 8],
+    "dpi": 100
+}

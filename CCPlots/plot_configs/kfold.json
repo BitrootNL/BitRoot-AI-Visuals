@@ -1,0 +1,9 @@
+{
+    "description": "Visualization of 5-fold cross-validation splits: imshow grid showing which samples are training (primary) vs. test (tertiary) per fold.",
+    "key": "kfold",
+    "output_files": {
+        "default": "kfold_validation{suffix}.png"
+    },
+    "figsize": [10, 4],
+    "dpi": 100
+}

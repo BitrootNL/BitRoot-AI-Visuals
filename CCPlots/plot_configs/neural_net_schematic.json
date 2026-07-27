@@ -1,4 +1,5 @@
 {
+    "description": "NetworkX drawing of a feed-forward neural network (3→5→5→2) with colour-coded input, hidden, and output layers.",
     "key": "neural_net_schematic",
     "output_files": {
         "default": "nn_schematic{suffix}.png"

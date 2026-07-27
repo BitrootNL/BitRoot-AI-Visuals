@@ -1,4 +1,5 @@
 {
+    "description": "Animated logistic regression decision boundary evolving over 30 iterations for a spam-vs-not-spam classification problem.",
     "key": "logistic_regression",
     "output_files": {
         "animation": "logistic_regression_animation{suffix}.gif"

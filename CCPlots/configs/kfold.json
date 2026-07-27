@@ -1,8 +1,0 @@
-{
-    "key": "kfold",
-    "output_files": {
-        "default": "kfold_validation{suffix}.png"
-    },
-    "figsize": [10, 4],
-    "dpi": 100
-}

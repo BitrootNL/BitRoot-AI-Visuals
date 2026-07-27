@@ -1,0 +1,9 @@
+{
+    "description": "Scatter plot with a single-iteration fitted line and vertical residual dashes, showing the difference between predicted and actual values.",
+    "key": "mse_zoom",
+    "output_files": {
+        "default": "mse_zoom_iteration{suffix}.png"
+    },
+    "figsize": [10, 6],
+    "dpi": 100
+}

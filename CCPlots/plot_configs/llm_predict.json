@@ -1,4 +1,5 @@
 {
+    "description": "Bar chart of next-word probabilities predicted by an LLM for a given prompt, with probability-based colour gradient.",
     "key": "llm_predict",
     "output_files": {
         "default": "llm_predict_next{suffix}.png"

@@ -1,4 +1,5 @@
 {
+    "description": "K-Means clustering animation showing cluster assignment and centroid movement, plus a static final-frame PNG. Runs for k=3 and k=4.",
     "key": "kmeans",
     "output_files": {
         "animation": "kmeans_animation_k{n_clusters}{suffix}.gif",

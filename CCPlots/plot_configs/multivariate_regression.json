@@ -1,4 +1,5 @@
 {
+    "description": "3D animated multivariate regression: a plane is fitted to house-size / room-count vs. price data points as they are added sequentially.",
     "key": "multivariate_regression",
     "output_files": {
         "animation": "multivariate_regression_animation{suffix}.gif"

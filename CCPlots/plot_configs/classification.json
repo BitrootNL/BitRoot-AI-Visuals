@@ -1,4 +1,5 @@
 {
+    "description": "Two-output example: a decision-boundary scatter plot and a confusion matrix for a diabetes classification task using logistic regression.",
     "key": "classification",
     "output_files": {
         "decision_boundary": "classification_decision_boundary{suffix}.png",

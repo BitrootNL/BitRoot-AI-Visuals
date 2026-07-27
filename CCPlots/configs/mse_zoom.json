@@ -1,8 +1,0 @@
-{
-    "key": "mse_zoom",
-    "output_files": {
-        "default": "mse_zoom_iteration{suffix}.png"
-    },
-    "figsize": [10, 6],
-    "dpi": 100
-}
