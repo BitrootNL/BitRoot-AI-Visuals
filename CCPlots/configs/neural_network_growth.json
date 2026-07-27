@@ -1,0 +1,8 @@
+{
+    "key": "neural_network_growth",
+    "output_files": {
+        "default": "neural_network_growth_line_log{suffix}.png"
+    },
+    "figsize": [10, 6],
+    "dpi": 100
+}

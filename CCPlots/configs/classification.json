@@ -1,0 +1,9 @@
+{
+    "key": "classification",
+    "output_files": {
+        "decision_boundary": "classification_decision_boundary{suffix}.png",
+        "confusion_matrix": "classification_confusion_matrix{suffix}.png"
+    },
+    "figsize": [8, 6],
+    "dpi": 100
+}

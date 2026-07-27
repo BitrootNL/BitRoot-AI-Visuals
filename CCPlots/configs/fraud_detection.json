@@ -1,0 +1,8 @@
+{
+    "key": "fraud_detection",
+    "output_files": {
+        "default": "decision_boundary_fraud{suffix}.png"
+    },
+    "figsize": [7, 5],
+    "dpi": 100
+}

@@ -1,0 +1,8 @@
+{
+    "key": "mse",
+    "output_files": {
+        "default": "mse_over_iterations{suffix}.png"
+    },
+    "figsize": [10, 6],
+    "dpi": 100
+}

@@ -1,0 +1,8 @@
+{
+    "key": "knn",
+    "output_files": {
+        "animation": "knn_visualization_animation{suffix}.gif"
+    },
+    "figsize": [12, 8],
+    "dpi": 100
+}

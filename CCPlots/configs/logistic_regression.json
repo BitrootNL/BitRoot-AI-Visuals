@@ -1,0 +1,8 @@
+{
+    "key": "logistic_regression",
+    "output_files": {
+        "animation": "logistic_regression_animation{suffix}.gif"
+    },
+    "figsize": [8, 6],
+    "dpi": 100
+}

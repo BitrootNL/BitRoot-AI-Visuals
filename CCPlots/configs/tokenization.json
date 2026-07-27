@@ -1,0 +1,8 @@
+{
+    "key": "tokenization",
+    "output_files": {
+        "default": "tokenization_example{suffix}.png"
+    },
+    "figsize": [12, 3],
+    "dpi": 100
+}

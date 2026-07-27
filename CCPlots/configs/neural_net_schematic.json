@@ -1,0 +1,8 @@
+{
+    "key": "neural_net_schematic",
+    "output_files": {
+        "default": "nn_schematic{suffix}.png"
+    },
+    "figsize": [12, 6],
+    "dpi": 100
+}

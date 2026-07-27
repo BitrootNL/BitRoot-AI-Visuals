@@ -1,0 +1,8 @@
+{
+    "key": "regression",
+    "output_files": {
+        "default": "regression_example{suffix}.png"
+    },
+    "figsize": [10, 6],
+    "dpi": 100
+}

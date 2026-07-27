@@ -1,0 +1,8 @@
+{
+    "key": "multivariate_regression",
+    "output_files": {
+        "animation": "multivariate_regression_animation{suffix}.gif"
+    },
+    "figsize": [12, 8],
+    "dpi": 100
+}

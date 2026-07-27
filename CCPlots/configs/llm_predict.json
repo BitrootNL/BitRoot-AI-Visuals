@@ -1,0 +1,8 @@
+{
+    "key": "llm_predict",
+    "output_files": {
+        "default": "llm_predict_next{suffix}.png"
+    },
+    "figsize": [6, 4],
+    "dpi": 100
+}

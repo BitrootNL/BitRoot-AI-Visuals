@@ -1,0 +1,8 @@
+{
+    "key": "employee_ai_adoption",
+    "output_files": {
+        "default": "employee_ai_adoption{suffix}.png"
+    },
+    "figsize": [10, 5],
+    "dpi": 100
+}

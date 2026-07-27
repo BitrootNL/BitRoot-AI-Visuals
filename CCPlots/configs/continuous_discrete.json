@@ -1,0 +1,8 @@
+{
+    "key": "continuous_discrete",
+    "output_files": {
+        "default": "continuous_discrete_example{suffix}.png"
+    },
+    "figsize": [14, 5],
+    "dpi": 100
+}

@@ -1,0 +1,12 @@
+{
+    "key": "traveling_salesman",
+    "output_files": {
+        "small": "tsp_small_{n_cities}_cities{suffix}.png",
+        "large": "tsp_large_{n_cities}_cities{suffix}.png"
+    },
+    "figsize": [12, 8],
+    "dpi": 100,
+    "run": {
+        "n_cities": [2, 4]
+    }
+}

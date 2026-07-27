@@ -1,0 +1,8 @@
+{
+    "key": "noisy_data",
+    "output_files": {
+        "default": "noisy_data_example{suffix}.png"
+    },
+    "figsize": [8, 5],
+    "dpi": 100
+}

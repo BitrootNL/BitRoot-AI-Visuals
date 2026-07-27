@@ -1,0 +1,8 @@
+{
+    "key": "perceptron",
+    "output_files": {
+        "default": "perceptron_schematic{suffix}.png"
+    },
+    "figsize": [8, 6],
+    "dpi": 100
+}

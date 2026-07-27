@@ -1,0 +1,8 @@
+{
+    "key": "neural_network_activation",
+    "output_files": {
+        "default": "neural_network_activation_functions{suffix}.png"
+    },
+    "figsize": [12, 8],
+    "dpi": 100
+}

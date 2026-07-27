@@ -1,0 +1,8 @@
+{
+    "key": "linear_regression",
+    "output_files": {
+        "animation": "linear_regression_animation{suffix}.gif"
+    },
+    "figsize": [8, 6],
+    "dpi": 100
+}

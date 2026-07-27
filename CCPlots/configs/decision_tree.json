@@ -1,0 +1,8 @@
+{
+    "key": "decision_tree",
+    "output_files": {
+        "default": "decision_tree_iris{suffix}.png"
+    },
+    "figsize": [12, 8],
+    "dpi": 100
+}

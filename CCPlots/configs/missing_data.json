@@ -1,0 +1,8 @@
+{
+    "key": "missing_data",
+    "output_files": {
+        "default": "naturally_missing_data_table{suffix}.png"
+    },
+    "figsize": [10, 4.1],
+    "dpi": 150
+}

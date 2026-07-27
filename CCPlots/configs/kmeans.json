@@ -1,0 +1,13 @@
+{
+    "key": "kmeans",
+    "output_files": {
+        "animation": "kmeans_animation_k{n_clusters}{suffix}.gif",
+        "static": "kmeans_clustering_k{n_clusters}{suffix}.png"
+    },
+    "figsize": [8, 6],
+    "dpi": 100,
+    "params": {
+        "n_clusters": [3, 4],
+        "n_samples": 300
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "key": "overfitting_underfitting",
+    "output_files": {
+        "default": "overfitting_underfitting{suffix}.png"
+    },
+    "figsize": [14, 6],
+    "dpi": 100
+}
