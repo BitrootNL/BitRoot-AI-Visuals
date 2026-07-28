@@ -3,14 +3,21 @@
 
 **What this controls:**
 - The shared colour palette (``BITROOT_PALETTE``) used by every plot.
-- Colour derivation helpers (``darken_color``, ``probability_color``).
+- Colour derivation helpers (``tint_color``, ``shade_color``, ``darken_color``,
+  ``probability_color``).
 - The ``apply_bitroot_style()`` function that applies Bitroot theme defaults
   (background, grid, spine colours, tick parameters) to a matplotlib Axes.
+- ``resolve_palette_key()`` — resolves strings like ``"primary"`` or
+  ``"primary@tint(0.8)"`` to a hex string, used by the config-driven colour
+  system.
+
+Approach to colouring implemented from: https://maketintsandshades.com/about/.
 
 **Scope: global.** Changes here affect every plot in the library.
 Use ``CCPlots/plot_configs/*.json`` to tweak per-example settings instead.
 """
 
+import re
 import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 
@@ -31,24 +38,78 @@ BITROOT_PALETTE: dict[str, str] = {
     "grid": "#D8E0E0",
 }
 
+_TINT_RE = re.compile(r"^(\w+)@tint\(([\d.]+)\)$")
+_SHADE_RE = re.compile(r"^(\w+)@shade\(([\d.]+)\)$")
 
-def _tint_color(color: str, amount: float) -> str:
+
+def tint_color(color: str, amount: float) -> str:
+    """Tint *color* toward white by *amount* (0 = no change, 1 = white).
+
+    Each RGB channel moves toward 255:
+        new = current + ((255 - current) × amount)
+    Values are rounded to the nearest whole number (.5 rounds up).
+    """
     r, g, b = mcolors.to_rgb(color)
-    return mcolors.to_hex((1 - (1 - r) * (1 - amount), 1 - (1 - g) * (1 - amount), 1 - (1 - b) * (1 - amount)))
+    r_int = round(r * 255 + (255 - r * 255) * amount)
+    g_int = round(g * 255 + (255 - g * 255) * amount)
+    b_int = round(b * 255 + (255 - b * 255) * amount)
+    return f"#{r_int:02X}{g_int:02X}{b_int:02X}"
 
 
+def shade_color(color: str, amount: float) -> str:
+    """Shade *color* toward black by *amount* (0 = black, 1 = no change).
+
+    Each RGB channel is scaled:
+        new = current × amount
+    Values are rounded to the nearest whole number (.5 rounds up).
+    """
+    r, g, b = mcolors.to_rgb(color)
+    r_int = round(r * 255 * amount)
+    g_int = round(g * 255 * amount)
+    b_int = round(b * 255 * amount)
+    return f"#{r_int:02X}{g_int:02X}{b_int:02X}"
+
+
+# Pre-compute common tints for quick access
 BITROOT_PALETTE.update({
-    "primary_soft": _tint_color(BITROOT_PALETTE["primary"], 0.18),
-    "primary_pale": _tint_color(BITROOT_PALETTE["primary"], 0.80),
-    "secondary_light": _tint_color(BITROOT_PALETTE["secondary"], 0.25),
-    "secondary_soft": _tint_color(BITROOT_PALETTE["secondary"], 0.12),
+    "primary_soft": tint_color(BITROOT_PALETTE["primary"], 0.20),
+    "primary_pale": tint_color(BITROOT_PALETTE["primary"], 0.80),
+    "secondary_light": tint_color(BITROOT_PALETTE["secondary"], 0.25),
+    "secondary_soft": tint_color(BITROOT_PALETTE["secondary"], 0.12),
 })
 
 
+def resolve_palette_key(key_spec: str) -> str:
+    """Resolve a palette key or tint/shade expression to a hex colour.
+
+    Supported forms:
+        ``"primary"``               — direct palette lookup
+        ``"primary@tint(0.8)"``      — tinted version
+        ``"primary@shade(0.6)"``     — shaded version
+        ``"#AABBCC"``                — passed through unchanged
+    """
+    if key_spec.startswith("#"):
+        return key_spec
+
+    m = _TINT_RE.match(key_spec)
+    if m:
+        base = BITROOT_PALETTE[m.group(1)]
+        return tint_color(base, float(m.group(2)))
+
+    m = _SHADE_RE.match(key_spec)
+    if m:
+        base = BITROOT_PALETTE[m.group(1)]
+        return shade_color(base, float(m.group(2)))
+
+    if key_spec in BITROOT_PALETTE:
+        return BITROOT_PALETTE[key_spec]
+
+    return key_spec
+
+
 def darken_color(color: str, factor: float = 0.6) -> str:
-    """Return a darker shade of a colour by multiplying each RGB channel by *factor*."""
-    r, g, b = mcolors.to_rgb(color)
-    return mcolors.to_hex((r * factor, g * factor, b * factor))
+    """Deprecated: use ``shade_color()`` instead. Same behaviour."""
+    return shade_color(color, factor)
 
 
 def probability_color(probability: float, light_color: str = "primary_soft", dark_color: str = "primary") -> str:
@@ -57,10 +118,10 @@ def probability_color(probability: float, light_color: str = "primary_soft", dar
     ``probability=0`` returns the *light_color*; ``probability=1`` returns *dark_color*.
     Used by bar charts to encode confidence / intensity as a monotonic gradient.
     """
-    light = mcolors.to_rgb(BITROOT_PALETTE[light_color])
-    dark = mcolors.to_rgb(BITROOT_PALETTE[dark_color])
+    light = mcolors.to_rgb(resolve_palette_key(light_color))
+    dark = mcolors.to_rgb(resolve_palette_key(dark_color))
     blended = tuple(light[i] + probability * (dark[i] - light[i]) for i in range(3))
-    return mcolors.to_hex(blended)
+    return f"#{round(blended[0] * 255):02X}{round(blended[1] * 255):02X}{round(blended[2] * 255):02X}"
 
 
 def apply_bitroot_style(ax=None, *, background=None, text=None, grid=None, title_size=16, label_size=14):
@@ -80,9 +141,9 @@ def apply_bitroot_style(ax=None, *, background=None, text=None, grid=None, title
     if ax is None:
         ax = plt.gca()
 
-    _bg = background or BITROOT_PALETTE["background"]
-    _text = text or BITROOT_PALETTE["text"]
-    _grid = grid or BITROOT_PALETTE["grid"]
+    _bg = resolve_palette_key(background) if background else BITROOT_PALETTE["background"]
+    _text = resolve_palette_key(text) if text else BITROOT_PALETTE["text"]
+    _grid = resolve_palette_key(grid) if grid else BITROOT_PALETTE["grid"]
 
     ax.set_facecolor(_bg)
     figure = ax.figure
