@@ -1,4 +1,4 @@
-{
+﻿{
     "description": "Scatter plot with a single-iteration fitted line and vertical residual dashes, showing the difference between predicted and actual values.",
     "key": "mean_squared_error_zoomed",
     "output_files": {

@@ -1,4 +1,4 @@
-{
+﻿{
     "description": "Line chart of Mean Squared Error over 50 SGD iterations, showing the convergence of a linear regression model.",
     "key": "mean_squared_error",
     "output_files": {
