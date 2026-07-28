@@ -1,29 +1,27 @@
-import numpy as np
+"""
+3D animated multivariate regression: a regression plane is fitted to
+house-size / room-count vs. price data points as they are added one by one.
+
+Figures
+-------
+- ``multivariate_regression_animation.gif`` / ``_NL.gif`` — 3D plane animation
+
+Configuration
+-------------
+``CCPlots/plot_configs/multivariate_regression.json``
+"""
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.animation import FuncAnimation
 from sklearn.linear_model import LinearRegression
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
+from CCPlots.config import BITROOT_PALETTE, output_path
 
 
-TEXT_BY_LOCALE = {
-    "en": {
-        "title": "Multivariate Regression Example: House Size, Rooms vs. Price",
-        "xlabel": "House Size (sq ft)",
-        "ylabel": "Number of Rooms",
-        "zlabel": "Price ($)",
-    },
-    "nl": {
-        "title": "Multivariate regressie: huismaat, kamers vs. prijs",
-        "xlabel": "Huismaat (m\u00b2)",
-        "ylabel": "Aantal kamers",
-        "zlabel": "Prijs (\u20ac)",
-    },
-}
+class MultivariateRegression(PlotExample):
 
-
-class MultivariateRegressionExample(PlotExample):
+    CONFIG_KEY = "multivariate_regression"
 
     def main(self):
         np.random.seed(42)
@@ -36,10 +34,8 @@ class MultivariateRegressionExample(PlotExample):
         num_rooms = num_rooms[sorted_indices]
         prices = prices[sorted_indices]
 
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"multivariate_regression_animation{'_NL' if locale == 'nl' else ''}.gif"
-
-            fig = plt.figure(figsize=(12, 8), facecolor=BITROOT_PALETTE['background'])
+        for _locale, labels, suffix in self.iter_locales():
+            fig = plt.figure(figsize=self.config.figsize, facecolor=BITROOT_PALETTE['background'])
             ax = fig.add_subplot(111, projection='3d')
             fig.subplots_adjust(left=0.05, right=0.95, top=0.92, bottom=0.05)
             ax.set_facecolor(BITROOT_PALETTE['background'])
@@ -53,7 +49,7 @@ class MultivariateRegressionExample(PlotExample):
             ax.tick_params(pad=10)
             ax.dist = 12
 
-            apply_bitroot_style(ax)
+            self.apply_style(ax)
 
             scatter = ax.scatter(house_sizes, num_rooms, prices,
                                  color=BITROOT_PALETTE['primary'],
@@ -95,5 +91,6 @@ class MultivariateRegressionExample(PlotExample):
 
             ani = FuncAnimation(fig, update, frames=len(house_sizes), init_func=init, blit=False, interval=100)
 
+            fname = self.config.resolve_output("animation", suffix=suffix)
             ani.save(output_path(fname), writer='pillow')
             plt.close(fig)
