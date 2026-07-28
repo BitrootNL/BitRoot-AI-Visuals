@@ -40,15 +40,37 @@ class ExampleConfig:
         Optional constructor parameters for the example class (e.g. ``n_clusters``).
     run : dict or None
         Optional run-time parameters (e.g. ``n_cities`` values to iterate over).
+    panel_figsizes : dict[str, list[int]] or None
+        Per-panel figure-size overrides. Falls back to ``figsize`` when absent.
+    text : dict[str, dict[str, Any]] or None
+        Locale-specific text labels. Keys are locale codes (``"en"``, ``"nl"``);
+        values are dicts of label keys to text values.
+    colors : dict[str, str] or None
+        Semantic colour assignments mapping a role name (e.g. ``"line"``,
+        ``"fill"``) to a ``BITROOT_PALETTE`` key or hex string.
     """
 
     key: str
     output_files: dict[str, str]
-    figsize: tuple[int, int]
+    figsize: tuple[float, float]
     dpi: int = 100
     description: str | None = None
     params: dict[str, Any] | None = None
     run: dict[str, Any] | None = None
+    panel_figsizes: dict[str, list[int]] | None = None
+    text: dict[str, dict[str, Any]] | None = None
+    colors: dict[str, str] | None = None
+
+    def panel_figsize(self, panel: str) -> tuple[float, float]:
+        """Return the figure size for *panel*, with override support.
+
+        If ``panel_figsizes[panel]`` exists, returns that; otherwise
+        returns the default ``figsize``.
+        """
+        if self.panel_figsizes and panel in self.panel_figsizes:
+            raw = self.panel_figsizes[panel]
+            return (float(raw[0]), float(raw[1]))
+        return self.figsize
 
     def resolve_output(self, panel: str, **fmt_args: Any) -> str:
         """Format the output filename pattern for *panel* with *fmt_args*.
@@ -62,9 +84,9 @@ class ExampleConfig:
         return pattern.format(**fmt_args)
 
 
-def _coerce_figsize(raw: Any) -> tuple[int, int]:
+def _coerce_figsize(raw: Any) -> tuple[float, float]:
     if isinstance(raw, (list, tuple)) and len(raw) == 2:
-        return (int(raw[0]), int(raw[1]))
+        return (float(raw[0]), float(raw[1]))
     raise TypeError(f"figsize must be a 2-element sequence, got {raw!r}")
 
 
@@ -101,4 +123,7 @@ def load_config_from_json(path: str) -> ExampleConfig:
         description=raw.get("description"),
         params=raw.get("params"),
         run=raw.get("run"),
+        panel_figsizes=raw.get("panel_figsizes"),
+        text=raw.get("text"),
+        colors=raw.get("colors"),
     )
