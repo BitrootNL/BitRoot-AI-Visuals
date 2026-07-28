@@ -6,6 +6,10 @@
     },
     "figsize": [8, 5],
     "dpi": 100,
+    "colors": {
+        "true_curve": "primary",
+        "noisy_dots": "tertiary"
+    },
     "text": {
         "en": {
             "title": "Illustration of Noise in Data",
