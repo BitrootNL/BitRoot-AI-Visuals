@@ -1,31 +1,25 @@
-from sklearn.datasets import make_blobs
-from sklearn.cluster import KMeans
+"""
+Animated K-Means clustering showing cluster assignment and centroid movement
+over 30 iterations. Also produces a static final-frame PNG. Runs for k = 3
+and k = 4.
+
+Figures
+-------
+- ``kmeans_animation_k{n_clusters}.gif`` / ``_NL.gif`` — animation
+- ``kmeans_clustering_k{n_clusters}.png`` / ``_NL.png`` — final frame
+
+Configuration
+-------------
+``CCPlots/plot_configs/kmeans.json``
+"""
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+from sklearn.cluster import KMeans as SKKMeans
+from sklearn.datasets import make_blobs
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, darken_color, output_path
-
-
-TEXT_BY_LOCALE = {
-    "en": {
-        "title": "KMeans Clustering: Determining Species",
-        "xlabel": "Height of a penguin",
-        "ylabel": "Weight of a penguin",
-        "cluster_label": "Cluster {n}",
-        "centroid_label": "Centroid",
-        "legend_title": "Clusters",
-    },
-    "nl": {
-        "title": "KMeans-clustering: soorten bepalen",
-        "xlabel": "Hoogte van een pingu\u00efn",
-        "ylabel": "Gewicht van een pingu\u00efn",
-        "cluster_label": "Cluster {n}",
-        "centroid_label": "Centro\u00efde",
-        "legend_title": "Clusters",
-    },
-}
+from CCPlots.config import BITROOT_PALETTE, darken_color, output_path
 
 
 CLUSTER_PALETTE = [
@@ -39,7 +33,9 @@ CLUSTER_PALETTE = [
 ]
 
 
-class KMeansExample(PlotExample):
+class KMeans(PlotExample):
+
+    CONFIG_KEY = "kmeans"
 
     centers = None
     scatter = None
@@ -53,7 +49,7 @@ class KMeansExample(PlotExample):
             centers=self.n_clusters,
             cluster_std=3.0,
             random_state=42)
-        self.kmeans = KMeans(
+        self.kmeans = SKKMeans(
             n_clusters=self.n_clusters,
             init='random',
             n_init=1,
@@ -83,47 +79,39 @@ class KMeansExample(PlotExample):
                          fontsize=8, title_fontsize=9,
                          loc='upper right', ncol=2)
 
-    def main(self, locale_key="en"):
-        labels = TEXT_BY_LOCALE[locale_key]
-        suffix = "_NL" if locale_key == "nl" else ""
+    def main(self):
+        for _locale, labels, suffix in self.iter_locales():
+            fig, ax = self.create_figure()
+            ax.set_xlim(-20, 20)
+            ax.set_ylim(-20, 20)
 
-        fig, ax = plt.subplots(figsize=(8, 6),
-                               facecolor=BITROOT_PALETTE['background'])
-        ax.set_xlim(-20, 20)
-        ax.set_ylim(-20, 20)
+            self.scatter = ax.scatter(self.X[:, 0], self.X[:, 1], s=30,
+                                      c='grey', edgecolor=BITROOT_PALETTE['text'],
+                                      linewidth=0.4)
+            self.centers = ax.scatter([], [], s=200, marker='X',
+                                      facecolor=BITROOT_PALETTE['white'],
+                                      edgecolor=BITROOT_PALETTE['text'],
+                                      linewidth=2)
 
-        self.scatter = ax.scatter(self.X[:, 0], self.X[:, 1], s=30,
-                                  c='grey', edgecolor=BITROOT_PALETTE['text'],
-                                  linewidth=0.4)
-        self.centers = ax.scatter([], [], s=200, marker='X',
-                                  facecolor=BITROOT_PALETTE['white'],
-                                  edgecolor=BITROOT_PALETTE['text'],
-                                  linewidth=2)
+            ax.set_title(labels['title'],
+                         fontsize=16, color=BITROOT_PALETTE['text'], pad=10)
+            ax.set_xlabel(labels['xlabel'],
+                          fontsize=14, color=BITROOT_PALETTE['text'])
+            ax.set_ylabel(labels['ylabel'],
+                          fontsize=14, color=BITROOT_PALETTE['text'])
 
-        ax.set_title(labels['title'],
-                     fontsize=16, color=BITROOT_PALETTE['text'], pad=10)
-        ax.set_xlabel(labels['xlabel'],
-                      fontsize=14, color=BITROOT_PALETTE['text'])
-        ax.set_ylabel(labels['ylabel'],
-                      fontsize=14, color=BITROOT_PALETTE['text'])
+            self.legend = self._make_legend(ax, labels)
+            self.apply_style(ax)
 
-        self.legend = self._make_legend(ax, labels)
-        apply_bitroot_style(ax)
+            ani = FuncAnimation(fig, self.update, frames=30,
+                                init_func=self.init_func, interval=10,
+                                repeat=False)
+            anim_path = self.config.resolve_output("animation", n_clusters=self.n_clusters, suffix=suffix)
+            ani.save(output_path(anim_path), writer='pillow')
 
-        ani = FuncAnimation(fig, self.update, frames=30,
-                            init_func=self.init_func, interval=10,
-                            repeat=False)
-        ani.save(output_path(f"kmeans_animation_k{self.n_clusters}{suffix}.gif"),
-                 writer='pillow')
-
-        fig.savefig(output_path(f"kmeans_clustering_k{self.n_clusters}{suffix}.png"),
-                    bbox_inches='tight', pad_inches=0.1)
-        plt.close(fig)
-
-    @classmethod
-    def run_all_locales(cls, n_clusters):
-        for locale_key in ("en", "nl"):
-            cls(n_clusters=n_clusters).main(locale_key=locale_key)
+            static_path = self.config.resolve_output("static", n_clusters=self.n_clusters, suffix=suffix)
+            fig.savefig(output_path(static_path), bbox_inches='tight', pad_inches=0.1)
+            plt.close(fig)
 
     def update(self, frame):
         self.kmeans.max_iter = frame + 1
@@ -147,5 +135,5 @@ class KMeansExample(PlotExample):
 
 
 if __name__ == "__main__":
-    for k in (3, 4):
-        KMeansExample.run_all_locales(n_clusters=k)
+    for k in KMeans().config.params["n_clusters"]:
+        KMeans(n_clusters=k).main()
