@@ -5,7 +5,7 @@ row shading.
 
 Figures
 -------
-- ``naturally_missing_data_table.png`` / ``_NL.png`` — missing-value table
+- ``missing_data_table.png`` / ``_NL.png`` — missing-value table
 
 Configuration
 -------------

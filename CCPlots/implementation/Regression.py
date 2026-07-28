@@ -4,7 +4,7 @@ regions (68 %, 95 %), dashed mean markers, and highlighted interval labels.
 
 Figures
 -------
-- ``regression_example.png`` / ``_NL.png`` — bell curve with SD bands
+- ``regression.png`` / ``_NL.png`` — bell curve with SD bands
 
 Configuration
 -------------

@@ -4,7 +4,7 @@ alongside noisy observations sampled from a Gaussian distribution around it.
 
 Figures
 -------
-- ``noisy_data_example.png`` / ``_NL.png`` — clean curve + noisy scatter
+- ``noisy_data.png`` / ``_NL.png`` — clean curve + noisy scatter
 
 Configuration
 -------------

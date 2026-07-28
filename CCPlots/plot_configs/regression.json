@@ -1,8 +1,8 @@
 {
-    "description": "Normal distribution curve showing female height distribution with shaded standard-deviation regions.",
+    "description": "Normal distribution curve of female height with shaded standard-deviation regions (68 %, 95 %).",
     "key": "regression",
     "output_files": {
-        "default": "regression_example{suffix}.png"
+        "default": "regression{suffix}.png"
     },
     "figsize": [10, 6],
     "dpi": 100,

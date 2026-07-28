@@ -4,7 +4,7 @@ subword tokens as a connected scatter-point row.
 
 Figures
 -------
-- ``tokenization_example.png`` / ``_NL.png`` — scatter row of subword tokens
+- ``tokenization.png`` / ``_NL.png`` — scatter row of subword tokens
 
 Configuration
 -------------

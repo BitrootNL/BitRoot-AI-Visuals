@@ -5,7 +5,7 @@ regression with balanced class weights and standardised features.
 
 Figures
 -------
-- ``decision_boundary_fraud.png`` / ``_NL.png`` — decision boundary scatter
+- ``fraud_detection_boundary.png`` / ``_NL.png`` — decision boundary scatter
 
 Configuration
 -------------

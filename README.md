@@ -49,29 +49,29 @@ locale pairs `("en", "nl")`.
 | Class | Config | Output |
 |---|---|---|
 | `Classification` | `classification.json` | `classification_decision_boundary.png`, `classification_confusion_matrix.png` |
-| `ContinuousDiscrete` | `continuous_discrete.json` | `continuous_discrete_example.png` |
+| `ContinuousDiscrete` | `continuous_discrete.json` | `continuous_discrete.png` |
 | `DecisionTree` | `decision_tree.json` | `decision_tree_iris.png` |
 | `EmployeeAIAdoption` | `employee_ai_adoption.json` | `employee_ai_adoption.png` |
-| `FraudDetection` | `fraud_detection.json` | `decision_boundary_fraud.png` |
+| `FraudDetection` | `fraud_detection.json` | `fraud_detection_boundary.png` |
 | `KFold` | `kfold.json` | `kfold_validation.png` |
-| `KMeans` | `kmeans.json` | `kmeans_animation_k3.gif`, `kmeans_clustering_k3.png`, etc. |
+| `KMeans` | `kmeans.json` | `kmeans_animation_k3.gif`, `kmeans_clustering_k3.png` |
 | `KNearest` | `knn.json` | `knn_visualization_animation.gif` |
 | `LLMPredict` | `llm_predict.json` | `llm_predict_next.png` |
 | `LinearRegression` | `linear_regression.json` | `linear_regression_animation.gif` |
 | `LogisticRegression` | `logistic_regression.json` | `logistic_regression_animation.gif` |
 | `MSE` | `mse.json` | `mse_over_iterations.png` |
 | `MSEZoom` | `mse_zoom.json` | `mse_zoom_iteration.png` |
-| `MissingData` | `missing_data.json` | `naturally_missing_data_table.png` |
+| `MissingData` | `missing_data.json` | `missing_data_table.png` |
 | `MultivariateRegression` | `multivariate_regression.json` | `multivariate_regression_animation.gif` |
-| `NeuralNetSchematic` | `neural_net_schematic.json` | `nn_schematic.png` |
+| `NeuralNetSchematic` | `neural_net_schematic.json` | `neural_net_schematic.png` |
 | `NeuralNetworkActivationFunctions` | `neural_network_activation.json` | `neural_network_activation_functions.png` |
 | `NeuralNetworkGrowth` | `neural_network_growth.json` | `neural_network_growth_line_log.png` |
-| `NoisyData` | `noisy_data.json` | `noisy_data_example.png` |
+| `NoisyData` | `noisy_data.json` | `noisy_data.png` |
 | `OverfittingUnderfitting` | `overfitting_underfitting.json` | `overfitting_underfitting.png` |
 | `Perceptron` | `perceptron.json` | `perceptron_schematic.png` |
-| `Regression` | `regression.json` | `regression_example.png` |
-| `Tokenization` | `tokenization.json` | `tokenization_example.png` |
-| `TravelingSalesman` | `traveling_salesman.json` | `tsp_small_<n>_cities.png`, `tsp_large_<n>_cities.png` |
+| `Regression` | `regression.json` | `regression.png` |
+| `Tokenization` | `tokenization.json` | `tokenization.png` |
+| `TravelingSalesman` | `traveling_salesman.json` | `traveling_salesman_small_<n>_cities.png`, `traveling_salesman_large_<n>_cities.png` |
 
 ## Mermaid Diagrams
 
@@ -130,9 +130,9 @@ palette defaults to any Matplotlib axis.
 ![MSE Zoom](plots/mse_zoom_iteration.png)
 ![Neural Network Growth](plots/neural_network_growth_line_log.png)
 ![Activation Functions](plots/neural_network_activation_functions.png)
-![Noisy Data](plots/noisy_data_example.png)
-![Regression Example](plots/regression_example.png)
+![Noisy Data](plots/noisy_data.png)
+![Regression](plots/regression.png)
 ![Perceptron Schematic](plots/perceptron_schematic.png)
-![Neural Network Schematic](plots/nn_schematic.png)
-![Traveling Salesman](plots/tsp_small_4_cities.png)
+![Neural Network Schematic](plots/neural_net_schematic.png)
+![Traveling Salesman](plots/traveling_salesman_small_4_cities.png)
 ![Decision Tree](plots/decision_tree_iris.png)

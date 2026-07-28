@@ -1,8 +1,8 @@
 {
-    "description": "Two-panel comparison: continuous age histogram vs. discrete age-group bar chart to illustrate binning concepts.",
+    "description": "Two-panel comparison of continuous age data (histogram) versus discrete age-group categories (bar chart).",
     "key": "continuous_discrete",
     "output_files": {
-        "default": "continuous_discrete_example{suffix}.png"
+        "default": "continuous_discrete{suffix}.png"
     },
     "figsize": [14, 5],
     "dpi": 100,

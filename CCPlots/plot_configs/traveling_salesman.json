@@ -2,8 +2,8 @@
     "description": "Visualizes the Traveling Salesman Problem: a complete graph with a brute-force optimal route highlighted. Currently restricted to 2 and 4 cities.",
     "key": "traveling_salesman",
     "output_files": {
-        "small": "tsp_small_{n_cities}_cities{suffix}.png",
-        "large": "tsp_large_{n_cities}_cities{suffix}.png"
+        "small": "traveling_salesman_small_{n_cities}_cities{suffix}.png",
+        "large": "traveling_salesman_large_{n_cities}_cities{suffix}.png"
     },
     "figsize": [12, 8],
     "dpi": 100,

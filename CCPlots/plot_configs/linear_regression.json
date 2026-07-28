@@ -8,12 +8,12 @@
     "dpi": 100,
     "text": {
         "en": {
-            "title": "Linear Regression Example: House Size vs. Price",
+            "title": "Linear Regression: House Size vs. Price",
             "xlabel": "House Size (sq ft)",
             "ylabel": "Price ($)"
         },
         "nl": {
-            "title": "Lineair regressievoorbeeld: huismaat vs. prijs",
+            "title": "Lineaire regressie: huismaat vs. prijs",
             "xlabel": "Huismaat (m\u00b2)",
             "ylabel": "Prijs (\u20ac)"
         }

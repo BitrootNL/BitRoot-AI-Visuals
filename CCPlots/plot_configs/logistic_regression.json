@@ -8,12 +8,12 @@
     "dpi": 100,
     "text": {
         "en": {
-            "title": "Logistic Regression Example: Spam vs. not spam",
+            "title": "Logistic Regression: Spam vs. not spam",
             "xlabel": "Number of links in Email",
             "ylabel": "Email length (in characters)"
         },
         "nl": {
-            "title": "Logistische regressie: spam versus geen spam",
+            "title": "Logistische regressie: spam vs. geen spam",
             "xlabel": "Aantal links in e-mail",
             "ylabel": "E-maillengte (in karakters)"
         }

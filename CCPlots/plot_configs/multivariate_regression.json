@@ -8,7 +8,7 @@
     "dpi": 100,
     "text": {
         "en": {
-            "title": "Multivariate Regression Example: House Size, Rooms vs. Price",
+            "title": "Multivariate Regression: House Size, Rooms vs. Price",
             "xlabel": "House Size (sq ft)",
             "ylabel": "Number of Rooms",
             "zlabel": "Price ($)"

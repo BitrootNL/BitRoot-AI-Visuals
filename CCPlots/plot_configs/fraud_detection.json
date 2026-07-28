@@ -2,7 +2,7 @@
     "description": "Decision boundary plot for imbalanced fraud detection using logistic regression with balanced class weights.",
     "key": "fraud_detection",
     "output_files": {
-        "default": "decision_boundary_fraud{suffix}.png"
+        "default": "fraud_detection_boundary{suffix}.png"
     },
     "figsize": [7, 5],
     "dpi": 100,

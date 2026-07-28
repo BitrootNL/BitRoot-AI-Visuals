@@ -2,13 +2,13 @@
     "description": "Table rendering of naturally occurring missing values from the Adult dataset, with ? markers for NA cells and a header note.",
     "key": "missing_data",
     "output_files": {
-        "default": "naturally_missing_data_table{suffix}.png"
+        "default": "missing_data_table{suffix}.png"
     },
     "figsize": [10, 4.1],
     "dpi": 150,
     "text": {
         "en": {
-            "title": "Examples of missing data in the Adult data set",
+            "title": "Missing data in the Adult data set",
             "col_age": "Age",
             "col_workclass": "Workclass",
             "col_sex": "Sex",
@@ -17,7 +17,7 @@
             "note": "Rows with naturally occurring missing values"
         },
         "nl": {
-            "title": "Voorbeelden van ontbrekende gegevens in de Adult-dataset",
+            "title": "Ontbrekende gegevens in de Adult-dataset",
             "col_age": "Leeftijd",
             "col_workclass": "Werkklasse",
             "col_sex": "Geslacht",

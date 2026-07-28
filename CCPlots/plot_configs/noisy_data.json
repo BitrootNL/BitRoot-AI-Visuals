@@ -1,8 +1,8 @@
 {
-    "description": "Illustrates noise in data: a clean sin(x) curve overlaid with noisy observations.",
+    "description": "Clean sin(x) curve overlaid with noisy observations sampled from a Gaussian distribution.",
     "key": "noisy_data",
     "output_files": {
-        "default": "noisy_data_example{suffix}.png"
+        "default": "noisy_data{suffix}.png"
     },
     "figsize": [8, 5],
     "dpi": 100,

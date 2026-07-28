@@ -1,5 +1,5 @@
 {
-    "description": "Two-output example: a decision-boundary scatter plot and a confusion matrix for a diabetes classification task using logistic regression.",
+    "description": "Decision-boundary scatter plot and confusion matrix for a diabetes classification task using logistic regression.",
     "key": "classification",
     "output_files": {
         "decision_boundary": "classification_decision_boundary{suffix}.png",
@@ -12,7 +12,7 @@
     },
     "text": {
         "en": {
-            "decision_title": "Classification Example with Decision Boundary",
+            "decision_title": "Classification with Decision Boundary",
             "confusion_title": "Confusion Matrix",
             "xlabel": "Age",
             "ylabel": "Blood Pressure",
@@ -30,7 +30,7 @@
             "tp_desc": "Correct: diabetes identified"
         },
         "nl": {
-            "decision_title": "Diabetes classificatievoorbeeld",
+            "decision_title": "Diabetes classificatie",
             "confusion_title": "Verwarringsmatrix",
             "xlabel": "Leeftijd",
             "ylabel": "Bloeddruk",

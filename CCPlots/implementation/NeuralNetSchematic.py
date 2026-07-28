@@ -5,7 +5,7 @@ tertiary, output nodes secondary.
 
 Figures
 -------
-- ``nn_schematic.png`` / ``_NL.png`` — node-and-edge network schematic
+- ``neural_net_schematic.png`` / ``_NL.png`` — node-and-edge network schematic
 
 Configuration
 -------------

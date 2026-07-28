@@ -1,8 +1,8 @@
 {
-    "description": "Illustrates subword tokenization: a sentence broken into tokens displayed as a connected scatter row.",
+    "description": "Subword tokenization: a sentence broken into tokens displayed as a connected scatter row.",
     "key": "tokenization",
     "output_files": {
-        "default": "tokenization_example{suffix}.png"
+        "default": "tokenization{suffix}.png"
     },
     "figsize": [12, 3],
     "dpi": 100,

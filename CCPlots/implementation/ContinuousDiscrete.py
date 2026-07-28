@@ -4,7 +4,7 @@ age-group categories (bar chart), illustrating the binning concept.
 
 Figures
 -------
-- ``continuous_discrete_example.png`` / ``_NL.png`` — histogram + bar chart
+- ``continuous_discrete.png`` / ``_NL.png`` — histogram + bar chart
 
 Configuration
 -------------

@@ -5,8 +5,8 @@ highlighted. Edge weights are displayed on every connection.
 
 Figures
 -------
-- ``tsp_small_{n_cities}_cities.png`` / ``_NL.png`` — optimal-route plot (n ≤ 20)
-- ``tsp_large_{n_cities}_cities.png`` / ``_NL.png`` — full-graph plot (n > 20)
+- ``traveling_salesman_small_{n_cities}_cities.png`` / ``_NL.png`` — optimal-route plot (n ≤ 20)
+- ``traveling_salesman_large_{n_cities}_cities.png`` / ``_NL.png`` — full-graph plot (n > 20)
 
 Configuration
 -------------
