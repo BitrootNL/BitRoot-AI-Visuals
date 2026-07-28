@@ -3,6 +3,7 @@
   "private": true,
   "description": "Teaching-focused AI/ML diagrams, plots, and code visuals",
   "devDependencies": {
-    "@mermaid-js/mermaid-cli": "^11.4.2"
+    "@mermaid-js/mermaid-cli": "^11.4.2",
+    "carbon-now-cli": "^2.1.0"
   }
 }

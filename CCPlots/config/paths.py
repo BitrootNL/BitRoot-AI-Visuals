@@ -15,7 +15,7 @@ import os
 
 _PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-OUTPUT_PATH = os.path.join(_PROJECT_ROOT, "plots") + os.sep
+OUTPUT_PATH = os.path.join(_PROJECT_ROOT, "plot-output") + os.sep
 os.makedirs(OUTPUT_PATH, exist_ok=True)
 
 

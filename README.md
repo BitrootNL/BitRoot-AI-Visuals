@@ -5,19 +5,19 @@ Teaching-focused plots and learning materials for AI and machine learning course
 ## About
 
 This repository generates plots, diagrams, and code snippets used in AI course
-materials. All plots are generated programmatically via the `CCPlots` Python module,
-ensuring consistent styling from the Bitroot design palette.
+materials. All visuals are generated programmatically and styled from the
+[Bitroot design system](CCPlots/config/bitroot.json).
 
 ## Contents
 
-- [Python Plots](#python-plots) — generated with CCPlots
-- [Mermaid Diagrams](#mermaid-diagrams) — `.md` / `.svg` / `.png`
-- [Code Snippets](#code-snippets) — ray.so renders (old style)
+- [Python Plots](#python-plots) — matplotlib plots via CCPlots
+- [Mermaid Diagrams](#mermaid-diagrams) — flowcharts via mmdc (`mermaid/` → `mermaid-output/`)
+- [Code Snippets](#code-snippets) — syntax-highlighted code via carbon-now-cli (`code-snippets/` → `snippet-output/`)
 - [Plot Showcase](#plot-showcase)
 
 ## Python Plots
 
-The `CCPlots` module generates all plots in `plots/`.
+The `CCPlots` module generates all plots in `plot-output/`.
 
 1. Install dependencies: `pip install -r requirements.txt`
 2. Regenerate all plots: `python generate_plots.py`
@@ -78,39 +78,38 @@ locale pairs `("en", "nl")`.
 
 ## Mermaid Diagrams
 
-The `mermaid/` folder stores Mermaid diagram source (`.md`), rendered SVG,
-and PNG exports. Diagrams are styled with the Bitroot theme derived from
-`bitroot.json` and rendered via the Mermaid CLI.
+Source files (`.md`) live in `mermaid/`. Rendered SVG and PNG output is
+written to `mermaid-output/`. Diagrams are styled with the Bitroot theme
+derived from `bitroot.json` and rendered via the Mermaid CLI.
 
 1. Install Node dependencies: `npm install`
 2. Regenerate all diagrams: `python generate_mermaid.py`
 
-### Available diagrams
-
-| File | Topic | Locales |
+| Source (`mermaid/`) | Locales | Outputs (`mermaid-output/`) |
 |---|---|---|
-| `eu_ai_act_classification_NL.md` | EU AI Act risk classification (NL) | NL |
-| `eu_ai_act_classification.md` | EU AI Act risk classification (EN) | EN |
-| `ml_algorithms_overview.md` | Machine learning overview tree | EN |
-| `ml_algorithms.md` | Full ML algorithm breakdown | EN |
-| `scientific_method.md` | Scientific method flowchart | EN |
+| `eu_ai_act_classification.md` | EN | `{stem}.svg`, `{stem}.png` |
+| `eu_ai_act_classification_NL.md` | NL | `{stem}.svg`, `{stem}.png` |
+| `ml_algorithms_overview.md` | EN | `{stem}.svg`, `{stem}.png` |
+| `ml_algorithms.md` | EN | `{stem}.svg`, `{stem}.png` |
+| `scientific_method.md` | EN | `{stem}.svg`, `{stem}.png` |
 
 ## Code Snippets
 
-The `code-snippets/` folder contains code snippet screenshots generated with
-[ray.so](https://ray.so). These accompany the course slides.
+Python source files (`.py`) live in `code-snippets/` organised by topic.
+Rendered screenshots (`.py.png`) are written to `snippet-output/`
+mirroring the same subdirectory structure. Snippets are styled with the
+Bitroot syntax-highlighting theme and rendered via carbon-now-cli.
 
-Settings: Theme `meadow`, Background off, Margin 16px, Languages Python / Markdown.
+1. Install Node dependencies: `npm install`
+2. Regenerate all snippets: `python generate_snippets.py`
 
-### Subdirectories
-
-| Folder | Contents |
-|---|---|
-| `algorithms/` | sklearn API examples (clustering, trees, regression, SVM, etc.) |
-| `exercise_snippets/` | Starter code for exercises (e.g. Titanic import) |
-| `finetuning/` | Grid search / hyperparameter tuning examples |
-| `model_selection/` | LazyPredict comparison output |
-| `preprocessing/` | Data cleaning, binning, normalization, encoding, etc. |
+| Source (`code-snippets/`) | Contents | Outputs (`snippet-output/`) |
+|---|---|---|
+| `algorithms/` | sklearn API examples | `algorithms/*.py.png` |
+| `exercise_snippets/` | Starter code for exercises | `exercise_snippets/*.py.png` |
+| `finetuning/` | Grid search / hyperparameter tuning | `finetuning/*.py.png` |
+| `model_selection/` | LazyPredict comparison output | `model_selection/*.py.png` |
+| `preprocessing/` | Data cleaning, binning, normalization, etc. | `preprocessing/*.py.png` |
 
 ## Styling
 
@@ -130,25 +129,30 @@ the single source of truth derived from the Bitroot design system.
 | `border` | `#D8E0E0` | Grid lines / borders |
 | `white` | `#F2F2F5` | Card backgrounds / light contrast |
 
-Use the `apply_bitroot_style()` helper in `CCPlots/config/palette.py` to apply the
-palette defaults to any Matplotlib axis.
+The palette is consumed by three theme modules — one per output type:
+
+| Module | Config | Purpose |
+|---|---|---|
+| `CCPlots/config/palette.py` | `bitroot.json` | `BITROOT_PALETTE`, matplotlib styling, colour derivation |
+| `CCPlots/config/mermaid_theme.py` | `bitroot.json` | `mmdc`-compatible theme for Mermaid diagrams |
+| `CCPlots/config/carbon_theme.py` | `bitroot.json` | `carbon-now`-compatible theme for code snippets |
 
 ## Plot Showcase
 
-![Linear Regression Animation](plots/linear_regression_animation.gif)
-![Multivariate Regression Animation](plots/multivariate_regression_animation.gif)
-![KMeans Clustering Animation](plots/kmeans_animation_k3.gif)
-![KNN Regression Animation](plots/knn_visualization_animation.gif)
-![Logistic Regression Animation](plots/logistic_regression_animation.gif)
-![Classification](plots/classification_decision_boundary.png)
-![K-Fold Validation](plots/kfold_validation.png)
-![Overfitting vs Underfitting](plots/overfitting_underfitting.png)
-![MSE Zoom](plots/mse_zoom_iteration.png)
-![Neural Network Growth](plots/neural_network_growth_line_log.png)
-![Activation Functions](plots/neural_network_activation_functions.png)
-![Noisy Data](plots/noisy_data.png)
-![Normal Distribution](plots/normal_distribution.png)
-![Perceptron Schematic](plots/perceptron_schematic.png)
-![Neural Network Schematic](plots/neural_net_schematic.png)
-![Traveling Salesman](plots/traveling_salesman_small_4_cities.png)
-![Decision Tree](plots/decision_tree_iris.png)
+![Linear Regression Animation](plot-output/linear_regression_animation.gif)
+![Multivariate Regression Animation](plot-output/multivariate_regression_animation.gif)
+![KMeans Clustering Animation](plot-output/kmeans_animation_k3.gif)
+![KNN Regression Animation](plot-output/knn_visualization_animation.gif)
+![Logistic Regression Animation](plot-output/logistic_regression_animation.gif)
+![Classification](plot-output/classification_decision_boundary.png)
+![K-Fold Validation](plot-output/kfold_validation.png)
+![Overfitting vs Underfitting](plot-output/overfitting_underfitting.png)
+![MSE Zoom](plot-output/mse_zoom_iteration.png)
+![Neural Network Growth](plot-output/neural_network_growth_line_log.png)
+![Activation Functions](plot-output/neural_network_activation_functions.png)
+![Noisy Data](plot-output/noisy_data.png)
+![Normal Distribution](plot-output/normal_distribution.png)
+![Perceptron Schematic](plot-output/perceptron_schematic.png)
+![Neural Network Schematic](plot-output/neural_net_schematic.png)
+![Traveling Salesman](plot-output/traveling_salesman_small_4_cities.png)
+![Decision Tree](plot-output/decision_tree_iris.png)

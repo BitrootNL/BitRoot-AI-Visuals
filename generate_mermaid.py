@@ -25,6 +25,7 @@ from CCPlots.config.mermaid_theme import get_mermaid_theme
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 MERMAID_DIR = os.path.join(PROJECT_ROOT, "mermaid")
+MERMAID_OUTPUT_DIR = os.path.join(PROJECT_ROOT, "mermaid-output")
 
 # Regex to extract content from a ```mermaid ... ``` code block.
 _MERMAID_BLOCK_RE = re.compile(
@@ -80,8 +81,8 @@ def _render_one(source_path: str, config_path: str, mmdc_path: str, bg: str) -> 
     a temporary ``.mmd`` file, renders via mmdc, then cleans up.
     """
     stem = os.path.splitext(os.path.basename(source_path))[0]
-    svg_path = os.path.join(MERMAID_DIR, f"{stem}.svg")
-    png_path = os.path.join(MERMAID_DIR, f"{stem}.png")
+    svg_path = os.path.join(MERMAID_OUTPUT_DIR, f"{stem}.svg")
+    png_path = os.path.join(MERMAID_OUTPUT_DIR, f"{stem}.png")
 
     raw = _extract_mermaid(source_path)
     if not raw:
@@ -127,6 +128,8 @@ def main() -> None:
     ) as f:
         json.dump(theme, f, indent=2)
         config_path = f.name
+
+    os.makedirs(MERMAID_OUTPUT_DIR, exist_ok=True)
 
     print(f"Rendering {len(sources)} Mermaid diagram(s)...")
     try:
