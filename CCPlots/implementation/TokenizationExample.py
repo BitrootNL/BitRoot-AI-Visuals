@@ -1,34 +1,31 @@
-import matplotlib.pyplot as plt
+"""
+Illustrates subword tokenization by displaying a sentence broken into
+subword tokens as a connected scatter-point row.
+
+Figures
+-------
+- ``tokenization_example.png`` / ``_NL.png`` — scatter row of subword tokens
+
+Configuration
+-------------
+``CCPlots/plot_configs/tokenization.json``
+"""
 import numpy as np
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, output_path
-
-TEXT_BY_LOCALE = {
-    "en": {
-        "title": "Subword Tokenization Process",
-        "tokens": ["Tok", "en", "ization", "is", "es", "sen",
-                   "tial", "for", "NLP", "mod", "els", "!"],
-    },
-    "nl": {
-        "title": "Subwoord-tokenisatieproces",
-        "tokens": ["Tok", "enis", "atie", "is", "ess", "en",
-                   "ti", "eel", "voor", "NLP", "mod", "ellen", "!"],
-    },
-}
+from CCPlots.config import BITROOT_PALETTE
 
 
-class TokenizationExample(PlotExample):
+class Tokenization(PlotExample):
+
+    CONFIG_KEY = "tokenization"
 
     def main(self):
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
+        for _locale, labels, suffix in self.iter_locales():
             subword_tokens = labels["tokens"]
             x_positions = np.arange(len(subword_tokens))
-            fname = f"tokenization_example{'_NL' if locale == 'nl' else ''}.png"
 
-            fig, ax = plt.subplots(figsize=(12, 3),
-                                   facecolor=BITROOT_PALETTE['background'])
-            ax.set_facecolor(BITROOT_PALETTE['background'])
+            fig, ax = self.create_figure()
 
             ax.scatter(x_positions, [1] * len(subword_tokens),
                        color=BITROOT_PALETTE['primary'], s=120,
@@ -56,8 +53,8 @@ class TokenizationExample(PlotExample):
             for spine in ax.spines.values():
                 spine.set_visible(False)
 
-            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.15)
-            plt.close(fig)
+            self.save_figure(fig, "default", suffix=suffix)
+
 
 if __name__ == "__main__":
-    TokenizationExample().main()
+    Tokenization().main()
