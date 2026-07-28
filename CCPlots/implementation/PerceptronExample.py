@@ -1,34 +1,32 @@
+"""
+Schematic diagram of a single perceptron showing inputs, weights, bias, and
+binary output.
+
+Figures
+-------
+- ``perceptron_schematic.png`` / ``_NL.png`` — annotated perceptron schematic
+
+Configuration
+-------------
+``CCPlots/plot_configs/perceptron.json``
+"""
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, output_path
+from CCPlots.config import BITROOT_PALETTE
 
 
-TEXT_BY_LOCALE = {
-    "en": {
-        "activation": "Activation",
-        "output": "Output",
-    },
-    "nl": {
-        "activation": "Activatie",
-        "output": "Uitvoer",
-    },
-}
+class Perceptron(PlotExample):
 
-
-class PerceptronExample(PlotExample):
+    CONFIG_KEY = "perceptron"
 
     def main(self) -> None:
-        import matplotlib.pyplot as plt
         import matplotlib.patches as patches
 
         inputs = ['x1', 'x2', 'x3']
         weights = ['w1', 'w2', 'w3']
         input_positions = [6.5, 5.0, 3.5]
 
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"perceptron_schematic{'_NL' if locale == 'nl' else ''}.png"
-
-            fig, ax = plt.subplots(figsize=(8, 6), facecolor=BITROOT_PALETTE['background'])
-            ax.set_facecolor(BITROOT_PALETTE['background'])
+        for _locale, labels, suffix in self.iter_locales():
+            fig, ax = self.create_figure()
             ax.set_xlim(0, 10)
             ax.set_ylim(0, 10)
             ax.axis('off')
@@ -54,8 +52,8 @@ class PerceptronExample(PlotExample):
                      length_includes_head=True)
             ax.text(8.5, 5, labels['output'], fontsize=12, ha='left', color=BITROOT_PALETTE['text'])
 
-            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.1)
-            plt.close(fig)
+            self.save_figure(fig, "default", suffix=suffix)
+
 
 if __name__ == "__main__":
-    PerceptronExample().main()
+    Perceptron().main()
