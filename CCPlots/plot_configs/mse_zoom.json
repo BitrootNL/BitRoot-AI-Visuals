@@ -6,6 +6,11 @@
     },
     "figsize": [10, 6],
     "dpi": 100,
+    "colors": {
+        "data_scatter": "tertiary",
+        "fitted_line": "primary",
+        "residual_line": "primary"
+    },
     "text": {
         "en": {
             "title": "Differences between predicted function and actual values",
