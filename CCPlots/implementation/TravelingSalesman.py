@@ -71,7 +71,7 @@ class TravelingSalesman(PlotExample):
 
         ax.set_title(
             labels["title_small"].format(n_cities=self.n_cities, total_routes=total_routes),
-            color=BITROOT_PALETTE['text'])
+            color=self.text_color)
         ax.axis('off')
 
         fig.savefig(output_path(filename), bbox_inches='tight', pad_inches=0.1)
@@ -101,7 +101,7 @@ class TravelingSalesman(PlotExample):
                         node_size=500, ax=ax)
                 ax.set_title(
                     labels["title_large"].format(n_cities=self.n_cities, total_routes=total_routes),
-                    color=BITROOT_PALETTE['text'])
+                    color=self.text_color)
                 ax.axis('off')
 
                 self.save_figure(fig, "large", n_cities=self.n_cities, suffix=suffix)
