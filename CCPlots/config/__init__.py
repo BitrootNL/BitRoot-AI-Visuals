@@ -5,8 +5,8 @@ This package provides three categories of configuration:
 
 **1. Visual styling (palette)**
    ``BITROOT_PALETTE`` — shared colour reference for all plots.
-   ``apply_bitroot_style()`` — applies the Bitroot theme to a matplotlib Axes.
-   ``darken_color()`` / ``probability_color()`` — colour derivation helpers.
+    ``apply_bitroot_style()`` — applies the Bitroot theme to a matplotlib Axes.
+    ``tint_color()`` / ``shade_color()`` — colour derivation helpers.
 
 **2. Output paths**
    ``OUTPUT_PATH`` — root directory where all generated plots are saved.
@@ -25,8 +25,6 @@ This package provides three categories of configuration:
 from .palette import (
     BITROOT_PALETTE,
     apply_bitroot_style,
-    darken_color,
-    probability_color,
     resolve_palette_key,
     shade_color,
     tint_color,
@@ -43,10 +41,8 @@ __all__ = [
     "OUTPUT_PATH",
     "ExampleConfig",
     "apply_bitroot_style",
-    "darken_color",
     "load_example_config",
     "output_path",
-    "probability_color",
     "resolve_palette_key",
     "shade_color",
     "tint_color",

@@ -3,8 +3,7 @@
 
 Subclasses must define:
     - ``CONFIG_KEY`` (str) — matches the JSON filename in ``plot_configs/``
-    - ``TEXT_BY_LOCALE`` (dict) — *optional fallback* locale text labels
-      (already overridden when the JSON config contains a ``text`` section)
+    - (locale text is loaded from the JSON config's ``text`` section)
     - ``main()`` — the plot generation entry point
 
 The base class provides config-driven helpers for the common patterns
@@ -37,7 +36,6 @@ class PlotExample(ABC):
 
     # --- Must be overridden by every concrete subclass ---
     CONFIG_KEY: str = ""
-    TEXT_BY_LOCALE: dict[str, dict[str, Any]] = {}
 
     def __init__(self) -> None:
         self._cfg: ExampleConfig | None = None
@@ -61,10 +59,8 @@ class PlotExample(ABC):
 
     @property
     def locale_text(self) -> dict[str, dict[str, Any]]:
-        """Locale text from the JSON config, or ``TEXT_BY_LOCALE`` as fallback."""
-        if self.config.text is not None:
-            return self.config.text
-        return self.TEXT_BY_LOCALE
+        """Locale text from the JSON config."""
+        return self.config.text
 
     # ------------------------------------------------------------------
     # Locale iteration  (EN / NL)

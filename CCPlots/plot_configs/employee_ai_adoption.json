@@ -9,7 +9,7 @@
     "colors": {
         "bar_edge": "primary",
         "bar_gradient_start": "primary",
-        "bar_gradient_end": "primary_pale"
+        "bar_gradient_end": "primary@tint(0.80)"
     },
     "text": {
         "en": {

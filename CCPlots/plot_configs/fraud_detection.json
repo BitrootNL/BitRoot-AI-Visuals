@@ -9,7 +9,7 @@
     "colors": {
         "class_0": "primary",
         "class_1": "highlight",
-        "boundary_start": "primary_soft",
+        "boundary_start": "primary@tint(0.18)",
         "boundary_end": "highlight",
         "scatter_edge": "secondary_text"
     },

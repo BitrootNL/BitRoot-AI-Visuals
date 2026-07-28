@@ -56,9 +56,9 @@ locale pairs `("en", "nl")`.
 | `DecisionTree` | `decision_tree.json` | `decision_tree_iris.png` |
 | `EmployeeAIAdoption` | `employee_ai_adoption.json` | `employee_ai_adoption.png` |
 | `FraudDetection` | `fraud_detection.json` | `fraud_detection_boundary.png` |
-| `KFolds` | `kfold.json` | `kfold_validation.png` |
+| `KFolds` | `kfolds.json` | `kfold_validation.png` |
 | `KMeans` | `kmeans.json` | `kmeans_animation_k3.gif`, `kmeans_clustering_k3.png` |
-| `KNearest` | `knn.json` | `knn_visualization_animation.gif` |
+| `KNearest` | `knearest.json` | `knn_visualization_animation.gif` |
 | `LLMPredict` | `llm_predict.json` | `llm_predict_next.png` |
 | `LinearRegression` | `linear_regression.json` | `linear_regression_animation.gif` |
 | `LogisticRegression` | `logistic_regression.json` | `logistic_regression_animation.gif` |
@@ -67,7 +67,7 @@ locale pairs `("en", "nl")`.
 | `MissingData` | `missing_data.json` | `missing_data_table.png` |
 | `MultivariateRegression` | `multivariate_regression.json` | `multivariate_regression_animation.gif` |
 | `NeuralNetSchematic` | `neural_net_schematic.json` | `neural_net_schematic.png` |
-| `NeuralNetworkActivationFunctions` | `neural_network_activation.json` | `neural_network_activation_functions.png` |
+| `NeuralNetworkActivationFunctions` | `neural_network_activation_functions.json` | `neural_network_activation_functions.png` |
 | `NeuralNetworkGrowth` | `neural_network_growth.json` | `neural_network_growth_line_log.png` |
 | `NoisyData` | `noisy_data.json` | `noisy_data.png` |
 | `NormalDistribution` | `normal_distribution.json` | `normal_distribution.png` |

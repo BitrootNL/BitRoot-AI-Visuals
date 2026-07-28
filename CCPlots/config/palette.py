@@ -3,8 +3,7 @@
 
 **What this controls:**
 - The shared colour palette (``BITROOT_PALETTE``) used by every plot.
-- Colour derivation helpers (``tint_color``, ``shade_color``, ``darken_color``,
-  ``probability_color``).
+- Colour derivation helpers (``tint_color``, ``shade_color``).
 - The ``apply_bitroot_style()`` function that applies Bitroot theme defaults
   (background, grid, spine colours, tick parameters) to a matplotlib Axes.
 - ``resolve_palette_key()`` — resolves strings like ``"primary"`` or
@@ -75,15 +74,6 @@ def shade_color(color: str, amount: float) -> str:
     return f"#{r_int:02X}{g_int:02X}{b_int:02X}"
 
 
-# Pre-compute common tints for quick access
-BITROOT_PALETTE.update({
-    "primary_soft": tint_color(BITROOT_PALETTE["primary"], 0.18),
-    "primary_pale": tint_color(BITROOT_PALETTE["primary"], 0.80),
-    "secondary_light": tint_color(BITROOT_PALETTE["secondary"], 0.25),
-    "secondary_soft": tint_color(BITROOT_PALETTE["secondary"], 0.12),
-})
-
-
 def resolve_palette_key(key_spec: str) -> str:
     """Resolve a palette key or tint/shade expression to a hex colour.
 
@@ -110,23 +100,6 @@ def resolve_palette_key(key_spec: str) -> str:
         return BITROOT_PALETTE[key_spec]
 
     return key_spec
-
-
-def darken_color(color: str, factor: float = 0.6) -> str:
-    """Deprecated: use ``shade_color()`` instead. Same behaviour."""
-    return shade_color(color, factor)
-
-
-def probability_color(probability: float, light_color: str = "primary_soft", dark_color: str = "primary") -> str:
-    """Blend between two palette colours based on a probability value.
-
-    ``probability=0`` returns the *light_color*; ``probability=1`` returns *dark_color*.
-    Used by bar charts to encode confidence / intensity as a monotonic gradient.
-    """
-    light = mcolors.to_rgb(resolve_palette_key(light_color))
-    dark = mcolors.to_rgb(resolve_palette_key(dark_color))
-    blended = tuple(light[i] + probability * (dark[i] - light[i]) for i in range(3))
-    return f"#{_round_half_up(blended[0] * 255):02X}{_round_half_up(blended[1] * 255):02X}{_round_half_up(blended[2] * 255):02X}"
 
 
 def apply_bitroot_style(ax=None, *, background=None, text=None, grid=None, title_size=16, label_size=14):

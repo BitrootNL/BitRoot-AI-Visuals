@@ -13,12 +13,12 @@
     "colors": {
         "class_0": "primary",
         "class_1": "secondary",
-        "boundary_region_0": "primary_soft",
-        "boundary_region_1": "secondary_soft",
+        "boundary_region_0": "primary@tint(0.18)",
+        "boundary_region_1": "secondary@tint(0.12)",
         "contour_line": "text",
         "scatter_edge": "secondary_text",
         "confusion_cmap": "primary",
-        "confusion_cmap_pale": "primary_soft"
+        "confusion_cmap_pale": "primary@tint(0.18)"
     },
     "text": {
         "en": {

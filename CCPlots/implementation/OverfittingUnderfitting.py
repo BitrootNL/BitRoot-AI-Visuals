@@ -75,6 +75,9 @@ class OverfittingUnderfitting(PlotExample):
             ax1.legend()
             self.apply_style(ax1)
 
+            ax2.scatter(X_train, y_train, color=self.resolve_color('train_data'), label=labels['train_label'])
+            ax2.scatter(X_test, y_test, color=self.resolve_color('test_data'), label=labels['test_label'])
+            ax2.plot(X_range, y_range_pred_over, color=self.resolve_color('model_line'), label=labels['over_label'])
             self.apply_labels(ax2, title=labels['over_title'].format(train_mse=mse_over_train, test_mse=mse_over_test),
                               xlabel=labels['xlabel'], ylabel=labels['ylabel'])
             ax2.legend()
