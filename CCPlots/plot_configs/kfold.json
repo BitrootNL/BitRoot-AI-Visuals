@@ -6,6 +6,10 @@
     },
     "figsize": [10, 4],
     "dpi": 100,
+    "colors": {
+        "train_fold": "primary",
+        "test_fold": "tertiary"
+    },
     "text": {
         "en": {
             "title": "Visualization of K-Fold Cross-Validation",

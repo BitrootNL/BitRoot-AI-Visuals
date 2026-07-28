@@ -6,10 +6,6 @@ test set (tertiary colour) in each fold.
 Figures
 -------
 - ``kfold_validation.png`` / ``_NL.png`` — fold-assignment grid
-
-Configuration
--------------
-``CCPlots/plot_configs/kfold.json``
 """
 import matplotlib.pyplot as plt
 import numpy as np
@@ -18,17 +14,19 @@ from sklearn.datasets import make_classification
 from sklearn.model_selection import KFold as SKFold
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE
+from CCPlots.config import GLOBAL_RANDOM_STATE
 
 
-class KFold(PlotExample):
+class KFolds(PlotExample):
 
+    # CCPlots/plot_configs/kfold.json
     CONFIG_KEY = "kfold"
 
-    colors = [BITROOT_PALETTE['primary'], BITROOT_PALETTE['tertiary']]
-
     def __init__(self):
-        self.cmap = ListedColormap(self.colors)
+        self.cmap = ListedColormap([
+            self.resolve_color('train_fold'),
+            self.resolve_color('test_fold'),
+        ])
 
     def main(self):
         X, _ = make_classification(n_samples=150, n_features=4, n_informative=3,
@@ -49,16 +47,15 @@ class KFold(PlotExample):
 
             cbar = plt.colorbar(im, ax=ax, ticks=[1, 2])
             cbar.ax.set_yticklabels([labels['train'], labels['test']])
-            cbar.set_label(labels['colorbar'], color=BITROOT_PALETTE['text'])
-            cbar.ax.tick_params(colors=BITROOT_PALETTE['text'])
+            cbar.set_label(labels['colorbar'], color=self.text_color)
+            cbar.ax.tick_params(colors=self.text_color)
 
-            ax.set_xlabel(labels['xlabel'], color=BITROOT_PALETTE['text'])
-            ax.set_ylabel(labels['ylabel'], color=BITROOT_PALETTE['text'])
-            ax.set_title(labels['title'], color=BITROOT_PALETTE['text'])
+            self.apply_labels(ax, title=labels['title'], xlabel=labels['xlabel'],
+                              ylabel=labels['ylabel'])
 
             self.apply_style(ax)
             self.save_figure(fig, "default", suffix=suffix)
 
 
 if __name__ == "__main__":
-    KFold().main()
+    KFolds().main()
