@@ -42,16 +42,16 @@ class KNearest(PlotExample):
             ax.set_xlim(min(house_sizes) - 100, max(house_sizes) + 100)
             ax.set_ylim(min(num_rooms) - 1, max(num_rooms) + 1)
             ax.set_zlim(min(prices) - 10000, max(prices) + 10000)
-            ax.set_title(labels["title"], color=BITROOT_PALETTE['text'])
-            ax.set_xlabel(labels["xlabel"], color=BITROOT_PALETTE['text'], labelpad=18)
-            ax.set_ylabel(labels["ylabel"], color=BITROOT_PALETTE['text'], labelpad=18)
-            ax.set_zlabel(labels["zlabel"], color=BITROOT_PALETTE['text'], labelpad=18)
+            ax.set_title(labels["title"], color=self.text_color)
+            ax.set_xlabel(labels["xlabel"], color=self.text_color, labelpad=18)
+            ax.set_ylabel(labels["ylabel"], color=self.text_color, labelpad=18)
+            ax.set_zlabel(labels["zlabel"], color=self.text_color, labelpad=18)
             ax.tick_params(pad=10)
             ax.dist = 12
 
             scatter = ax.scatter(house_sizes.tolist(), num_rooms.tolist(), prices.tolist(),
-                                 color=BITROOT_PALETTE['primary'],
-                                 edgecolor=BITROOT_PALETTE['primary'], s=60)
+                                 color=self.resolve_color('scatter'),
+                                 edgecolor=self.resolve_color('scatter_edge'), s=60)
 
             knn = KNeighborsRegressor(n_neighbors=5)
 
@@ -71,10 +71,10 @@ class KNearest(PlotExample):
                 predicted_price = knn.predict(new_point)
 
                 ax.scatter(new_point[0, 0], new_point[0, 1], predicted_price[0],
-                           color=BITROOT_PALETTE['primary'], label="New Point")
+                           color=self.resolve_color('scatter'), label="New Point")
                 ax.plot([new_point[0, 0], new_point[0, 0]], [new_point[0, 1], new_point[0, 1]],
                         [ax.get_zlim()[0], predicted_price[0]],
-                        color=BITROOT_PALETTE['primary'], linestyle="--")
+                        color=self.resolve_color('scatter'), linestyle="--")
 
                 return scatter,
 

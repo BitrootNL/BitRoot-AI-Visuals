@@ -6,6 +6,10 @@
     },
     "figsize": [12, 8],
     "dpi": 100,
+    "colors": {
+        "scatter": "primary",
+        "scatter_edge": "primary"
+    },
     "text": {
         "en": {
             "title": "K-Nearest Neighbors for Housing",
