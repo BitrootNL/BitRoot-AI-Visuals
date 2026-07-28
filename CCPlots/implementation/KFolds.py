@@ -18,7 +18,7 @@ from sklearn.datasets import make_classification
 from sklearn.model_selection import KFold as SKFold
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE
+from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE
 
 
 class KFold(PlotExample):
@@ -32,9 +32,9 @@ class KFold(PlotExample):
 
     def main(self):
         X, _ = make_classification(n_samples=150, n_features=4, n_informative=3,
-                                   n_redundant=0, random_state=42)
+                                    n_redundant=0, random_state=GLOBAL_RANDOM_STATE)
 
-        kf = SKFold(n_splits=5, shuffle=True, random_state=42)
+        kf = SKFold(n_splits=5, shuffle=True, random_state=GLOBAL_RANDOM_STATE)
         n_samples = len(X)
         cv_splits = np.zeros((kf.get_n_splits(), n_samples))
 

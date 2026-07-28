@@ -18,7 +18,7 @@ from sklearn.datasets import load_iris
 from sklearn.tree import DecisionTreeClassifier
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, darken_color
+from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE, darken_color
 
 
 def _blend_toward(color: tuple, target: tuple, amount: float) -> tuple:
@@ -95,7 +95,7 @@ class DecisionTree(PlotExample):
         iris = load_iris()
         X, y = iris.data, iris.target
 
-        clf = DecisionTreeClassifier(max_depth=3, random_state=42)
+        clf = DecisionTreeClassifier(max_depth=3, random_state=GLOBAL_RANDOM_STATE)
         clf = clf.fit(X, y)
 
         for _locale, labels, suffix in self.iter_locales():

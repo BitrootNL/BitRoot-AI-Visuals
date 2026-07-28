@@ -22,7 +22,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.model_selection import train_test_split
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, output_path
+from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE, output_path
 
 
 class Classification(PlotExample):
@@ -51,7 +51,7 @@ class Classification(PlotExample):
         self.generate_data()
 
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
-            self.X, self.y, test_size=0.3, random_state=42)
+            self.X, self.y, test_size=0.3, random_state=GLOBAL_RANDOM_STATE)
 
         self.train_classifier()
 
@@ -166,11 +166,11 @@ class Classification(PlotExample):
             n_redundant=0,
             n_clusters_per_class=1,
             n_classes=2,
-            random_state=42
+            random_state=GLOBAL_RANDOM_STATE
         )
 
     def train_classifier(self) -> None:
-        self.classifier = LogisticRegression()
+        self.classifier = LogisticRegression(max_iter=1000)
         self.classifier.fit(self.X_train, self.y_train)
 
 

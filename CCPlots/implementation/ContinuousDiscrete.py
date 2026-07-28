@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE
+from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE
 
 
 class ContinuousDiscrete(PlotExample):
@@ -24,7 +24,7 @@ class ContinuousDiscrete(PlotExample):
     primary = BITROOT_PALETTE['primary']
 
     def main(self) -> None:
-        np.random.seed(42)
+        np.random.seed(GLOBAL_RANDOM_STATE)
         ages = np.concatenate([
             np.random.normal(loc=35, scale=10, size=450),
             np.random.normal(loc=75, scale=8, size=40),

@@ -16,7 +16,7 @@ from matplotlib.animation import FuncAnimation
 from sklearn.linear_model import LinearRegression
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, output_path
+from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE, output_path
 
 
 class LinearRegression(PlotExample):
@@ -26,7 +26,7 @@ class LinearRegression(PlotExample):
     primary = BITROOT_PALETTE['primary']
 
     def main(self):
-        np.random.seed(42)
+        np.random.seed(GLOBAL_RANDOM_STATE)
         house_sizes = np.random.rand(100) * 2000 + 500
         prices = house_sizes * 200 + (np.random.randn(100) * 10000)
 

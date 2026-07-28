@@ -16,7 +16,7 @@ from sklearn.linear_model import SGDRegressor
 from sklearn.metrics import mean_squared_error
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE
+from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE
 
 
 class MSE(PlotExample):
@@ -30,10 +30,10 @@ class MSE(PlotExample):
         self.iterations = iterations
         self.learning_rate = learning_rate
 
-        self.X, self.y = make_regression(n_samples=self.n_samples, n_features=1, noise=15, random_state=42)
+        self.X, self.y = make_regression(n_samples=self.n_samples, n_features=1, noise=15, random_state=GLOBAL_RANDOM_STATE)
 
         self.model = SGDRegressor(max_iter=1, tol=None, learning_rate='constant', eta0=self.learning_rate,
-                                  random_state=42)
+                                   random_state=GLOBAL_RANDOM_STATE)
 
         self.mse_values = []
 

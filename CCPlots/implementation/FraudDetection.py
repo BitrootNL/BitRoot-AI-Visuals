@@ -19,7 +19,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE
+from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE
 
 
 class FraudDetection(PlotExample):
@@ -40,7 +40,7 @@ class FraudDetection(PlotExample):
             n_clusters_per_class=1,
             weights=[0.9, 0.1],
             class_sep=1.8,
-            random_state=42
+            random_state=GLOBAL_RANDOM_STATE
         )
 
         X_train, X_test, y_train, y_test = train_test_split(
@@ -51,7 +51,7 @@ class FraudDetection(PlotExample):
         X_train_scaled = scaler.fit_transform(X_train)
         #X_test_scaled = scaler.transform(X_test)
 
-        model = LogisticRegression(class_weight="balanced", random_state=42)
+        model = LogisticRegression(class_weight="balanced", random_state=GLOBAL_RANDOM_STATE, max_iter=1000)
         model.fit(X_train_scaled, y_train)
 
         x_min, x_max = X_train_scaled[:, 0].min() - 1, X_train_scaled[:, 0].max() + 1

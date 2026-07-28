@@ -20,7 +20,7 @@ from mpl_toolkits.mplot3d.axes3d import Axes3D
 from sklearn.neighbors import KNeighborsRegressor
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, output_path
+from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE, output_path
 
 
 class KNearest(PlotExample):
@@ -28,7 +28,7 @@ class KNearest(PlotExample):
     CONFIG_KEY = "knn"
 
     def main(self):
-        np.random.seed(42)
+        np.random.seed(GLOBAL_RANDOM_STATE)
         house_sizes = np.random.rand(100) * 2000 + 500
         num_rooms = np.random.rand(100) * 5 + 1
         prices = house_sizes * 150 + num_rooms * 20000 + (

@@ -18,7 +18,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import PolynomialFeatures
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE
+from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE
 
 
 class OverfittingUnderfitting(PlotExample):
@@ -32,11 +32,11 @@ class OverfittingUnderfitting(PlotExample):
     light_gray = BITROOT_PALETTE['grid']
 
     def main(self):
-        np.random.seed(0)
+        np.random.seed(GLOBAL_RANDOM_STATE)
         X = np.sort(np.random.rand(40, 1) * 10, axis=0)
         y = np.sin(X).ravel() + np.random.normal(0, 0.2, X.shape[0])
 
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=0)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=GLOBAL_RANDOM_STATE)
 
         poly_under = PolynomialFeatures(degree=2)
         poly_over = PolynomialFeatures(degree=11)

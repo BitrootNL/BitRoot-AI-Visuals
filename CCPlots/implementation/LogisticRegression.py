@@ -10,6 +10,8 @@ Configuration
 -------------
 ``CCPlots/plot_configs/logistic_regression.json``
 """
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="sklearn")
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.animation import FuncAnimation
@@ -18,7 +20,7 @@ from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression as SKLogisticRegression
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, output_path
+from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE, output_path
 
 
 class LogisticRegression(PlotExample):
@@ -44,10 +46,10 @@ class LogisticRegression(PlotExample):
             n_redundant=0,
             n_clusters_per_class=1,
             n_classes=2,
-            random_state=42
+            random_state=GLOBAL_RANDOM_STATE
         )
 
-        self.model = SKLogisticRegression(solver='lbfgs')
+        self.model = SKLogisticRegression(solver='lbfgs', max_iter=1000)
 
     def update(self, frame):
         self.model.max_iter = frame + 1

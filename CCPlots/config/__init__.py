@@ -32,8 +32,11 @@ from .paths import OUTPUT_PATH, output_path
 from .loader import load_example_config
 from .models import ExampleConfig
 
+GLOBAL_RANDOM_STATE = 42
+
 __all__ = [
     "BITROOT_PALETTE",
+    "GLOBAL_RANDOM_STATE",
     "OUTPUT_PATH",
     "ExampleConfig",
     "apply_bitroot_style",

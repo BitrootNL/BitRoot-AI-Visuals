@@ -24,8 +24,6 @@ class Regression(PlotExample):
     primary = BITROOT_PALETTE['primary']
     secondary = BITROOT_PALETTE['secondary']
     tertiary = BITROOT_PALETTE['tertiary']
-    calm_blue = '#5C78D9'
-    calm_purple = '#7AAED6'
 
     def main(self):
         mean = 159
@@ -40,11 +38,11 @@ class Regression(PlotExample):
 
             ax.fill_between(x, y, where=(x <= mean - 2 * std_dev).tolist(), color=self.tertiary, alpha=0.22)
             ax.fill_between(x, y, where=((x > mean - 2 * std_dev) & (x <= mean - std_dev)).tolist(),
-                            color=self.calm_blue, alpha=0.25)
+                            color=self.secondary, alpha=0.25)
             ax.fill_between(x, y, where=((x > mean - std_dev) & (x < mean + std_dev)).tolist(),
-                            color=self.calm_purple, alpha=0.18)
+                            color=self.secondary, alpha=0.18)
             ax.fill_between(x, y, where=((x >= mean + std_dev) & (x < mean + 2 * std_dev)).tolist(),
-                            color=self.calm_blue, alpha=0.25)
+                            color=self.secondary, alpha=0.25)
             ax.fill_between(x, y, where=(x >= mean + 2 * std_dev).tolist(), color=self.tertiary, alpha=0.22)
 
             ax.axvline(mean, color=self.secondary, linestyle='dashed', linewidth=1)

@@ -15,7 +15,7 @@ from sklearn.datasets import make_regression
 from sklearn.linear_model import SGDRegressor
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE
+from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE
 
 
 class MSEZoom(PlotExample):
@@ -37,14 +37,14 @@ class MSEZoom(PlotExample):
             n_samples=self.n_samples,
             n_features=1,
             noise=15,
-            random_state=42)
+            random_state=GLOBAL_RANDOM_STATE)
 
         self.model = SGDRegressor(
             max_iter=1,
             tol=None,
             learning_rate='constant',
             eta0=self.learning_rate,
-            random_state=42
+            random_state=GLOBAL_RANDOM_STATE
         )
 
     def main(self):

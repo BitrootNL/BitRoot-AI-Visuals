@@ -16,6 +16,8 @@ def all_plots():
     This is a slow process and will give you lots of warnings (thanks dummy data and ChatGPT)
     :return:
     """
+    plot_no = 1
+
     # Retrieve all implementations of examples
     classes = [
         cls for name, cls in CCPlots.__dict__.items()
@@ -24,7 +26,10 @@ def all_plots():
     ]
 
     # Run all examples
-    for cls in classes: instance = cls().main()
+    for cls in classes:
+        print(f"Working on plot example {plot_no}: {cls.__name__}")
+        instance = cls().main()
+        plot_no += 1
 
 if __name__ == "__main__":
     # This takes a while, comment out at your own risk

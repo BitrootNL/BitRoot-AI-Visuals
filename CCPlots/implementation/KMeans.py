@@ -19,7 +19,7 @@ from sklearn.cluster import KMeans as SKKMeans
 from sklearn.datasets import make_blobs
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, darken_color, output_path
+from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE, darken_color, output_path
 
 
 CLUSTER_PALETTE = [
@@ -41,21 +41,21 @@ class KMeans(PlotExample):
     scatter = None
     legend = None
 
-    def __init__(self, n_clusters=4, n_samples=300):
+    def __init__(self, n_clusters=4, n_samples=200):
         self.n_clusters = n_clusters
         self.n_samples = n_samples
         self.X, self.y = make_blobs(
             n_samples=self.n_samples,
             centers=self.n_clusters,
             cluster_std=3.0,
-            random_state=42)
+            random_state=GLOBAL_RANDOM_STATE)
         self.kmeans = SKKMeans(
             n_clusters=self.n_clusters,
             init='random',
             n_init=1,
             max_iter=1,
             algorithm='lloyd',
-            random_state=42)
+            random_state=GLOBAL_RANDOM_STATE)
 
         self.cluster_colors = [CLUSTER_PALETTE[i % len(CLUSTER_PALETTE)]
                                for i in range(self.n_clusters)]

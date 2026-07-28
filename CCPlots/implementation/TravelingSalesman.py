@@ -27,7 +27,7 @@ class TravelingSalesman(PlotExample):
 
     CONFIG_KEY = "traveling_salesman"
 
-    def __init__(self, n_cities=10):
+    def __init__(self, n_cities=4):
         self.n_cities = n_cities
         self.G = self._generate_random_graph()
 
@@ -79,14 +79,16 @@ class TravelingSalesman(PlotExample):
 
     def main(self):
         total_routes = math.factorial(self.n_cities)
+        if self.n_cities >= 10:
+            import warnings
+            warnings.warn(
+                f"TravelingSalesman with {self.n_cities} cities checks "
+                f"{total_routes:,} permutations — may take a while.")
 
         for _locale, labels, suffix in self.iter_locales():
 
             if self.n_cities <= 20:
                 path, cost = self._solve_tsp_brute_force()
-                print(f"Optimal path: {path}")
-                print(f"Total cost: {cost}")
-                print(f"Total possible routes: {total_routes:,}")
 
                 fname = self.config.resolve_output("small", n_cities=self.n_cities, suffix=suffix)
                 self._plot_tsp_solution(
