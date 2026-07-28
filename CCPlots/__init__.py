@@ -13,7 +13,7 @@ def load_classes():
         except Exception:
             continue
         for name, cls in module.__dict__.items():
-            if isinstance(cls, type):
+            if isinstance(cls, type) and getattr(cls, '__module__', '') == module.__name__:
                 globals()[name] = cls
 
 

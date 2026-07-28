@@ -9,7 +9,7 @@ Figures
 
 Configuration
 -------------
-``CCPlots/plot_configs/mse.json``
+``CCPlots/plot_configs/mean_squared_error.json``
 """
 from sklearn.datasets import make_regression
 from sklearn.linear_model import SGDRegressor
@@ -19,8 +19,8 @@ from CCPlots.PlotExample import PlotExample
 from CCPlots.config import GLOBAL_RANDOM_STATE
 
 
-class MSE(PlotExample):
-    CONFIG_KEY = "mse"
+class MeanSquaredError(PlotExample):
+    CONFIG_KEY = "mean_squared_error"
 
     def __init__(self, n_samples=100, iterations=50, learning_rate=0.01):
         self.n_samples = n_samples

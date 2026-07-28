@@ -8,7 +8,7 @@
     "dpi": 100,
     "colors": {
         "true_curve": "primary",
-        "noisy_dots": "tertiary"
+        "noisy_dots": "primary@tint(0.6)"
     },
     "text": {
         "en": {

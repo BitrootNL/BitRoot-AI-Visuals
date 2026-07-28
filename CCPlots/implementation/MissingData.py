@@ -59,7 +59,7 @@ class MissingData(PlotExample):
                 cell_colors.append(row_colors)
 
             header_color = BITROOT_PALETTE['primary']
-            header_text_color = BITROOT_PALETTE['white']
+            header_text_color = self.text_color_for_background(header_color)
 
             table = ax.table(
                 cellText=cell_text,

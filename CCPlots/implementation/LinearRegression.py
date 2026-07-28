@@ -14,7 +14,7 @@ Configuration
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression as SKLinearRegression
 
 from CCPlots.PlotExample import PlotExample
 from CCPlots.config import GLOBAL_RANDOM_STATE, output_path
@@ -57,7 +57,7 @@ class LinearRegression(PlotExample):
                 X = house_sizes[:frame].reshape(-1, 1)
                 y = prices[:frame]
 
-                regressor = LinearRegression()
+                regressor = SKLinearRegression()
                 regressor.fit(X, y)
 
                 X_full = np.linspace(min(house_sizes), max(house_sizes), 100).reshape(-1, 1)

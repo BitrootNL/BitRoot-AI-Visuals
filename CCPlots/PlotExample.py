@@ -26,6 +26,7 @@ from CCPlots.config import (
     BITROOT_PALETTE,
     ExampleConfig,
     apply_bitroot_style,
+    contrasting_text_color,
     load_example_config,
     output_path,
 )
@@ -140,18 +141,43 @@ class PlotExample(ABC):
         """Convenience shortcut for ``BITROOT_PALETTE['text']``."""
         return BITROOT_PALETTE["text"]
 
+    def text_color_for_background(self, bg_color: str, *, large: bool = False) -> str:
+        """Return ``text`` or ``white`` — whichever gives better WCAG AA
+        contrast against *bg_color*.
+
+        Parameters
+        ----------
+        bg_color : str
+            Background colour (hex, palette key, or ``@tint``/``@shade`` expression).
+        large : bool
+            Pass ``True`` for text ≥24 px or ≥18.66 px bold (3:1 threshold).
+        """
+        return contrasting_text_color(bg_color, large=large)
+
     def apply_labels(self, ax, *,
                      title: str | None = None,
                      xlabel: str | None = None,
                      ylabel: str | None = None,
                      title_size: int = 16,
                      label_size: int = 14,
-                     color: str | None = None):
+                     color: str | None = None,
+                     bg_color: str | None = None):
         """Set title / axis labels with Bitroot-consistent styling in one call.
 
-        Uses ``self.text_color`` by default; pass *color* to override.
+        Text colour is resolved in this order:
+            1. *color* — explicit override
+            2. *bg_color* — auto-select ``text`` or ``white`` for WCAG AA
+            3. ``self.text_color`` — default dark text
+
+        Use *bg_color* when the labels sit on a coloured or dark
+        background (e.g. inside a heatmap cell or filled patch).
         """
-        c = color or self.text_color
+        if color is not None:
+            c = color
+        elif bg_color is not None:
+            c = self.text_color_for_background(bg_color, large=(title_size >= 24 or label_size >= 18.66))
+        else:
+            c = self.text_color
         if title is not None:
             ax.set_title(title, fontsize=title_size, color=c, pad=10)
         if xlabel is not None:

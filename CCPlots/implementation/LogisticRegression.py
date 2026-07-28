@@ -63,8 +63,12 @@ class LogisticRegression(PlotExample):
         Z = self.model.predict_proba(np.c_[self.xx.ravel(), self.yy.ravel()])[:, 1]
         Z = Z.reshape(self.xx.shape)
 
-        for coll in self.ax.collections[:]:
-            coll.remove()
+        # Remove only the contour collections, not the scatter
+        for coll in [self.contourf, self.contour]:
+            try:
+                coll.remove()
+            except (ValueError, KeyError):
+                pass
 
         self.contourf = self.ax.contourf(self.xx, self.yy, Z, alpha=0.3, cmap=self.cmap_light)
         self.contour = self.ax.contour(self.xx, self.yy, Z, levels=[0.5], linewidths=2, colors=self.resolve_color('decision_boundary'))

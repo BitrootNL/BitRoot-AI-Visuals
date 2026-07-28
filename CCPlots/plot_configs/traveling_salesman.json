@@ -7,8 +7,12 @@
     },
     "figsize": [12, 8],
     "dpi": 100,
+    "colors": {
+        "node_color": "primary@tint(0.2)",
+        "optimal_edge": "success"
+    },
     "run": {
-        "n_cities": [2, 4]
+        "n_cities": [2, 4, 6, 8, 10, 20]
     },
     "text": {
         "en": {

@@ -31,7 +31,7 @@ class Tokenization(PlotExample):
             for i, token in enumerate(subword_tokens):
                 ax.text(x_positions[i], 1.06, token, ha='center',
                         fontsize=11, fontweight='bold',
-                        color=self.resolve_color('dot_label'))
+                        color=self.text_color)
 
             for i in range(len(subword_tokens) - 1):
                 ax.annotate('', xy=(x_positions[i+1] - 0.1, 1),

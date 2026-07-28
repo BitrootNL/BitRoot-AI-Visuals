@@ -1,13 +1,13 @@
 {
     "description": "Scatter plot with a single-iteration fitted line and vertical residual dashes, showing the difference between predicted and actual values.",
-    "key": "mse_zoom",
+    "key": "mean_squared_error_zoomed",
     "output_files": {
         "default": "mse_zoom_iteration{suffix}.png"
     },
     "figsize": [10, 6],
     "dpi": 100,
     "colors": {
-        "data_scatter": "tertiary",
+        "data_scatter": "primary@tint(0.6)",
         "fitted_line": "primary",
         "residual_line": "primary"
     },

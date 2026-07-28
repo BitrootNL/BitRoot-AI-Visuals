@@ -8,8 +8,8 @@
     "dpi": 100,
     "colors": {
         "regression_line": "primary",
-        "data_points": "primary",
-        "data_edge": "secondary_text"
+        "data_points": "primary@tint(0.6)",
+        "data_edge": "primary"
     },
     "text": {
         "en": {

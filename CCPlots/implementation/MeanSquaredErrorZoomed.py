@@ -9,7 +9,7 @@ Figures
 
 Configuration
 -------------
-``CCPlots/plot_configs/mse_zoom.json``
+``CCPlots/plot_configs/mean_squared_error_zoomed.json``
 """
 from sklearn.datasets import make_regression
 from sklearn.linear_model import SGDRegressor
@@ -18,9 +18,9 @@ from CCPlots.PlotExample import PlotExample
 from CCPlots.config import GLOBAL_RANDOM_STATE
 
 
-class MSEZoom(PlotExample):
+class MeanSquaredErrorZoomed(PlotExample):
 
-    CONFIG_KEY = "mse_zoom"
+    CONFIG_KEY = "mean_squared_error_zoomed"
 
     y_pred = None
 

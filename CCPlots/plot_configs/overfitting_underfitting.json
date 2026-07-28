@@ -8,8 +8,8 @@
     "dpi": 100,
     "colors": {
         "model_line": "highlight",
-        "train_data": "secondary",
-        "test_data": "primary"
+        "train_data": "secondary@tint(0.2)",
+        "test_data": "primary@tint(0.2)"
     },
     "text": {
         "en": {

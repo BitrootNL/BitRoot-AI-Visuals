@@ -4,7 +4,7 @@
 This package provides three categories of configuration:
 
 **1. Visual styling (palette)**
-   ``BITROOT_PALETTE`` — shared colour reference for all plots.
+    ``BITROOT_PALETTE`` — shared colour reference for all plots.
     ``apply_bitroot_style()`` — applies the Bitroot theme to a matplotlib Axes.
     ``tint_color()`` / ``shade_color()`` — colour derivation helpers.
 
@@ -25,6 +25,7 @@ This package provides three categories of configuration:
 from .palette import (
     BITROOT_PALETTE,
     apply_bitroot_style,
+    contrasting_text_color,
     resolve_palette_key,
     shade_color,
     tint_color,
@@ -41,6 +42,7 @@ __all__ = [
     "OUTPUT_PATH",
     "ExampleConfig",
     "apply_bitroot_style",
+    "contrasting_text_color",
     "load_example_config",
     "output_path",
     "resolve_palette_key",

@@ -35,9 +35,11 @@ class DecisionTree(PlotExample):
         versicolor = to_rgba(self.resolve_color('node_versicolor'))
         virginica = to_rgba(self.resolve_color('node_virginica'))
         bg = [setosa, versicolor, virginica]
-        white = (1.0, 1.0, 1.0, 1.0)
-        dark = to_rgba(self.text_color)
-        text = [white, white, dark]
+        text = [
+            to_rgba(self.text_color_for_background(self.resolve_color('node_setosa'))),
+            to_rgba(self.text_color_for_background(self.resolve_color('node_versicolor'))),
+            to_rgba(self.text_color_for_background(self.resolve_color('node_virginica'))),
+        ]
         return bg, text
 
     def _recolor_tree(self, ax, clf):

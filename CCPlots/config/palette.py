@@ -74,6 +74,67 @@ def shade_color(color: str, amount: float) -> str:
     return f"#{r_int:02X}{g_int:02X}{b_int:02X}"
 
 
+def _relative_luminance(hex_color: str) -> float:
+    """WCAG 2.0 relative luminance of a hex colour (0 = black, 1 = white)."""
+    r, g, b = mcolors.to_rgb(hex_color)
+    def linearise(c: float) -> float:
+        return c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+    return 0.2126 * linearise(r) + 0.7152 * linearise(g) + 0.0722 * linearise(b)
+
+
+def _contrast_ratio(a: str, b: str) -> float:
+    """WCAG contrast ratio between two hex colours (1–21)."""
+    la = _relative_luminance(a)
+    lb = _relative_luminance(b)
+    lighter = max(la, lb)
+    darker = min(la, lb)
+    return (lighter + 0.05) / (darker + 0.05)
+
+
+def contrasting_text_color(bg_color: str,
+                           dark_text: str | None = None,
+                           light_text: str | None = None,
+                           *,
+                           large: bool = False) -> str:
+    """Return ``dark_text`` or ``light_text``, whichever offers better WCAG AA
+    contrast against *bg_color*.
+
+    Parameters
+    ----------
+    bg_color : str
+        Background colour (hex, palette key, or tint/shade expression).
+    dark_text : str or None
+        Dark text colour.  Defaults to ``BITROOT_PALETTE["text"]``.
+    light_text : str or None
+        Light text colour.  Defaults to ``BITROOT_PALETTE["white"]``.
+    large : bool
+        If True, uses the 3:1 large-text threshold (WCAG AA).
+        Otherwise uses the 4.5:1 normal-text threshold.
+    """
+    bg = resolve_palette_key(bg_color)
+    dk = resolve_palette_key(dark_text) if dark_text else BITROOT_PALETTE["text"]
+    lt = resolve_palette_key(light_text) if light_text else BITROOT_PALETTE["white"]
+
+    ratio_dk = _contrast_ratio(bg, dk)
+    ratio_lt = _contrast_ratio(bg, lt)
+
+    threshold = 3.0 if large else 4.5
+
+    # If both pass, pick the one with the higher ratio.
+    # If only one passes, use that one.
+    dk_passes = ratio_dk >= threshold
+    lt_passes = ratio_lt >= threshold
+
+    if dk_passes and lt_passes:
+        return dk if ratio_dk >= ratio_lt else lt
+    if dk_passes:
+        return dk
+    if lt_passes:
+        return lt
+    # Neither passes — return whichever is closer (shouldn't happen with our palette)
+    return dk if ratio_dk >= ratio_lt else lt
+
+
 def resolve_palette_key(key_spec: str) -> str:
     """Resolve a palette key or tint/shade expression to a hex colour.
 

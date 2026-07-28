@@ -7,9 +7,8 @@
     "figsize": [12, 3],
     "dpi": 100,
     "colors": {
-        "scatter_fill": "primary",
-        "scatter_edge": "text",
-        "dot_label": "text",
+        "scatter_fill": "primary@tint(0.2)",
+        "scatter_edge": "primary",
         "arrow_color": "secondary_text"
     },
     "text": {
