@@ -1,27 +1,27 @@
+"""
+Animated linear regression fitting a line to house-size vs. price data.
+Data points are added one at a time, and the regression line updates
+dynamically.
+
+Figures
+-------
+- ``linear_regression_animation.gif`` / ``_NL.gif`` — animation
+
+Configuration
+-------------
+``CCPlots/plot_configs/linear_regression.json``
+"""
 import numpy as np
-import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from sklearn.linear_model import LinearRegression
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
+from CCPlots.config import BITROOT_PALETTE, output_path
 
 
-TEXT_BY_LOCALE = {
-    "en": {
-        "title": "Linear Regression Example: House Size vs. Price",
-        "xlabel": "House Size (sq ft)",
-        "ylabel": "Price ($)",
-    },
-    "nl": {
-        "title": "Lineair regressievoorbeeld: huismaat vs. prijs",
-        "xlabel": "Huismaat (m\u00b2)",
-        "ylabel": "Prijs (\u20ac)",
-    },
-}
+class LinearRegression(PlotExample):
 
-
-class LinearRegressionExample(PlotExample):
+    CONFIG_KEY = "linear_regression"
 
     primary = BITROOT_PALETTE['primary']
 
@@ -34,11 +34,8 @@ class LinearRegressionExample(PlotExample):
         house_sizes = house_sizes[sorted_indices]
         prices = prices[sorted_indices]
 
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"linear_regression_animation{'_NL' if locale == 'nl' else ''}.gif"
-
-            fig, ax = plt.subplots(facecolor=BITROOT_PALETTE['background'])
-            ax.set_facecolor(BITROOT_PALETTE['background'])
+        for _locale, labels, suffix in self.iter_locales():
+            fig, ax = self.create_figure()
             ax.set_xlim(min(house_sizes) - 100, max(house_sizes) + 100)
             ax.set_ylim(min(prices) - 10000, max(prices) + 10000)
             ax.set_title(labels["title"], fontsize=16, color=BITROOT_PALETTE['text'])
@@ -73,7 +70,8 @@ class LinearRegressionExample(PlotExample):
 
             ani = FuncAnimation(fig, update, frames=len(house_sizes), init_func=init, blit=True, interval=10)
 
-            apply_bitroot_style(ax)
+            self.apply_style(ax)
 
+            fname = self.config.resolve_output("animation", suffix=suffix)
             ani.save(output_path(fname), writer='pillow')
             plt.close(fig)
