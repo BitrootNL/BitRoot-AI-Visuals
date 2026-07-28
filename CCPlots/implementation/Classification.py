@@ -7,10 +7,6 @@ Figures
 -------
 - ``classification_decision_boundary.png`` / ``_NL.png`` — decision boundary
 - ``classification_confusion_matrix.png`` / ``_NL.png`` — confusion matrix
-
-Configuration
--------------
-``CCPlots/plot_configs/classification.json``
 """
 
 import matplotlib.colors as mcolors
@@ -27,31 +23,43 @@ from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE, output_path
 
 class Classification(PlotExample):
 
+    # ``CCPlots / plot_configs / classification.json``
     CONFIG_KEY = "classification"
 
+    # Change plot config to affect this.
     X, y = None, None
-    class_cmap = mcolors.ListedColormap([
-        BITROOT_PALETTE["primary_soft"],
-        BITROOT_PALETTE["secondary_light"],
-    ])
-    boundary_cmap = mcolors.LinearSegmentedColormap.from_list(
-        "bitroot_boundary",
-        [BITROOT_PALETTE["background"], BITROOT_PALETTE["primary_soft"], BITROOT_PALETTE["primary"]],
-        N=256,
-    )
-    confusion_cmap = mcolors.LinearSegmentedColormap.from_list(
-        "bitroot_confusion",
-        [BITROOT_PALETTE["background"], BITROOT_PALETTE["primary_soft"], BITROOT_PALETTE["primary"]],
-        N=256,
-    )
-    X_train, X_test, y_train, y_test = None, None, None, None
-    classifier: LogisticRegression = None
+    class_cmap = None
+    boundary_cmap = None
+    confusion_cmap = None
+
+    def __init__(self):
+        super().__init__()
+        self.classifier = LogisticRegression(max_iter=1000)
 
     def main(self):
         self.generate_data()
 
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
             self.X, self.y, test_size=0.3, random_state=GLOBAL_RANDOM_STATE)
+
+        self.class_cmap = mcolors.ListedColormap([
+            self.resolve_color("class_0"),
+            self.resolve_color("class_1"),
+        ])
+        self.boundary_cmap = mcolors.LinearSegmentedColormap.from_list(
+            "bitroot_boundary",
+            [BITROOT_PALETTE["background"],
+             self.resolve_color("boundary_region_0"),
+             self.resolve_color("boundary_region_1")],
+            N=256,
+        )
+        self.confusion_cmap = mcolors.LinearSegmentedColormap.from_list(
+            "bitroot_confusion",
+            [BITROOT_PALETTE["background"],
+             self.resolve_color("confusion_cmap_pale"),
+             self.resolve_color("confusion_cmap")],
+            N=256,
+        )
 
         self.train_classifier()
 
@@ -88,9 +96,7 @@ class Classification(PlotExample):
         ax.set_facecolor(BITROOT_PALETTE['card_background'])
         disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=self.classifier.classes_)
         disp.plot(cmap=self.confusion_cmap, values_format="d", ax=ax)
-        plt.title(title, fontsize=16, color=BITROOT_PALETTE['text'], pad=10)
-        plt.xlabel(xlabel, fontsize=14, color=BITROOT_PALETTE['text'])
-        plt.ylabel(ylabel, fontsize=14, color=BITROOT_PALETTE['text'])
+        self.apply_labels(ax, title=title, xlabel=xlabel, ylabel=ylabel)
 
         if cell_labels is not None:
             labels_2x2 = [
@@ -130,30 +136,34 @@ class Classification(PlotExample):
 
         fig, ax = self.create_figure()
 
-        class_colors = [BITROOT_PALETTE['primary'], BITROOT_PALETTE['secondary']]
-        boundary_colors = [BITROOT_PALETTE['primary_soft'], BITROOT_PALETTE['secondary_soft']]
+        class_colors = [self.resolve_color('class_0'), self.resolve_color('class_1')]
+        boundary_colors = [self.resolve_color('boundary_region_0'), self.resolve_color('boundary_region_1')]
+        scatter_edge = self.resolve_color('scatter_edge')
+        contour_color = self.resolve_color('contour_line')
+        text_color = self.text_color
+
         for class_value in sorted(np.unique(self.y)):
             class_mask = self.y == class_value
             ax.scatter(self.X[class_mask, 0], self.X[class_mask, 1],
                        color=class_colors[class_value],
-                       edgecolor=BITROOT_PALETTE['secondary_text'],
+                       edgecolor=scatter_edge,
                        linewidth=0.6,
                        s=90,
                        label=f"Class {class_value}")
 
         decision_surface = ax.contourf(xx, yy, Z, levels=[-0.5, 0.5, 1.5], colors=boundary_colors, alpha=0.35)
-        ax.contour(xx, yy, Z, colors=BITROOT_PALETTE['text'], linewidths=1.2, levels=[0.5])
+        ax.contour(xx, yy, Z, colors=contour_color, linewidths=1.2, levels=[0.5])
 
         legend_text = legend_labels or ("No diabetes", "Diabetes positive")
         legend_handles = [
-            plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=class_colors[0], markeredgecolor=BITROOT_PALETTE['secondary_text'], markersize=8, label=legend_text[0]),
-            plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=class_colors[1], markeredgecolor=BITROOT_PALETTE['secondary_text'], markersize=8, label=legend_text[1]),
+            plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=class_colors[0],
+                       markeredgecolor=scatter_edge, markersize=8, label=legend_text[0]),
+            plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=class_colors[1],
+                       markeredgecolor=scatter_edge, markersize=8, label=legend_text[1]),
         ]
         ax.legend(handles=legend_handles, frameon=False, loc='upper right', fontsize=10)
 
-        ax.set_title(title, fontsize=16, color=BITROOT_PALETTE['text'], pad=10)
-        ax.set_xlabel(xlabel, fontsize=14, color=BITROOT_PALETTE['text'])
-        ax.set_ylabel(ylabel, fontsize=14, color=BITROOT_PALETTE['text'])
+        self.apply_labels(ax, title=title, xlabel=xlabel, ylabel=ylabel)
         self.apply_style(ax)
 
         self.save_figure(fig, "decision_boundary", suffix=suffix)
@@ -170,7 +180,6 @@ class Classification(PlotExample):
         )
 
     def train_classifier(self) -> None:
-        self.classifier = LogisticRegression(max_iter=1000)
         self.classifier.fit(self.X_train, self.y_train)
 
 
