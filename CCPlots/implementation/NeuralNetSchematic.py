@@ -1,27 +1,25 @@
-import matplotlib.pyplot as plt
+"""
+NetworkX drawing of a feed-forward neural network with configurable layer
+sizes (default 3 -> 5 -> 5 -> 2). Input nodes are primary, hidden nodes
+tertiary, output nodes secondary.
+
+Figures
+-------
+- ``nn_schematic.png`` / ``_NL.png`` — node-and-edge network schematic
+
+Configuration
+-------------
+``CCPlots/plot_configs/neural_net_schematic.json``
+"""
 import networkx as nx
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
-
-
-TEXT_BY_LOCALE = {
-    "en": {
-        "title": "Neural Network Schematic",
-        "input": "Input",
-        "output": "Output",
-        "hidden": "Hidden",
-    },
-    "nl": {
-        "title": "Neuraal netwerkschema",
-        "input": "Invoer",
-        "output": "Uitvoer",
-        "hidden": "Verborgen",
-    },
-}
+from CCPlots.config import BITROOT_PALETTE
 
 
 class NeuralNetSchematic(PlotExample):
+
+    CONFIG_KEY = "neural_net_schematic"
 
     def __init__(self, n_input_nodes=3, hidden_layers: tuple[int] = (5, 5), n_output_nodes=2):
         self.layers = [n_input_nodes] + list(hidden_layers) + [n_output_nodes]
@@ -58,11 +56,8 @@ class NeuralNetSchematic(PlotExample):
 
                 neuron_index += 1
 
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"nn_schematic{'_NL' if locale == 'nl' else ''}.png"
-
-            fig, ax = plt.subplots(figsize=(12, 6), facecolor=BITROOT_PALETTE['background'])
-            ax.set_facecolor(BITROOT_PALETTE['background'])
+        for _locale, labels, suffix in self.iter_locales():
+            fig, ax = self.create_figure()
 
             nx.draw_networkx_edges(G, pos=positions, edge_color="gray", width=1.5, ax=ax)
 
@@ -86,8 +81,7 @@ class NeuralNetSchematic(PlotExample):
                         fontweight='bold', color=BITROOT_PALETTE['text'])
 
             ax.set_title(labels["title"], fontsize=14, color=BITROOT_PALETTE['text'])
-            apply_bitroot_style(ax)
+            self.apply_style(ax)
             ax.axis('off')
 
-            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.1)
-            plt.close(fig)
+            self.save_figure(fig, "default", suffix=suffix)
