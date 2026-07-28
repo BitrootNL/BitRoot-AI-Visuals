@@ -6,10 +6,6 @@ regression with balanced class weights and standardised features.
 Figures
 -------
 - ``fraud_detection_boundary.png`` / ``_NL.png`` — decision boundary scatter
-
-Configuration
--------------
-``CCPlots/plot_configs/fraud_detection.json``
 """
 import matplotlib.colors as mcolors
 import numpy as np
@@ -19,17 +15,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE
+from CCPlots.config import GLOBAL_RANDOM_STATE
 
 
 class FraudDetection(PlotExample):
 
+    # CCPlots/plot_configs/fraud_detection.json
     CONFIG_KEY = "fraud_detection"
-
-    fraud_cmap = mcolors.ListedColormap([
-        BITROOT_PALETTE["primary"],
-        BITROOT_PALETTE["highlight"],
-    ])
 
     def main(self) -> None:
         X, y = make_classification(
@@ -44,12 +36,11 @@ class FraudDetection(PlotExample):
         )
 
         X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=0.25, stratify=y, random_state=42
+            X, y, test_size=0.25, stratify=y, random_state=GLOBAL_RANDOM_STATE
         )
 
         scaler = StandardScaler()
         X_train_scaled = scaler.fit_transform(X_train)
-        #X_test_scaled = scaler.transform(X_test)
 
         model = LogisticRegression(class_weight="balanced", random_state=GLOBAL_RANDOM_STATE, max_iter=1000)
         model.fit(X_train_scaled, y_train)
@@ -65,9 +56,14 @@ class FraudDetection(PlotExample):
         for _locale, labels, suffix in self.iter_locales():
             fig, ax = self.create_figure()
 
+            fraud_cmap = mcolors.ListedColormap([
+                self.resolve_color('class_0'),
+                self.resolve_color('class_1'),
+            ])
+
             boundary_cmap = mcolors.LinearSegmentedColormap.from_list(
                 "fraud_boundary",
-                [BITROOT_PALETTE["primary_soft"], BITROOT_PALETTE["highlight"]],
+                [self.resolve_color('boundary_start'), self.resolve_color('boundary_end')],
                 N=256,
             )
             ax.contourf(xx, yy, Z, alpha=0.25, cmap=boundary_cmap)
@@ -76,20 +72,18 @@ class FraudDetection(PlotExample):
                 X_train_scaled[:, 0],
                 X_train_scaled[:, 1],
                 c=y_train,
-                edgecolor=BITROOT_PALETTE['secondary_text'],
+                edgecolor=self.resolve_color('scatter_edge'),
                 linewidth=0.5,
-                cmap=self.fraud_cmap,
+                cmap=fraud_cmap,
                 s=40,
             )
 
             handles, legend_labels = scatter.legend_elements()
-            ax.legend(handles,
-                      [labels["legend_no_fraud"], labels["legend_fraud"]],
+            ax.legend(handles, [labels["legend_no_fraud"], labels["legend_fraud"]],
                       title=labels["legend_title"],
                       frameon=False, fontsize=10)
-            ax.set_title(labels["title"], fontsize=14, color=BITROOT_PALETTE['text'], pad=10)
-            ax.set_xlabel(labels["xlabel"], fontsize=13, color=BITROOT_PALETTE['text'])
-            ax.set_ylabel(labels["ylabel"], fontsize=13, color=BITROOT_PALETTE['text'])
+            self.apply_labels(ax, title=labels["title"], xlabel=labels["xlabel"],
+                              ylabel=labels["ylabel"])
             self.apply_style(ax)
             self.save_figure(fig, "default", suffix=suffix)
 

@@ -6,6 +6,13 @@
     },
     "figsize": [7, 5],
     "dpi": 100,
+    "colors": {
+        "class_0": "primary",
+        "class_1": "highlight",
+        "boundary_start": "primary_soft",
+        "boundary_end": "highlight",
+        "scatter_edge": "secondary_text"
+    },
     "text": {
         "en": {
             "title": "Decision Boundary for Fraud Detection",
