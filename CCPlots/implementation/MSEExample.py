@@ -1,27 +1,27 @@
-import matplotlib.pyplot as plt
+"""
+Line chart of Mean Squared Error over 50 SGD iterations, illustrating the
+convergence behaviour of a linear regression model trained via stochastic
+gradient descent.
+
+Figures
+-------
+- ``mse_over_iterations.png`` / ``_NL.png`` — MSE convergence line
+
+Configuration
+-------------
+``CCPlots/plot_configs/mse.json``
+"""
+from sklearn.datasets import make_regression
 from sklearn.linear_model import SGDRegressor
 from sklearn.metrics import mean_squared_error
-from sklearn.datasets import make_regression
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
+from CCPlots.config import BITROOT_PALETTE
 
 
-TEXT_BY_LOCALE = {
-    "en": {
-        "title": "MSE over Iterations",
-        "xlabel": "Iteration",
-        "ylabel": "Mean Squared Error",
-    },
-    "nl": {
-        "title": "MSE over iteraties",
-        "xlabel": "Iteratie",
-        "ylabel": "Gemiddelde kwadratische fout",
-    },
-}
+class MSE(PlotExample):
+    CONFIG_KEY = "mse"
 
-
-class MSEExample(PlotExample):
     primary = BITROOT_PALETTE['primary']
     light_gray = BITROOT_PALETTE['grid']
 
@@ -39,7 +39,19 @@ class MSEExample(PlotExample):
 
     def main(self):
         self.train_and_calculate_mse()
-        self.plot_mse()
+
+        for _locale, labels, suffix in self.iter_locales():
+            fig, ax = self.create_figure()
+
+            ax.plot(range(1, self.iterations + 1), self.mse_values, color=self.primary, marker='o')
+            ax.set_title(labels['title'], fontsize=16, color=BITROOT_PALETTE['text'])
+            ax.set_xlabel(labels['xlabel'], fontsize=14, color=BITROOT_PALETTE['text'])
+            ax.set_ylabel(labels['ylabel'], fontsize=14, color=BITROOT_PALETTE['text'])
+
+            self.apply_style(ax)
+            ax.grid(True, color=self.light_gray)
+
+            self.save_figure(fig, "default", suffix=suffix)
 
     def train_and_calculate_mse(self):
         for _ in range(self.iterations):
@@ -47,21 +59,3 @@ class MSEExample(PlotExample):
             y_pred = self.model.predict(self.X)
             mse = mean_squared_error(self.y, y_pred)
             self.mse_values.append(mse)
-
-    def plot_mse(self):
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"mse_over_iterations{'_NL' if locale == 'nl' else ''}.png"
-
-            fig, ax = plt.subplots(figsize=(10, 6), facecolor=BITROOT_PALETTE['background'])
-            ax.set_facecolor(BITROOT_PALETTE['background'])
-
-            ax.plot(range(1, self.iterations + 1), self.mse_values, color=self.primary, marker='o')
-            ax.set_title(labels['title'], fontsize=16, color=BITROOT_PALETTE['text'])
-            ax.set_xlabel(labels['xlabel'], fontsize=14, color=BITROOT_PALETTE['text'])
-            ax.set_ylabel(labels['ylabel'], fontsize=14, color=BITROOT_PALETTE['text'])
-
-            apply_bitroot_style(ax)
-            ax.grid(True, color=self.light_gray)
-
-            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.1)
-            plt.close(fig)

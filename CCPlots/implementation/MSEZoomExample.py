@@ -1,30 +1,26 @@
-import matplotlib.pyplot as plt
-from sklearn.linear_model import SGDRegressor
+"""
+Scatter plot with a single-iteration linear fit and vertical dashed
+residuals, highlighting the difference between predicted and actual values
+(used alongside the main MSE example for a zoomed-in view).
+
+Figures
+-------
+- ``mse_zoom_iteration.png`` / ``_NL.png`` — residuals scatter
+
+Configuration
+-------------
+``CCPlots/plot_configs/mse_zoom.json``
+"""
 from sklearn.datasets import make_regression
+from sklearn.linear_model import SGDRegressor
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
+from CCPlots.config import BITROOT_PALETTE
 
 
-TEXT_BY_LOCALE = {
-    "en": {
-        "title": "Differences between predicted function and actual values",
-        "xlabel": "X value (feature)",
-        "ylabel": "Y value (prediction/actual)",
-        "data_label": "Data points",
-        "line_label": "Fitted line",
-    },
-    "nl": {
-        "title": "Verschillen tussen voorspelde functie en werkelijke waarden",
-        "xlabel": "X-waarde (kenmerk)",
-        "ylabel": "Y-waarde (voorspelling/werkelijk)",
-        "data_label": "Datapunten",
-        "line_label": "Aangepaste lijn",
-    },
-}
+class MSEZoom(PlotExample):
 
-
-class MSEZoomExample(PlotExample):
+    CONFIG_KEY = "mse_zoom"
 
     primary = BITROOT_PALETTE['primary']
     secondary = BITROOT_PALETTE['secondary']
@@ -52,19 +48,11 @@ class MSEZoomExample(PlotExample):
         )
 
     def main(self):
-        self.train_one_iteration()
-        self.plot_mse_zoom()
-
-    def train_one_iteration(self):
         self.model.partial_fit(self.X, self.y)
         self.y_pred = self.model.predict(self.X)
 
-    def plot_mse_zoom(self):
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"mse_zoom_iteration{'_NL' if locale == 'nl' else ''}.png"
-
-            fig, ax = plt.subplots(figsize=(10, 6), facecolor=BITROOT_PALETTE['background'])
-            ax.set_facecolor(BITROOT_PALETTE['background'])
+        for _locale, labels, suffix in self.iter_locales():
+            fig, ax = self.create_figure()
 
             ax.scatter(self.X, self.y, color=self.tertiary, label=labels['data_label'],
                        edgecolor=self.primary, linewidth=0.8, s=55, zorder=3)
@@ -79,9 +67,8 @@ class MSEZoomExample(PlotExample):
             ax.set_xlabel(labels['xlabel'], fontsize=14, color=BITROOT_PALETTE['text'])
             ax.set_ylabel(labels['ylabel'], fontsize=14, color=BITROOT_PALETTE['text'])
 
-            apply_bitroot_style(ax)
+            self.apply_style(ax)
             ax.grid(True, color=self.light_gray)
             ax.legend()
 
-            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.1)
-            plt.close(fig)
+            self.save_figure(fig, "default", suffix=suffix)
