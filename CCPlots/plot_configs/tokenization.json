@@ -6,6 +6,12 @@
     },
     "figsize": [12, 3],
     "dpi": 100,
+    "colors": {
+        "scatter_fill": "primary",
+        "scatter_edge": "text",
+        "dot_label": "text",
+        "arrow_color": "secondary_text"
+    },
     "text": {
         "en": {
             "title": "Subword Tokenization Process",
