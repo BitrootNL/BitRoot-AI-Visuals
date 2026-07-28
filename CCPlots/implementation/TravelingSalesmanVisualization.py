@@ -1,27 +1,31 @@
+"""
+Visualises the Traveling Salesman Problem on a small complete graph
+(currently restricted to 2 and 4 cities). The brute-force optimal route is
+highlighted. Edge weights are displayed on every connection.
+
+Figures
+-------
+- ``tsp_small_{n_cities}_cities.png`` / ``_NL.png`` — optimal-route plot (n ≤ 20)
+- ``tsp_large_{n_cities}_cities.png`` / ``_NL.png`` — full-graph plot (n > 20)
+
+Configuration
+-------------
+``CCPlots/plot_configs/traveling_salesman.json``
+"""
+import itertools
+import math
+import random
+
 import matplotlib.pyplot as plt
 import networkx as nx
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, output_path
-
-import math
-import random
-import itertools
+from CCPlots.config import BITROOT_PALETTE, load_example_config, output_path
 
 
-TEXT_BY_LOCALE = {
-    "en": {
-        "title_small": "Traveling Salesman Problem Solution ({n_cities} cities)\nTotal routes: {total_routes:,}",
-        "title_large": "TSP Graph ({n_cities} cities)\nTotal possible routes: {total_routes:,}",
-    },
-    "nl": {
-        "title_small": "Handelsreizigersprobleem oplossing ({n_cities} steden)\nTotaal routes: {total_routes:,}",
-        "title_large": "TSP-graaf ({n_cities} steden)\nTotaal mogelijke routes: {total_routes:,}",
-    },
-}
+class TravelingSalesman(PlotExample):
 
-
-class TravelingSalesmanVisualization(PlotExample):
+    CONFIG_KEY = "traveling_salesman"
 
     def __init__(self, n_cities=10):
         self.n_cities = n_cities
@@ -53,8 +57,7 @@ class TravelingSalesmanVisualization(PlotExample):
     def _plot_tsp_solution(self, path, filename, total_routes, cost, labels):
         pos = nx.spring_layout(self.G, seed=42)
 
-        fig, ax = plt.subplots(figsize=(12, 8), facecolor=BITROOT_PALETTE['background'])
-        ax.set_facecolor(BITROOT_PALETTE['background'])
+        fig, ax = self.create_figure()
 
         nx.draw(self.G, pos, with_labels=True, node_color=BITROOT_PALETTE['primary'],
                 node_size=500, ax=ax)
@@ -77,8 +80,7 @@ class TravelingSalesmanVisualization(PlotExample):
     def main(self):
         total_routes = math.factorial(self.n_cities)
 
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            suffix = f"{'_NL' if locale == 'nl' else ''}.png"
+        for _locale, labels, suffix in self.iter_locales():
 
             if self.n_cities <= 20:
                 path, cost = self._solve_tsp_brute_force()
@@ -86,13 +88,13 @@ class TravelingSalesmanVisualization(PlotExample):
                 print(f"Total cost: {cost}")
                 print(f"Total possible routes: {total_routes:,}")
 
+                fname = self.config.resolve_output("small", n_cities=self.n_cities, suffix=suffix)
                 self._plot_tsp_solution(
-                    path, f"tsp_small_{self.n_cities}_cities{suffix}",
-                    total_routes, cost, labels)
+                    path, output_path(fname), total_routes, cost, labels)
             else:
                 pos = nx.spring_layout(self.G, seed=42)
 
-                fig, ax = plt.subplots(figsize=(12, 8), facecolor=BITROOT_PALETTE['background'])
+                fig, ax = self.create_figure()
                 nx.draw(self.G, pos, with_labels=True, node_color=BITROOT_PALETTE['tertiary'],
                         node_size=500, ax=ax)
                 ax.set_title(
@@ -100,11 +102,10 @@ class TravelingSalesmanVisualization(PlotExample):
                     color=BITROOT_PALETTE['text'])
                 ax.axis('off')
 
-                fig.savefig(output_path(f"tsp_large_{self.n_cities}_cities{suffix}"),
-                            bbox_inches='tight', pad_inches=0.1)
-                plt.close(fig)
+                self.save_figure(fig, "large", n_cities=self.n_cities, suffix=suffix)
 
 
 if __name__ == "__main__":
-    for n in [4, 6, 8, 10]:
-        TravelingSalesmanVisualization(n_cities=n).main()
+    cfg = load_example_config("traveling_salesman")
+    for n in cfg.run["n_cities"]:
+        TravelingSalesman(n_cities=n).main()
