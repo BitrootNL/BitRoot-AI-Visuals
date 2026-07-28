@@ -6,6 +6,9 @@
     },
     "figsize": [10, 6],
     "dpi": 100,
+    "colors": {
+        "growth_line": "primary"
+    },
     "text": {
         "en": {
             "title": "Growth in Neural Network Parameters Over Time",

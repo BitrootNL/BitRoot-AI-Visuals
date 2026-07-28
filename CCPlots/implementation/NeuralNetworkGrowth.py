@@ -13,15 +13,10 @@ Configuration
 from matplotlib.colors import to_rgba
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE
-
 
 class NeuralNetworkGrowth(PlotExample):
 
     CONFIG_KEY = "neural_network_growth"
-
-    primary = BITROOT_PALETTE['primary']
-    light_gray = BITROOT_PALETTE['grid']
 
     def main(self):
         years = [2012, 2014, 2018, 2020]
@@ -31,19 +26,16 @@ class NeuralNetworkGrowth(PlotExample):
         for _locale, labels, suffix in self.iter_locales():
             fig, ax = self.create_figure()
 
-            ax.plot(years, parameters, marker='o', color=self.primary, linewidth=2.5, markersize=7)
-            ax.fill_between(years, parameters, color=to_rgba(self.primary, alpha=0.18))
+            ax.plot(years, parameters, marker='o', color=self.resolve_color('growth_line'), linewidth=2.5, markersize=7)
+            ax.fill_between(years, parameters, color=to_rgba(self.resolve_color('growth_line'), alpha=0.18))
             for i, txt in enumerate(models):
-                ax.text(years[i], parameters[i], txt, fontsize=10, ha='right', color=BITROOT_PALETTE['text'])
+                ax.text(years[i], parameters[i], txt, fontsize=10, ha='right', color=self.text_color)
 
             ax.set_yscale('log')
 
-            ax.set_title(labels['title'], fontsize=14, color=BITROOT_PALETTE['text'])
-            ax.set_xlabel(labels['xlabel'], color=BITROOT_PALETTE['text'])
-            ax.set_xlim(min(years), max(years))
-            ax.set_ylabel(labels['ylabel'], color=BITROOT_PALETTE['text'])
+            self.apply_labels(ax, title=labels['title'], xlabel=labels['xlabel'],
+                              ylabel=labels['ylabel'])
 
             self.apply_style(ax)
-            ax.grid(True, color=self.light_gray)
 
             self.save_figure(fig, "default", suffix=suffix)
