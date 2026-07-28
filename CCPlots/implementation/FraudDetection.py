@@ -1,35 +1,30 @@
-import numpy as np
+"""
+Decision boundary plot for a fraud-detection classifier trained on an
+imbalanced dataset (90 % legitimate, 10 % fraudulent). Uses logistic
+regression with balanced class weights and standardised features.
+
+Figures
+-------
+- ``decision_boundary_fraud.png`` / ``_NL.png`` — decision boundary scatter
+
+Configuration
+-------------
+``CCPlots/plot_configs/fraud_detection.json``
+"""
 import matplotlib.colors as mcolors
-import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
-
-TEXT_BY_LOCALE = {
-    "en": {
-        "title": "Decision Boundary for Fraud Detection",
-        "xlabel": "Feature 1 (standardized)",
-        "ylabel": "Feature 2 (standardized)",
-        "legend_title": "Classes",
-        "legend_no_fraud": "No Fraud",
-        "legend_fraud": "Fraud",
-    },
-    "nl": {
-        "title": "Beslissingsgrens voor Fraudedetectie",
-        "xlabel": "Kenmerk 1 (gestandaardiseerd)",
-        "ylabel": "Kenmerk 2 (gestandaardiseerd)",
-        "legend_title": "Klassen",
-        "legend_no_fraud": "Geen Fraude",
-        "legend_fraud": "Fraude",
-    },
-}
+from CCPlots.config import BITROOT_PALETTE
 
 
 class FraudDetection(PlotExample):
+
+    CONFIG_KEY = "fraud_detection"
 
     fraud_cmap = mcolors.ListedColormap([
         BITROOT_PALETTE["primary"],
@@ -54,7 +49,7 @@ class FraudDetection(PlotExample):
 
         scaler = StandardScaler()
         X_train_scaled = scaler.fit_transform(X_train)
-        X_test_scaled = scaler.transform(X_test)
+        #X_test_scaled = scaler.transform(X_test)
 
         model = LogisticRegression(class_weight="balanced", random_state=42)
         model.fit(X_train_scaled, y_train)
@@ -67,10 +62,8 @@ class FraudDetection(PlotExample):
         Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
         Z = Z.reshape(xx.shape)
 
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"decision_boundary_fraud{'_NL' if locale == 'nl' else ''}.png"
-            fig, ax = plt.subplots(figsize=(7, 5), facecolor=BITROOT_PALETTE['background'])
-            ax.set_facecolor(BITROOT_PALETTE['background'])
+        for _locale, labels, suffix in self.iter_locales():
+            fig, ax = self.create_figure()
 
             boundary_cmap = mcolors.LinearSegmentedColormap.from_list(
                 "fraud_boundary",
@@ -97,9 +90,9 @@ class FraudDetection(PlotExample):
             ax.set_title(labels["title"], fontsize=14, color=BITROOT_PALETTE['text'], pad=10)
             ax.set_xlabel(labels["xlabel"], fontsize=13, color=BITROOT_PALETTE['text'])
             ax.set_ylabel(labels["ylabel"], fontsize=13, color=BITROOT_PALETTE['text'])
-            apply_bitroot_style(ax)
-            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.1)
-            plt.close(fig)
+            self.apply_style(ax)
+            self.save_figure(fig, "default", suffix=suffix)
+
 
 if __name__ == "__main__":
     FraudDetection().main()
