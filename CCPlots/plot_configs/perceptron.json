@@ -5,5 +5,15 @@
         "default": "perceptron_schematic{suffix}.png"
     },
     "figsize": [8, 6],
-    "dpi": 100
+    "dpi": 100,
+    "text": {
+        "en": {
+            "activation": "Activation",
+            "output": "Output"
+        },
+        "nl": {
+            "activation": "Activatie",
+            "output": "Uitvoer"
+        }
+    }
 }

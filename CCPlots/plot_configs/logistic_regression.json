@@ -5,5 +5,17 @@
         "animation": "logistic_regression_animation{suffix}.gif"
     },
     "figsize": [8, 6],
-    "dpi": 100
+    "dpi": 100,
+    "text": {
+        "en": {
+            "title": "Logistic Regression Example: Spam vs. not spam",
+            "xlabel": "Number of links in Email",
+            "ylabel": "Email length (in characters)"
+        },
+        "nl": {
+            "title": "Logistische regressie: spam versus geen spam",
+            "xlabel": "Aantal links in e-mail",
+            "ylabel": "E-maillengte (in karakters)"
+        }
+    }
 }

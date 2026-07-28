@@ -5,5 +5,21 @@
         "default": "mse_zoom_iteration{suffix}.png"
     },
     "figsize": [10, 6],
-    "dpi": 100
+    "dpi": 100,
+    "text": {
+        "en": {
+            "title": "Differences between predicted function and actual values",
+            "xlabel": "X value (feature)",
+            "ylabel": "Y value (prediction/actual)",
+            "data_label": "Data points",
+            "line_label": "Fitted line"
+        },
+        "nl": {
+            "title": "Verschillen tussen voorspelde functie en werkelijke waarden",
+            "xlabel": "X-waarde (kenmerk)",
+            "ylabel": "Y-waarde (voorspelling/werkelijk)",
+            "data_label": "Datapunten",
+            "line_label": "Aangepaste lijn"
+        }
+    }
 }

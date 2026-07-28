@@ -5,5 +5,25 @@
         "default": "naturally_missing_data_table{suffix}.png"
     },
     "figsize": [10, 4.1],
-    "dpi": 150
+    "dpi": 150,
+    "text": {
+        "en": {
+            "title": "Examples of missing data in the Adult data set",
+            "col_age": "Age",
+            "col_workclass": "Workclass",
+            "col_sex": "Sex",
+            "col_education": "Education",
+            "na_label": "?",
+            "note": "Rows with naturally occurring missing values"
+        },
+        "nl": {
+            "title": "Voorbeelden van ontbrekende gegevens in de Adult-dataset",
+            "col_age": "Leeftijd",
+            "col_workclass": "Werkklasse",
+            "col_sex": "Geslacht",
+            "col_education": "Opleiding",
+            "na_label": "?",
+            "note": "Rijen met van nature ontbrekende waarden"
+        }
+    }
 }

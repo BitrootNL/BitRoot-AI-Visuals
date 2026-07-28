@@ -6,5 +6,46 @@
         "confusion_matrix": "classification_confusion_matrix{suffix}.png"
     },
     "figsize": [8, 6],
-    "dpi": 100
+    "dpi": 100,
+    "panel_figsizes": {
+        "confusion_matrix": [7, 5.5]
+    },
+    "text": {
+        "en": {
+            "decision_title": "Classification Example with Decision Boundary",
+            "confusion_title": "Confusion Matrix",
+            "xlabel": "Age",
+            "ylabel": "Blood Pressure",
+            "confusion_xlabel": "Predicted label",
+            "confusion_ylabel": "True label",
+            "legend_no_diabetes": "No diabetes",
+            "legend_diabetes_positive": "Diabetes positive",
+            "tn": "TN",
+            "tn_desc": "Correct: no diabetes",
+            "fp": "FP",
+            "fp_desc": "False alarm: labelled diabetic",
+            "fn": "FN",
+            "fn_desc": "Missed: told no diabetes",
+            "tp": "TP",
+            "tp_desc": "Correct: diabetes identified"
+        },
+        "nl": {
+            "decision_title": "Diabetes classificatievoorbeeld",
+            "confusion_title": "Verwarringsmatrix",
+            "xlabel": "Leeftijd",
+            "ylabel": "Bloeddruk",
+            "confusion_xlabel": "Voorspeld label",
+            "confusion_ylabel": "Werkelijk label",
+            "legend_no_diabetes": "Geen diabetes",
+            "legend_diabetes_positive": "Diabetes positief",
+            "tn": "TN",
+            "tn_desc": "Geen diabetes, correct herkend",
+            "fp": "FP",
+            "fp_desc": "Geen diabetes, valse diagnose",
+            "fn": "FN",
+            "fn_desc": "Wel diabetes, niet herkend",
+            "tp": "TP",
+            "tp_desc": "Diabetes correct herkend"
+        }
+    }
 }

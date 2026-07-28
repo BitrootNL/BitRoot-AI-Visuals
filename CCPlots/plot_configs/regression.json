@@ -5,5 +5,19 @@
         "default": "regression_example{suffix}.png"
     },
     "figsize": [10, 6],
-    "dpi": 100
+    "dpi": 100,
+    "text": {
+        "en": {
+            "title": "Female Height Distribution World-wide",
+            "xlabel": "Height in cms (mean=159, std=6.1)",
+            "ylabel": "Probability Density",
+            "label_line": "Female Height Distribution World-wide"
+        },
+        "nl": {
+            "title": "Wereldwijde lengteverdeling van vrouwen",
+            "xlabel": "Lengte in cm (gem=159, std=6.1)",
+            "ylabel": "Kansdichtheid",
+            "label_line": "Wereldwijde lengteverdeling van vrouwen"
+        }
+    }
 }

@@ -5,5 +5,19 @@
         "animation": "multivariate_regression_animation{suffix}.gif"
     },
     "figsize": [12, 8],
-    "dpi": 100
+    "dpi": 100,
+    "text": {
+        "en": {
+            "title": "Multivariate Regression Example: House Size, Rooms vs. Price",
+            "xlabel": "House Size (sq ft)",
+            "ylabel": "Number of Rooms",
+            "zlabel": "Price ($)"
+        },
+        "nl": {
+            "title": "Multivariate regressie: huismaat, kamers vs. prijs",
+            "xlabel": "Huismaat (m\u00b2)",
+            "ylabel": "Aantal kamers",
+            "zlabel": "Prijs (\u20ac)"
+        }
+    }
 }

@@ -5,5 +5,17 @@
         "animation": "linear_regression_animation{suffix}.gif"
     },
     "figsize": [8, 6],
-    "dpi": 100
+    "dpi": 100,
+    "text": {
+        "en": {
+            "title": "Linear Regression Example: House Size vs. Price",
+            "xlabel": "House Size (sq ft)",
+            "ylabel": "Price ($)"
+        },
+        "nl": {
+            "title": "Lineair regressievoorbeeld: huismaat vs. prijs",
+            "xlabel": "Huismaat (m\u00b2)",
+            "ylabel": "Prijs (\u20ac)"
+        }
+    }
 }

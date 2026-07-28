@@ -5,5 +5,19 @@
         "animation": "knn_visualization_animation{suffix}.gif"
     },
     "figsize": [12, 8],
-    "dpi": 100
+    "dpi": 100,
+    "text": {
+        "en": {
+            "title": "K-Nearest Neighbors for Housing",
+            "xlabel": "House Size (sq ft)",
+            "ylabel": "Number of Rooms",
+            "zlabel": "Price ($)"
+        },
+        "nl": {
+            "title": "K-dichtstbijzijnde buren voor huisvesting",
+            "xlabel": "Huismaat (m\u00b2)",
+            "ylabel": "Aantal kamers",
+            "zlabel": "Prijs (\u20ac)"
+        }
+    }
 }

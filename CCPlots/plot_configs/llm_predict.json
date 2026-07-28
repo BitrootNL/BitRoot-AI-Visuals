@@ -5,5 +5,21 @@
         "default": "llm_predict_next{suffix}.png"
     },
     "figsize": [6, 4],
-    "dpi": 100
+    "dpi": 100,
+    "text": {
+        "en": {
+            "title": "Predicting the Next Word for: '{prompt}'",
+            "xlabel": "Predicted Next Word",
+            "ylabel": "Probability",
+            "prompt": "The cat sat on the",
+            "words": ["mat", "floor", "chair", "roof", "dog"]
+        },
+        "nl": {
+            "title": "Volgende woord voorspellen voor: '{prompt}'",
+            "xlabel": "Voorspeld volgend woord",
+            "ylabel": "Kans",
+            "prompt": "De kat zat op de",
+            "words": ["mat", "vloer", "stoel", "dak", "hond"]
+        }
+    }
 }

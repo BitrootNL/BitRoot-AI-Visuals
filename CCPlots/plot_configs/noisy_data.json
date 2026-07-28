@@ -5,5 +5,21 @@
         "default": "noisy_data_example{suffix}.png"
     },
     "figsize": [8, 5],
-    "dpi": 100
+    "dpi": 100,
+    "text": {
+        "en": {
+            "title": "Illustration of Noise in Data",
+            "xlabel": "X Values",
+            "ylabel": "Y Values",
+            "true_label": "True Function (sin(x))",
+            "noisy_label": "Noisy Observations"
+        },
+        "nl": {
+            "title": "Illustratie van ruis in gegevens",
+            "xlabel": "X-waarden",
+            "ylabel": "Y-waarden",
+            "true_label": "Werkelijke functie (sin(x))",
+            "noisy_label": "Ruiswaarnemingen"
+        }
+    }
 }

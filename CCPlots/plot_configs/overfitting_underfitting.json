@@ -5,5 +5,27 @@
         "default": "overfitting_underfitting{suffix}.png"
     },
     "figsize": [14, 6],
-    "dpi": 100
+    "dpi": 100,
+    "text": {
+        "en": {
+            "under_title": "Underfitting\nTrain MSE: {train_mse:.2f}, Test MSE: {test_mse:.2f}",
+            "over_title": "Overfitting\nTrain MSE: {train_mse:.2f}, Test MSE: {test_mse:.2f}",
+            "xlabel": "X",
+            "ylabel": "y",
+            "train_label": "Training Data",
+            "test_label": "Test Data",
+            "under_label": "Model (Underfitting)",
+            "over_label": "Model (Overfitting)"
+        },
+        "nl": {
+            "under_title": "Underfitting\nTrain MSE: {train_mse:.2f}, Test MSE: {test_mse:.2f}",
+            "over_title": "Overfitting\nTrain MSE: {train_mse:.2f}, Test MSE: {test_mse:.2f}",
+            "xlabel": "X",
+            "ylabel": "y",
+            "train_label": "Trainingsgegevens",
+            "test_label": "Testgegevens",
+            "under_label": "Model (underfitting)",
+            "over_label": "Model (overfitting)"
+        }
+    }
 }

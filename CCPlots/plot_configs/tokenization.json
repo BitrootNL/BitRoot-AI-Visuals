@@ -5,5 +5,17 @@
         "default": "tokenization_example{suffix}.png"
     },
     "figsize": [12, 3],
-    "dpi": 100
+    "dpi": 100,
+    "text": {
+        "en": {
+            "title": "Subword Tokenization Process",
+            "tokens": ["Tok", "en", "ization", "is", "es", "sen",
+                       "tial", "for", "NLP", "mod", "els", "!"]
+        },
+        "nl": {
+            "title": "Subwoord-tokenisatieproces",
+            "tokens": ["Tok", "enis", "atie", "is", "ess", "en",
+                       "ti", "eel", "voor", "NLP", "mod", "ellen", "!"]
+        }
+    }
 }

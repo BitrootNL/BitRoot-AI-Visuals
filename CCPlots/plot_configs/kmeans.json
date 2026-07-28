@@ -10,5 +10,23 @@
     "params": {
         "n_clusters": [3, 4],
         "n_samples": 300
+    },
+    "text": {
+        "en": {
+            "title": "KMeans Clustering: Determining Species",
+            "xlabel": "Height of a penguin",
+            "ylabel": "Weight of a penguin",
+            "cluster_label": "Cluster {n}",
+            "centroid_label": "Centroid",
+            "legend_title": "Clusters"
+        },
+        "nl": {
+            "title": "KMeans-clustering: soorten bepalen",
+            "xlabel": "Hoogte van een pingu\u00efn",
+            "ylabel": "Gewicht van een pingu\u00efn",
+            "cluster_label": "Cluster {n}",
+            "centroid_label": "Centro\u00efde",
+            "legend_title": "Clusters"
+        }
     }
 }

@@ -5,5 +5,17 @@
         "default": "mse_over_iterations{suffix}.png"
     },
     "figsize": [10, 6],
-    "dpi": 100
+    "dpi": 100,
+    "text": {
+        "en": {
+            "title": "MSE over Iterations",
+            "xlabel": "Iteration",
+            "ylabel": "Mean Squared Error"
+        },
+        "nl": {
+            "title": "MSE over iteraties",
+            "xlabel": "Iteratie",
+            "ylabel": "Gemiddelde kwadratische fout"
+        }
+    }
 }

@@ -5,5 +5,23 @@
         "default": "kfold_validation{suffix}.png"
     },
     "figsize": [10, 4],
-    "dpi": 100
+    "dpi": 100,
+    "text": {
+        "en": {
+            "title": "Visualization of K-Fold Cross-Validation",
+            "colorbar": "Fold number",
+            "xlabel": "Index in the dataset",
+            "ylabel": "Fold number",
+            "train": "Training",
+            "test": "Test"
+        },
+        "nl": {
+            "title": "Visualisatie van K-Fold-kruisvalidatie",
+            "colorbar": "Foldnummer",
+            "xlabel": "Index in de dataset",
+            "ylabel": "Foldnummer",
+            "train": "Training",
+            "test": "Test"
+        }
+    }
 }

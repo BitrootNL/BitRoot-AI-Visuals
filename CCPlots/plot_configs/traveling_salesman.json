@@ -9,5 +9,15 @@
     "dpi": 100,
     "run": {
         "n_cities": [2, 4]
+    },
+    "text": {
+        "en": {
+            "title_small": "Traveling Salesman Problem Solution ({n_cities} cities)\nTotal routes: {total_routes:,}",
+            "title_large": "TSP Graph ({n_cities} cities)\nTotal possible routes: {total_routes:,}"
+        },
+        "nl": {
+            "title_small": "Handelsreizigersprobleem oplossing ({n_cities} steden)\nTotaal routes: {total_routes:,}",
+            "title_large": "TSP-graaf ({n_cities} steden)\nTotaal mogelijke routes: {total_routes:,}"
+        }
     }
 }

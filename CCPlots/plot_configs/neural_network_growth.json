@@ -5,5 +5,17 @@
         "default": "neural_network_growth_line_log{suffix}.png"
     },
     "figsize": [10, 6],
-    "dpi": 100
+    "dpi": 100,
+    "text": {
+        "en": {
+            "title": "Growth in Neural Network Parameters Over Time",
+            "xlabel": "Year",
+            "ylabel": "Parameters (log scale)"
+        },
+        "nl": {
+            "title": "Groei van neurale netwerkparameters door de tijd",
+            "xlabel": "Jaar",
+            "ylabel": "Parameters (log schaal)"
+        }
+    }
 }

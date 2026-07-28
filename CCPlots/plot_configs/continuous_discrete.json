@@ -5,5 +5,25 @@
         "default": "continuous_discrete_example{suffix}.png"
     },
     "figsize": [14, 5],
-    "dpi": 100
+    "dpi": 100,
+    "text": {
+        "en": {
+            "cat_title": "Ages divided into age categories",
+            "cat_xlabel": "Age group",
+            "cat_ylabel": "Count",
+            "cont_title": "Age distribution in real life",
+            "cont_xlabel": "Actual age",
+            "cont_ylabel": "Count",
+            "bins_labels": ["<18", "18\u201324", "25\u201334", "35\u201349", "50\u201364", "65\u201379", "80+"]
+        },
+        "nl": {
+            "cat_title": "Leeftijden verdeeld in leeftijdscategorie\u00ebn",
+            "cat_xlabel": "Leeftijdsgroep",
+            "cat_ylabel": "Aantal",
+            "cont_title": "Leeftijdsverdeling in het echt",
+            "cont_xlabel": "Werkelijke leeftijd",
+            "cont_ylabel": "Aantal",
+            "bins_labels": ["<18", "18\u201324", "25\u201334", "35\u201349", "50\u201364", "65\u201379", "80+"]
+        }
+    }
 }
