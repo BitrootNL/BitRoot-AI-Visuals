@@ -18,18 +18,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import PolynomialFeatures
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE
+from CCPlots.config import GLOBAL_RANDOM_STATE
 
 
 class OverfittingUnderfitting(PlotExample):
 
+    # CCPlots/plot_configs/overfitting_underfitting.json
     CONFIG_KEY = "overfitting_underfitting"
-
-    prediction_color = BITROOT_PALETTE['highlight']
-    training_color = BITROOT_PALETTE['secondary']
-    test_color = BITROOT_PALETTE['primary']
-
-    light_gray = BITROOT_PALETTE['grid']
 
     def main(self):
         np.random.seed(GLOBAL_RANDOM_STATE)
@@ -72,26 +67,17 @@ class OverfittingUnderfitting(PlotExample):
         for _locale, labels, suffix in self.iter_locales():
             fig, (ax1, ax2) = self.create_figure(ncols=2)
 
-            ax1.scatter(X_train, y_train, color=self.training_color, label=labels['train_label'])
-            ax1.scatter(X_test, y_test, color=self.test_color, label=labels['test_label'])
-            ax1.plot(X_range, y_range_pred_under, color=self.prediction_color, label=labels['under_label'])
-            ax1.set_title(labels['under_title'].format(train_mse=mse_under_train, test_mse=mse_under_test),
-                          color=BITROOT_PALETTE['text'])
-            ax1.set_xlabel(labels['xlabel'], color=BITROOT_PALETTE['text'])
-            ax1.set_ylabel(labels['ylabel'], color=BITROOT_PALETTE['text'])
+            ax1.scatter(X_train, y_train, color=self.resolve_color('train_data'), label=labels['train_label'])
+            ax1.scatter(X_test, y_test, color=self.resolve_color('test_data'), label=labels['test_label'])
+            ax1.plot(X_range, y_range_pred_under, color=self.resolve_color('model_line'), label=labels['under_label'])
+            self.apply_labels(ax1, title=labels['under_title'].format(train_mse=mse_under_train, test_mse=mse_under_test),
+                              xlabel=labels['xlabel'], ylabel=labels['ylabel'])
             ax1.legend()
-            ax1.grid(True, c=self.light_gray)
             self.apply_style(ax1)
 
-            ax2.scatter(X_train, y_train, color=self.training_color, label=labels['train_label'])
-            ax2.scatter(X_test, y_test, color=self.test_color, label=labels['test_label'])
-            ax2.plot(X_range, y_range_pred_over, color=self.prediction_color, label=labels['over_label'])
-            ax2.set_title(labels['over_title'].format(train_mse=mse_over_train, test_mse=mse_over_test),
-                          color=BITROOT_PALETTE['text'])
-            ax2.set_xlabel(labels['xlabel'], color=BITROOT_PALETTE['text'])
-            ax2.set_ylabel(labels['ylabel'], color=BITROOT_PALETTE['text'])
+            self.apply_labels(ax2, title=labels['over_title'].format(train_mse=mse_over_train, test_mse=mse_over_test),
+                              xlabel=labels['xlabel'], ylabel=labels['ylabel'])
             ax2.legend()
-            ax2.grid(True, c=self.light_gray)
             self.apply_style(ax2)
 
             self.save_figure(fig, "default", suffix=suffix)

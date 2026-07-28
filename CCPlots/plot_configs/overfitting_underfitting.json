@@ -6,6 +6,11 @@
     },
     "figsize": [14, 6],
     "dpi": 100,
+    "colors": {
+        "model_line": "highlight",
+        "train_data": "secondary",
+        "test_data": "primary"
+    },
     "text": {
         "en": {
             "under_title": "Underfitting\nTrain MSE: {train_mse:.2f}, Test MSE: {test_mse:.2f}",
