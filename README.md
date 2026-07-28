@@ -21,45 +21,57 @@ The `CCPlots` module generates all plots in `plots/`.
 
 1. Install dependencies: `pip install -r requirements.txt`
 2. Regenerate all plots: `python main.py`
-3. Or run a single example: `python -c "from CCPlots.implementation.<ExampleName> import <ExampleName>; <ExampleName>().main()"`
+3. Or run a single example: `python -c "from CCPlots.implementation.<ModuleName> import <ClassName>; <ClassName>().main()"` (see table below for class names)
 
-Every example follows the `PlotExample` interface defined in
-`CCPlots/PlotExample.py`, so all examples can be run via `main.py` uniformly.
+Every example is a subclass of `PlotExample` (defined in `CCPlots/PlotExample.py`)
+with a `CONFIG_KEY` that links it to its JSON config in `CCPlots/plot_configs/`.
+All examples can be run via `main.py` uniformly.
+
+### Configuration-driven
+
+Each plot is configured by a JSON file in `CCPlots/plot_configs/`:
+- Output filenames, figure size, DPI
+- Locale-specific text labels (``text`` section)
+- Semantic colour mappings (``colors`` section, optional)
+- Plot-specific parameters (``params``, ``run`` sections)
+
+To change a label or colour, edit the JSON — no Python code changes needed.
 
 ### Localization
 
 Every plot that supports text labels produces an English (EN) and Dutch (NL)
 version. The EN filename has no suffix; the NL filename ends with `_NL`.
-This is handled through a `TEXT_BY_LOCALE` dict with locale pairs `("en", "nl")`.
+Text labels are stored in each plot's JSON config under a ``text`` key with
+locale pairs `("en", "nl")`.
 
 ### Implementations
 
-| Example | Output |
-|---|---|
-| ClassificationExample | `classification_decision_boundary.png`, `classification_confusion_matrix.png` |
-| ContinuousDiscreteExample | `continuous_discrete_example.png` |
-| DecisionTreeExample | `decision_tree_iris.png` |
-| EmployeeAIAdoption | `employee_ai_adoption.png` |
-| FraudDetection | `decision_boundary_fraud.png` |
-| KFoldExample | `kfold_validation.png` |
-| KMeansExample | `kmeans_animation_k3.gif`, `kmeans_clustering_k3.png`, etc. |
-| KNearestExample | `knn_visualization_animation.gif` |
-| LLMPredictExample | `llm_predict_next.png` |
-| LinearRegressionExample | `linear_regression_animation.gif` |
-| LogisticRegressionExample | `logistic_regression_animation.gif` |
-| MSEExample | `mse_over_iterations.png` |
-| MSEZoomExample | `mse_zoom_iteration.png` |
-| MissingDataExample | `naturally_missing_data_table.png` |
-| MultivariateRegressionExample | `multivariate_regression_animation.gif` |
-| NeuralNetSchematic | `nn_schematic.png` |
-| NeuralNetworkActivationFunctionsExample | `neural_network_activation_functions.png` |
-| NeuralNetworkGrowthExample | `neural_network_growth_line_log.png` |
-| NoisyDataExample | `noisy_data_example.png` |
-| OverfittingUnderfittingExample | `overfitting_underfitting.png` |
-| PerceptronExample | `perceptron_schematic.png` |
-| RegressionExample | `regression_example.png` |
-| TokenizationExample | `tokenization_example.png` |
-| TravelingSalesmanVisualization | `tsp_small_<n>_cities.png`, `tsp_large_<n>_cities.png` |
+| Class | Config | Output |
+|---|---|---|
+| `Classification` | `classification.json` | `classification_decision_boundary.png`, `classification_confusion_matrix.png` |
+| `ContinuousDiscrete` | `continuous_discrete.json` | `continuous_discrete_example.png` |
+| `DecisionTree` | `decision_tree.json` | `decision_tree_iris.png` |
+| `EmployeeAIAdoption` | `employee_ai_adoption.json` | `employee_ai_adoption.png` |
+| `FraudDetection` | `fraud_detection.json` | `decision_boundary_fraud.png` |
+| `KFold` | `kfold.json` | `kfold_validation.png` |
+| `KMeans` | `kmeans.json` | `kmeans_animation_k3.gif`, `kmeans_clustering_k3.png`, etc. |
+| `KNearest` | `knn.json` | `knn_visualization_animation.gif` |
+| `LLMPredict` | `llm_predict.json` | `llm_predict_next.png` |
+| `LinearRegression` | `linear_regression.json` | `linear_regression_animation.gif` |
+| `LogisticRegression` | `logistic_regression.json` | `logistic_regression_animation.gif` |
+| `MSE` | `mse.json` | `mse_over_iterations.png` |
+| `MSEZoom` | `mse_zoom.json` | `mse_zoom_iteration.png` |
+| `MissingData` | `missing_data.json` | `naturally_missing_data_table.png` |
+| `MultivariateRegression` | `multivariate_regression.json` | `multivariate_regression_animation.gif` |
+| `NeuralNetSchematic` | `neural_net_schematic.json` | `nn_schematic.png` |
+| `NeuralNetworkActivationFunctions` | `neural_network_activation.json` | `neural_network_activation_functions.png` |
+| `NeuralNetworkGrowth` | `neural_network_growth.json` | `neural_network_growth_line_log.png` |
+| `NoisyData` | `noisy_data.json` | `noisy_data_example.png` |
+| `OverfittingUnderfitting` | `overfitting_underfitting.json` | `overfitting_underfitting.png` |
+| `Perceptron` | `perceptron.json` | `perceptron_schematic.png` |
+| `Regression` | `regression.json` | `regression_example.png` |
+| `Tokenization` | `tokenization.json` | `tokenization_example.png` |
+| `TravelingSalesman` | `traveling_salesman.json` | `tsp_small_<n>_cities.png`, `tsp_large_<n>_cities.png` |
 
 ## Mermaid Diagrams
 
@@ -91,7 +103,7 @@ Settings: Theme `meadow`, Background off, Margin 16px, Languages Python / Markdo
 
 All visuals follow the **Bitroot** palette defined in
 [`colour_reference.md`](colour_reference.md) and
-[`CCPlots/config.py`](CCPlots/config.py).
+[`CCPlots/config/palette.py`](CCPlots/config/palette.py).
 
 | Role | Hex |
 |---|---|
@@ -102,7 +114,7 @@ All visuals follow the **Bitroot** palette defined in
 | Background | `#F8FAFA` |
 | Text | `#2D3333` |
 
-Use the `apply_bitroot_style()` helper in `CCPlots/config.py` to apply the
+Use the `apply_bitroot_style()` helper in `CCPlots/config/palette.py` to apply the
 palette defaults to any Matplotlib axis.
 
 ## Plot Showcase
@@ -122,5 +134,5 @@ palette defaults to any Matplotlib axis.
 ![Regression Example](plots/regression_example.png)
 ![Perceptron Schematic](plots/perceptron_schematic.png)
 ![Neural Network Schematic](plots/nn_schematic.png)
-![Traveling Salesman](plots/tsp_small_10_cities.png)
+![Traveling Salesman](plots/tsp_small_4_cities.png)
 ![Decision Tree](plots/decision_tree_iris.png)

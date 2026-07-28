@@ -3,8 +3,8 @@ main.py
 
 Run all examples from the CCPlots library to make my life a little easier.
 
-Please note that the entire configuration for the plots is in CCPlots (config.py),
-including the output folder.
+Please note that the configuration for the plots is in CCPlots/config/ (the
+system package) and CCPlots/plot_configs/ (per-example JSON files).
 """
 import CCPlots
 
