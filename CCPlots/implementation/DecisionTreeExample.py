@@ -1,26 +1,27 @@
+"""
+Decision tree (max depth 3) trained on the Iris dataset with node boxes
+recoloured using the Bitroot palette. Impure nodes are lightened
+proportionally to their impurity.
+
+Figures
+-------
+- ``decision_tree_iris.png`` / ``_NL.png`` — tree plot
+
+Configuration
+-------------
+``CCPlots/plot_configs/decision_tree.json``
+"""
 import numpy as np
-import matplotlib.pyplot as plt
 from matplotlib.colors import to_rgba
 from sklearn import tree
 from sklearn.datasets import load_iris
 from sklearn.tree import DecisionTreeClassifier
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, darken_color, output_path
-
-
-TEXT_BY_LOCALE = {
-    "en": {
-        "title": "Decision Tree on Iris Dataset",
-    },
-    "nl": {
-        "title": "Beslissingsboom op Iris-dataset",
-    },
-}
+from CCPlots.config import BITROOT_PALETTE, darken_color
 
 
 def _blend_toward(color: tuple, target: tuple, amount: float) -> tuple:
-    """Linearly blend color toward target by amount (0 = full color, 1 = full target)."""
     return tuple(c + amount * (t - c) for c, t in zip(color, target))
 
 
@@ -68,8 +69,6 @@ def _recolor_tree(ax, clf):
             purity = float(dist[majority_class]) / total
             base_rgba = IRIS_BG[majority_class]
             text_color = IRIS_TEXT[majority_class]
-            # Lighten impure nodes by blending toward white (for dark bg)
-            # or toward the surface background (for light bg on green)
             blend_target = (1.0, 1.0, 1.0, 1.0) if majority_class != 2 else to_rgba(BITROOT_PALETTE['background'])
             face_color = _blend_toward(base_rgba, blend_target, (1.0 - purity) * 0.25)
 
@@ -88,7 +87,9 @@ def _recolor_tree(ax, clf):
         t.set_fontweight('bold')
 
 
-class DecisionTreeExample(PlotExample):
+class DecisionTree(PlotExample):
+
+    CONFIG_KEY = "decision_tree"
 
     def main(self):
         iris = load_iris()
@@ -97,11 +98,8 @@ class DecisionTreeExample(PlotExample):
         clf = DecisionTreeClassifier(max_depth=3, random_state=42)
         clf = clf.fit(X, y)
 
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"decision_tree_iris{'_NL' if locale == 'nl' else ''}.png"
-
-            fig, ax = plt.subplots(figsize=(12, 8), facecolor=BITROOT_PALETTE['background'])
-            ax.set_facecolor(BITROOT_PALETTE['background'])
+        for _locale, labels, suffix in self.iter_locales():
+            fig, ax = self.create_figure()
 
             tree.plot_tree(clf, filled=False, feature_names=iris.feature_names,
                            class_names=iris.target_names, ax=ax,
@@ -112,7 +110,6 @@ class DecisionTreeExample(PlotExample):
 
             ax.set_title(labels["title"], color=BITROOT_PALETTE['text'],
                          fontsize=14, fontweight='bold')
-            apply_bitroot_style(ax)
+            self.apply_style(ax)
 
-            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.1)
-            plt.close(fig)
+            self.save_figure(fig, "default", suffix=suffix)
