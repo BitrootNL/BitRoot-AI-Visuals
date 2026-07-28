@@ -2,7 +2,9 @@
 ``CCPlots.config.palette`` — Bitroot colour palette and visual styling tools.
 
 **What this controls:**
-- The shared colour palette (``BITROOT_PALETTE``) used by every plot.
+- The shared colour palette (``BITROOT_PALETTE``) used by every plot.  The
+  palette is loaded from ``bitroot.json`` (the single source of truth derived
+  from the Bitroot design system).
 - Colour derivation helpers (``tint_color``, ``shade_color``).
 - The ``apply_bitroot_style()`` function that applies Bitroot theme defaults
   (background, grid, spine colours, tick parameters) to a matplotlib Axes.
@@ -14,27 +16,29 @@ Approach to colouring implemented from: https://maketintsandshades.com/about/.
 
 **Scope: global.** Changes here affect every plot in the library.
 Use ``CCPlots/plot_configs/*.json`` to tweak per-example settings instead.
+
+To add or update a colour, edit ``bitroot.json`` — do NOT hard-code hex values
+in this module.
 """
 
+import json
+import os
 import re
 import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 
+# ── Load palette from the shared JSON config ──────────────────────────────
+
+_CONFIG_PATH = os.path.join(os.path.dirname(__file__), "bitroot.json")
+
+with open(_CONFIG_PATH, encoding="utf-8") as _f:
+    _BITROOT_CONFIG = json.load(_f)
+
+_COLORS: dict[str, dict[str, str]] = _BITROOT_CONFIG["colors"]
+
+# Build the flat hex dict from the canonical DESIGN.md colour names.
 BITROOT_PALETTE: dict[str, str] = {
-    "primary": "#269FBA",
-    "secondary": "#5C78D9",
-    "tertiary": "#A3D979",
-    "highlight": "#B1325D",
-    "success": "#3DB873",
-    "warning": "#D4A843",
-    "error": "#C94A3E",
-    "info": "#4D8FC9",
-    "text": "#2D3333",
-    "secondary_text": "#4D5C5C",
-    "background": "#F8FAFA",
-    "card_background": "#FFFFFF",
-    "white": "#F2F5F5",
-    "grid": "#D8E0E0",
+    name: entry["hex"] for name, entry in _COLORS.items()
 }
 
 _TINT_RE = re.compile(r"^(\w+)@tint\(([\d.]+)\)$")
@@ -112,7 +116,7 @@ def contrasting_text_color(bg_color: str,
         Otherwise uses the 4.5:1 normal-text threshold.
     """
     bg = resolve_palette_key(bg_color)
-    dk = resolve_palette_key(dark_text) if dark_text else BITROOT_PALETTE["text"]
+    dk = resolve_palette_key(dark_text) if dark_text else BITROOT_PALETTE["on-surface"]
     lt = resolve_palette_key(light_text) if light_text else BITROOT_PALETTE["white"]
 
     ratio_dk = _contrast_ratio(bg, dk)
@@ -180,9 +184,9 @@ def apply_bitroot_style(ax=None, *, background=None, text=None, grid=None, title
     if ax is None:
         ax = plt.gca()
 
-    _bg = resolve_palette_key(background) if background else BITROOT_PALETTE["background"]
-    _text = resolve_palette_key(text) if text else BITROOT_PALETTE["text"]
-    _grid = resolve_palette_key(grid) if grid else BITROOT_PALETTE["grid"]
+    _bg = resolve_palette_key(background) if background else BITROOT_PALETTE["surface"]
+    _text = resolve_palette_key(text) if text else BITROOT_PALETTE["on-surface"]
+    _grid = resolve_palette_key(grid) if grid else BITROOT_PALETTE["border"]
 
     ax.set_facecolor(_bg)
     figure = ax.figure

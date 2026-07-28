@@ -48,14 +48,14 @@ class Classification(PlotExample):
         ])
         self.boundary_cmap = mcolors.LinearSegmentedColormap.from_list(
             "bitroot_boundary",
-            [BITROOT_PALETTE["background"],
+            [BITROOT_PALETTE["surface"],
              self.resolve_color("boundary_region_0"),
              self.resolve_color("boundary_region_1")],
             N=256,
         )
         self.confusion_cmap = mcolors.LinearSegmentedColormap.from_list(
             "bitroot_confusion",
-            [BITROOT_PALETTE["background"],
+            [BITROOT_PALETTE["surface"],
              self.resolve_color("confusion_cmap_pale"),
              self.resolve_color("confusion_cmap")],
             N=256,
@@ -91,9 +91,9 @@ class Classification(PlotExample):
         cm = confusion_matrix(self.y_test, y_pred)
 
         cfigsize = self.config.panel_figsize("confusion_matrix")
-        fig = plt.figure(figsize=cfigsize, facecolor=BITROOT_PALETTE['background'])
+        fig = plt.figure(figsize=cfigsize, facecolor=BITROOT_PALETTE['surface'])
         ax = plt.gca()
-        ax.set_facecolor(BITROOT_PALETTE['card_background'])
+        ax.set_facecolor(BITROOT_PALETTE['white'])
         disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=self.classifier.classes_)
         disp.plot(cmap=self.confusion_cmap, values_format="d", ax=ax)
         self.apply_labels(ax, title=title, xlabel=xlabel, ylabel=ylabel)
@@ -115,7 +115,7 @@ class Classification(PlotExample):
                 ax.text(col, row - 0.28, desc, ha='center', va='center',
                         fontsize=7, color=text_color)
 
-        self.apply_style(ax, background=BITROOT_PALETTE['card_background'])
+        self.apply_style(ax, background=BITROOT_PALETTE['white'])
         ax.grid(False)
         plt.tight_layout()
         fname = self.config.resolve_output("confusion_matrix", suffix=suffix)

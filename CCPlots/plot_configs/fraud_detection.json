@@ -8,10 +8,10 @@
     "dpi": 100,
     "colors": {
         "class_0": "primary",
-        "class_1": "highlight",
+        "class_1": "brand",
         "boundary_start": "primary@tint(0.18)",
-        "boundary_end": "highlight",
-        "scatter_edge": "secondary_text"
+        "boundary_end": "brand",
+        "scatter_edge": "on-surface-muted"
     },
     "text": {
         "en": {

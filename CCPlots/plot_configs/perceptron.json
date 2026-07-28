@@ -7,11 +7,11 @@
     "figsize": [8, 6],
     "dpi": 100,
     "colors": {
-        "annotation": "text",
-        "weight_label": "secondary_text",
+        "annotation": "on-surface",
+        "weight_label": "on-surface-muted",
         "circle_fill": "secondary",
         "circle_text": "white",
-        "arrow": "text"
+        "arrow": "on-surface"
     },
     "text": {
         "en": {

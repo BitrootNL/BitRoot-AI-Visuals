@@ -45,7 +45,7 @@ class LogisticRegression(PlotExample):
     @property
     def cmap_light(self):
         return ListedColormap([
-            to_rgba(BITROOT_PALETTE["background"], alpha=0.0),
+            to_rgba(BITROOT_PALETTE["surface"], alpha=0.0),
             to_rgba(self.resolve_color('decision_boundary'), alpha=0.25),
         ])
 

@@ -38,10 +38,10 @@ class MultivariateRegression(PlotExample):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             for _locale, labels, suffix in self.iter_locales():
-                fig = plt.figure(figsize=self.config.figsize, facecolor=BITROOT_PALETTE['background'])
+                fig = plt.figure(figsize=self.config.figsize, facecolor=BITROOT_PALETTE['surface'])
                 ax = fig.add_subplot(111, projection='3d')
                 fig.subplots_adjust(left=0.05, right=0.95, top=0.92, bottom=0.05)
-                ax.set_facecolor(BITROOT_PALETTE['background'])
+                ax.set_facecolor(BITROOT_PALETTE['surface'])
                 ax.set_xlim(min(house_sizes) - 100, max(house_sizes) + 100)
                 ax.set_ylim(min(num_rooms) - 1, max(num_rooms) + 1)
                 ax.set_zlim(min(prices) - 10000, max(prices) + 10000)

@@ -10,9 +10,9 @@
         "node_setosa": "primary@shade(0.75)",
         "node_versicolor": "secondary@shade(0.75)",
         "node_virginica": "tertiary",
-        "node_edge": "text",
-        "arrow_text": "text",
-        "node_empty_bg": "background"
+        "node_edge": "on-surface",
+        "arrow_text": "on-surface",
+        "node_empty_bg": "surface"
     },
     "text": {
         "en": {

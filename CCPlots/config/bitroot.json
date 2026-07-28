@@ -1,0 +1,114 @@
+{
+  "name": "Bitroot",
+  "version": "alpha",
+  "design_system_source": ".github/instructions/DESIGN.md",
+  "description": "Unified design system for targeted, high-depth IT courses — bridging complex technical concepts and clear, accessible learning pathways.",
+  "colors": {
+    "primary":          { "hex": "#269FBA", "oklch": "oklch(0.65 0.16 195)" },
+    "primary-hover":    { "hex": "#1F86A0" },
+    "secondary":        { "hex": "#5C78D9", "oklch": "oklch(0.55 0.18 270)" },
+    "secondary-hover":  { "hex": "#4660C0" },
+    "tertiary":         { "hex": "#A3D979", "oklch": "oklch(0.80 0.15 142)" },
+    "brand":            { "hex": "#B1325D", "oklch": "oklch(0.45 0.18 350)" },
+    "surface":          { "hex": "#F8FAFA", "oklch": "oklch(0.98 0.005 195)" },
+    "surface-elev":     { "hex": "#EDF1F1", "oklch": "oklch(0.94 0.008 195)" },
+    "surface-hover":    { "hex": "#E3E8E8" },
+    "on-surface":       { "hex": "#2D3333", "oklch": "oklch(0.18 0.015 195)" },
+    "on-surface-muted": { "hex": "#4D5C5C", "oklch": "oklch(0.48 0.012 195)" },
+    "on-surface-disabled": { "hex": "#9AABAB", "oklch": "oklch(0.65 0.008 195)" },
+    "border":           { "hex": "#D8E0E0" },
+    "white":            { "hex": "#F2F2F5" },
+    "error":            { "hex": "#C94A3E", "oklch": "oklch(0.55 0.18 25)" },
+    "warning":          { "hex": "#D4A843", "oklch": "oklch(0.65 0.14 85)" },
+    "success":          { "hex": "#3DB873", "oklch": "oklch(0.55 0.16 145)" },
+    "info":             { "hex": "#4D8FC9", "oklch": "oklch(0.55 0.12 210)" }
+  },
+  "typography": {
+    "headline-display": {
+      "fontFamily": "Epilogue",
+      "fontSize": "2.5rem",
+      "fontWeight": 700,
+      "lineHeight": 1.05,
+      "letterSpacing": "-0.02em"
+    },
+    "headline-lg": {
+      "fontFamily": "Epilogue",
+      "fontSize": "2rem",
+      "fontWeight": 700,
+      "lineHeight": 1.2,
+      "letterSpacing": "-0.02em"
+    },
+    "headline-md": {
+      "fontFamily": "Epilogue",
+      "fontSize": "1.5rem",
+      "fontWeight": 700,
+      "lineHeight": 1.2,
+      "letterSpacing": "-0.02em"
+    },
+    "headline-sm": {
+      "fontFamily": "Epilogue",
+      "fontSize": "1.25rem",
+      "fontWeight": 600,
+      "lineHeight": 1.2,
+      "letterSpacing": "-0.02em"
+    },
+    "body-lg": {
+      "fontFamily": "Inter",
+      "fontSize": "1.125rem",
+      "fontWeight": 400,
+      "lineHeight": 1.6
+    },
+    "body-md": {
+      "fontFamily": "Inter",
+      "fontSize": "1rem",
+      "fontWeight": 400,
+      "lineHeight": 1.6
+    },
+    "body-sm": {
+      "fontFamily": "Inter",
+      "fontSize": "0.75rem",
+      "fontWeight": 400,
+      "lineHeight": 1.6
+    },
+    "label-lg": {
+      "fontFamily": "Epilogue",
+      "fontSize": "0.6875rem",
+      "fontWeight": 600,
+      "lineHeight": 1,
+      "letterSpacing": "0.08em"
+    },
+    "label-sm": {
+      "fontFamily": "Epilogue",
+      "fontSize": "0.75rem",
+      "fontWeight": 600,
+      "lineHeight": 1
+    },
+    "mono": {
+      "fontFamily": "JetBrains Mono, IBM Plex Mono, ui-monospace, Menlo, monospace",
+      "fontSize": "0.875rem",
+      "fontWeight": 400,
+      "lineHeight": 1.5
+    },
+    "font-stacks": {
+      "display": "Epilogue, Inter, system-ui, sans-serif",
+      "body": "Inter, system-ui, sans-serif",
+      "mono": "JetBrains Mono, IBM Plex Mono, ui-monospace, Menlo, monospace"
+    }
+  },
+  "rounded": {
+    "sm": 4,
+    "md": 8,
+    "lg": 12,
+    "xl": 16,
+    "full": 9999
+  },
+  "spacing": {
+    "1": 8,
+    "2": 16,
+    "3": 24,
+    "4": 32,
+    "5": 48,
+    "6": 64,
+    "7": 96
+  }
+}

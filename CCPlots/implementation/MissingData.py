@@ -38,7 +38,7 @@ class MissingData(PlotExample):
 
             n_rows, n_cols = display.shape
             fig = plt.figure(figsize=(10, 0.35 * n_rows + 0.6),
-                             facecolor=BITROOT_PALETTE['background'])
+                             facecolor=BITROOT_PALETTE['surface'])
             ax = fig.add_axes([0, 0, 1, 1])
             ax.axis('off')
 
@@ -47,7 +47,7 @@ class MissingData(PlotExample):
             for row_idx in range(n_rows):
                 row_vals = []
                 row_colors = []
-                bg = BITROOT_PALETTE['white'] if row_idx % 2 == 0 else BITROOT_PALETTE['background']
+                bg = BITROOT_PALETTE['white'] if row_idx % 2 == 0 else BITROOT_PALETTE['surface']
                 for col_idx in range(n_cols):
                     val = display.iloc[row_idx, col_idx]
                     if pd.isna(val):
@@ -75,7 +75,7 @@ class MissingData(PlotExample):
 
             for key, cell in table.get_celld().items():
                 row, col = key
-                cell.set_edgecolor(BITROOT_PALETTE['grid'])
+                cell.set_edgecolor(BITROOT_PALETTE['border'])
                 cell.set_linewidth(0.5)
                 if row == 0:
                     cell.set_text_props(color=header_text_color, fontweight='bold')
@@ -90,7 +90,7 @@ class MissingData(PlotExample):
                          fontweight='bold', pad=8)
 
             ax.text(0.5, -0.06, labels["note"], fontsize=8,
-                    color=BITROOT_PALETTE['secondary_text'],
+                    color=BITROOT_PALETTE['on-surface-muted'],
                     ha='center', va='top', transform=ax.transAxes)
 
             fname = self.resolve_output("default", suffix=suffix)

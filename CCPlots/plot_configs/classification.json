@@ -15,8 +15,8 @@
         "class_1": "secondary",
         "boundary_region_0": "primary@tint(0.18)",
         "boundary_region_1": "secondary@tint(0.12)",
-        "contour_line": "text",
-        "scatter_edge": "secondary_text",
+        "contour_line": "on-surface",
+        "scatter_edge": "on-surface-muted",
         "confusion_cmap": "primary",
         "confusion_cmap_pale": "primary@tint(0.18)"
     },

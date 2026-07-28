@@ -100,12 +100,12 @@ class PlotExample(ABC):
         """
         figsize = figsize or self.config.figsize
         fig, axs = plt.subplots(nrows, ncols, figsize=figsize,
-                                facecolor=BITROOT_PALETTE["background"])
+                                facecolor=BITROOT_PALETTE["surface"])
         if nrows * ncols == 1:
-            axs.set_facecolor(BITROOT_PALETTE["background"])
+            axs.set_facecolor(BITROOT_PALETTE["surface"])
         else:
             for ax in axs.flat:
-                ax.set_facecolor(BITROOT_PALETTE["background"])
+                ax.set_facecolor(BITROOT_PALETTE["surface"])
         return fig, axs
 
     # ------------------------------------------------------------------
@@ -138,8 +138,8 @@ class PlotExample(ABC):
 
     @property
     def text_color(self) -> str:
-        """Convenience shortcut for ``BITROOT_PALETTE['text']``."""
-        return BITROOT_PALETTE["text"]
+        """Convenience shortcut for ``BITROOT_PALETTE['on-surface']``."""
+        return BITROOT_PALETTE["on-surface"]
 
     def text_color_for_background(self, bg_color: str, *, large: bool = False) -> str:
         """Return ``text`` or ``white`` — whichever gives better WCAG AA

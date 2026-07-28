@@ -9,7 +9,7 @@
     "colors": {
         "scatter_fill": "primary@tint(0.2)",
         "scatter_edge": "primary",
-        "arrow_color": "secondary_text"
+        "arrow_color": "on-surface-muted"
     },
     "text": {
         "en": {

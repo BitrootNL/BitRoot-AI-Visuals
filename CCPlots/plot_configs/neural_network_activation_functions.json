@@ -10,7 +10,7 @@
         "sigmoid": "primary",
         "tanh": "secondary",
         "relu": "tertiary",
-        "leaky_relu": "highlight",
+        "leaky_relu": "brand",
         "swish": "primary",
         "softplus": "secondary"
     },
