@@ -81,12 +81,12 @@ class MissingData(PlotExample):
                     cell.set_text_props(color=header_text_color, fontweight='bold')
                     cell.set_height(0.06)
                 else:
-                    cell.set_text_props(color=BITROOT_PALETTE['text'])
+                    cell.set_text_props(color=self.text_color)
                     cell.set_height(0.045)
 
             table.scale(1, 1.4)
 
-            ax.set_title(labels["title"], fontsize=13, color=BITROOT_PALETTE['text'],
+            ax.set_title(labels["title"], fontsize=13, color=self.text_color,
                          fontweight='bold', pad=8)
 
             ax.text(0.5, -0.06, labels["note"], fontsize=8,
