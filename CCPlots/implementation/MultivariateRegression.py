@@ -5,10 +5,6 @@ house-size / room-count vs. price data points as they are added one by one.
 Figures
 -------
 - ``multivariate_regression_animation.gif`` / ``_NL.gif`` — 3D plane animation
-
-Configuration
--------------
-``CCPlots/plot_configs/multivariate_regression.json``
 """
 import matplotlib.pyplot as plt
 import numpy as np
@@ -21,6 +17,7 @@ from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE, output_path
 
 class MultivariateRegression(PlotExample):
 
+    # CCPlots/plot_configs/multivariate_regression.json
     CONFIG_KEY = "multivariate_regression"
 
     def main(self):
@@ -48,18 +45,17 @@ class MultivariateRegression(PlotExample):
                 ax.set_xlim(min(house_sizes) - 100, max(house_sizes) + 100)
                 ax.set_ylim(min(num_rooms) - 1, max(num_rooms) + 1)
                 ax.set_zlim(min(prices) - 10000, max(prices) + 10000)
-                ax.set_title(labels["title"], fontsize=16, color=BITROOT_PALETTE['text'])
-                ax.set_xlabel(labels["xlabel"], fontsize=14, color=BITROOT_PALETTE['text'], labelpad=18)
-                ax.set_ylabel(labels["ylabel"], fontsize=14, color=BITROOT_PALETTE['text'], labelpad=18)
-                ax.set_zlabel(labels["zlabel"], fontsize=14, color=BITROOT_PALETTE['text'], labelpad=18)
+                self.apply_labels(ax, title=labels["title"], xlabel=labels["xlabel"],
+                                  ylabel=labels["ylabel"])
+                ax.set_zlabel(labels["zlabel"], fontsize=14, color=self.text_color, labelpad=18)
                 ax.tick_params(pad=10)
                 ax.dist = 12
 
                 self.apply_style(ax)
 
                 scatter = ax.scatter(house_sizes, num_rooms, prices,
-                                     color=BITROOT_PALETTE['primary'],
-                                     edgecolor=BITROOT_PALETTE['primary'], s=45)
+                                     color=self.resolve_color('scatter'),
+                                     edgecolor=self.resolve_color('scatter_edge'), s=45)
 
                 house_sizes_grid, num_rooms_grid = np.meshgrid(
                     np.linspace(min(house_sizes), max(house_sizes), 10),
@@ -67,13 +63,14 @@ class MultivariateRegression(PlotExample):
                 )
                 y_pred_initial = np.zeros_like(house_sizes_grid)
 
+                surf_color = self.resolve_color('surface')
                 plane = [ax.plot_surface(house_sizes_grid, num_rooms_grid, y_pred_initial,
-                                         color=BITROOT_PALETTE['primary'], alpha=0.3)]
+                                         color=surf_color, alpha=0.3)]
 
                 def init():
                     plane[0].remove()
                     plane[0] = ax.plot_surface(house_sizes_grid, num_rooms_grid, y_pred_initial,
-                                               color=BITROOT_PALETTE['primary'], alpha=0.3)
+                                               color=surf_color, alpha=0.3)
                     return plane
 
                 def update(frame):
@@ -91,7 +88,7 @@ class MultivariateRegression(PlotExample):
 
                     plane[0].remove()
                     plane[0] = ax.plot_surface(house_sizes_grid, num_rooms_grid, y_pred,
-                                               color=BITROOT_PALETTE['primary'], alpha=0.3)
+                                               color=surf_color, alpha=0.3)
 
                     return plane
 

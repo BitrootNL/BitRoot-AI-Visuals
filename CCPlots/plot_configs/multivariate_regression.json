@@ -6,6 +6,11 @@
     },
     "figsize": [12, 8],
     "dpi": 100,
+    "colors": {
+        "scatter": "primary",
+        "surface": "primary",
+        "scatter_edge": "primary"
+    },
     "text": {
         "en": {
             "title": "Multivariate Regression: House Size, Rooms vs. Price",
