@@ -1,33 +1,25 @@
+"""
+2 x 3 subplot grid of six common neural-network activation functions:
+Sigmoid, Tanh, ReLU, Leaky ReLU, Swish, and Softplus. Each curve is
+drawn in a distinct Bitroot palette colour.
+
+Figures
+-------
+- ``neural_network_activation_functions.png`` / ``_NL.png`` — 2x3 activation grid
+
+Configuration
+-------------
+``CCPlots/plot_configs/neural_network_activation.json``
+"""
 import numpy as np
-import matplotlib.pyplot as plt
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
+from CCPlots.config import BITROOT_PALETTE
 
 
-TEXT_BY_LOCALE = {
-    "en": {
-        "title": "Neural Network Activation Functions",
-        "sigmoid": "Sigmoid",
-        "tanh": "Tanh",
-        "relu": "ReLU",
-        "leaky_relu": "Leaky ReLU",
-        "swish": "Swish",
-        "softplus": "Softplus",
-    },
-    "nl": {
-        "title": "Neurale netwerk activatiefuncties",
-        "sigmoid": "Sigmoid",
-        "tanh": "Tanh",
-        "relu": "ReLU",
-        "leaky_relu": "Leaky ReLU",
-        "swish": "Swish",
-        "softplus": "Softplus",
-    },
-}
+class NeuralNetworkActivationFunctions(PlotExample):
 
-
-class NeuralNetworkActivationFunctionsExample(PlotExample):
+    CONFIG_KEY = "neural_network_activation"
 
     primary = BITROOT_PALETTE["primary"]
     secondary = BITROOT_PALETTE["secondary"]
@@ -50,25 +42,20 @@ class NeuralNetworkActivationFunctionsExample(PlotExample):
             (self.softplus, self.highlight, "softplus"),
         ]
 
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"neural_network_activation_functions{'_NL' if locale == 'nl' else ''}.png"
-
-            fig, axs = plt.subplots(2, 3, figsize=(12, 8),
-                                    facecolor=BITROOT_PALETTE['background'])
-            fig.patch.set_facecolor(BITROOT_PALETTE['background'])
+        for _locale, labels, suffix in self.iter_locales():
+            fig, axs = self.create_figure(nrows=2, ncols=3)
 
             for idx, (func, color, key) in enumerate(func_specs):
                 row, col = divmod(idx, 3)
                 ax = axs[row, col]
                 ax.plot(x, func(x), color=color, linewidth=2)
                 ax.set_title(labels[key], color=BITROOT_PALETTE['text'])
-                apply_bitroot_style(ax, background=BITROOT_PALETTE['background'])
+                self.apply_style(ax)
                 ax.grid(True, color=self.light_gray)
 
             fig.suptitle(labels["title"], fontsize=16, color=BITROOT_PALETTE['text'], y=1.02)
 
-            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.1)
-            plt.close(fig)
+            self.save_figure(fig, "default", suffix=suffix)
 
     def sigmoid(self, x):
         return 1 / (1 + np.exp(-x))
