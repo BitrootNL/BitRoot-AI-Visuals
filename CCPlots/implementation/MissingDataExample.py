@@ -1,33 +1,27 @@
-import pandas as pd
+"""
+Table rendering of naturally occurring missing values from the Adult census
+dataset. Rows with NA cells are shown with ``?`` markers and alternating
+row shading.
+
+Figures
+-------
+- ``naturally_missing_data_table.png`` / ``_NL.png`` — missing-value table
+
+Configuration
+-------------
+``CCPlots/plot_configs/missing_data.json``
+"""
 import matplotlib.pyplot as plt
+import pandas as pd
 from sklearn.datasets import fetch_openml
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
-
-TEXT_BY_LOCALE = {
-    "en": {
-        "title": "Examples of missing data in the Adult data set",
-        "col_age": "Age",
-        "col_workclass": "Workclass",
-        "col_sex": "Sex",
-        "col_education": "Education",
-        "na_label": "?",
-        "note": "Rows with naturally occurring missing values",
-    },
-    "nl": {
-        "title": "Voorbeelden van ontbrekende gegevens in de Adult-dataset",
-        "col_age": "Leeftijd",
-        "col_workclass": "Werkklasse",
-        "col_sex": "Geslacht",
-        "col_education": "Opleiding",
-        "na_label": "?",
-        "note": "Rijen met van nature ontbrekende waarden",
-    },
-}
+from CCPlots.config import BITROOT_PALETTE, output_path
 
 
-class MissingDataExample(PlotExample):
+class MissingData(PlotExample):
+
+    CONFIG_KEY = "missing_data"
 
     def main(self) -> None:
         dataset = fetch_openml(data_id=1590, as_frame=True)
@@ -37,8 +31,7 @@ class MissingDataExample(PlotExample):
         if df_missing.empty:
             return
 
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"naturally_missing_data_table{'_NL' if locale == 'nl' else ''}.png"
+        for _locale, labels, suffix in self.iter_locales():
             display = df_missing.head(10)[["age", "workclass", "sex", "education"]].copy()
             display.columns = [labels["col_age"], labels["col_workclass"],
                                labels["col_sex"], labels["col_education"]]
@@ -100,10 +93,11 @@ class MissingDataExample(PlotExample):
                     color=BITROOT_PALETTE['secondary_text'],
                     ha='center', va='top', transform=ax.transAxes)
 
+            fname = self.resolve_output("default", suffix=suffix)
             fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.08,
-                        dpi=150)
+                        dpi=self.config.dpi)
             plt.close(fig)
 
 
 if __name__ == "__main__":
-    MissingDataExample().main()
+    MissingData().main()
