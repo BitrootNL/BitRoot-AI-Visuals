@@ -1,37 +1,27 @@
+"""
+Two-panel comparison of continuous age data (histogram) versus discrete
+age-group categories (bar chart), illustrating the binning concept.
+
+Figures
+-------
+- ``continuous_discrete_example.png`` / ``_NL.png`` — histogram + bar chart
+
+Configuration
+-------------
+``CCPlots/plot_configs/continuous_discrete.json``
+"""
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
+from CCPlots.config import BITROOT_PALETTE
 
 
-TEXT_BY_LOCALE = {
-    "en": {
-        "cat_title": "Ages divided into age categories",
-        "cat_xlabel": "Age group",
-        "cat_ylabel": "Count",
-        "cont_title": "Age distribution in real life",
-        "cont_xlabel": "Actual age",
-        "cont_ylabel": "Count",
-        "bins_labels": ['<18', '18\u201324', '25\u201334', '35\u201349', '50\u201364', '65\u201379', '80+'],
-    },
-    "nl": {
-        "cat_title": "Leeftijden verdeeld in leeftijdscategorie\u00ebn",
-        "cat_xlabel": "Leeftijdsgroep",
-        "cat_ylabel": "Aantal",
-        "cont_title": "Leeftijdsverdeling in het echt",
-        "cont_xlabel": "Werkelijke leeftijd",
-        "cont_ylabel": "Aantal",
-        "bins_labels": ['<18', '18\u201324', '25\u201334', '35\u201349', '50\u201364', '65\u201379', '80+'],
-    },
-}
+class ContinuousDiscrete(PlotExample):
 
-
-class ContinuousDiscreteExample(PlotExample):
+    CONFIG_KEY = "continuous_discrete"
 
     primary = BITROOT_PALETTE['primary']
-    tertiary = BITROOT_PALETTE['tertiary']
 
     def main(self) -> None:
         np.random.seed(42)
@@ -44,9 +34,7 @@ class ContinuousDiscreteExample(PlotExample):
 
         bins = [0, 18, 25, 35, 50, 65, 80, 100]
 
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"continuous_discrete_example{'_NL' if locale == 'nl' else ''}.png"
-
+        for _locale, labels, suffix in self.iter_locales():
             age_bins = pd.cut(ages, bins=bins, labels=labels["bins_labels"], right=False)
 
             df = pd.DataFrame({
@@ -54,9 +42,7 @@ class ContinuousDiscreteExample(PlotExample):
                 'Age Group': age_bins
             })
 
-            fig, axs = plt.subplots(1, 2, figsize=(14, 5),
-                                    facecolor=BITROOT_PALETTE['background'])
-            fig.patch.set_facecolor(BITROOT_PALETTE['background'])
+            fig, axs = self.create_figure(ncols=2)
 
             cat_order = labels["bins_labels"]
             cat_counts = df['Age Group'].value_counts()
@@ -75,7 +61,6 @@ class ContinuousDiscreteExample(PlotExample):
             axs[0].set_ylabel(labels["cont_ylabel"], color=BITROOT_PALETTE['text'])
 
             for ax in axs:
-                apply_bitroot_style(ax)
+                self.apply_style(ax)
 
-            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.1)
-            plt.close(fig)
+            self.save_figure(fig, "default", suffix=suffix)
