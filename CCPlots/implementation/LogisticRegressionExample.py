@@ -1,29 +1,30 @@
-import numpy as np
+"""
+Animated logistic regression decision boundary for a spam-vs-not-spam
+classification problem. The contour evolves over 30 solver iterations.
+
+Figures
+-------
+- ``logistic_regression_animation.gif`` / ``_NL.gif`` — decision-boundary animation
+
+Configuration
+-------------
+``CCPlots/plot_configs/logistic_regression.json``
+"""
 import matplotlib.pyplot as plt
-from sklearn.datasets import make_classification
-from sklearn.linear_model import LogisticRegression
+import numpy as np
 from matplotlib.animation import FuncAnimation
 from matplotlib.colors import ListedColormap, to_rgba
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression as SKLogisticRegression
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
+from CCPlots.config import BITROOT_PALETTE, output_path
 
 
-TEXT_BY_LOCALE = {
-    "en": {
-        "title": "Logistic Regression Example: Spam vs. not spam",
-        "xlabel": "Number of links in Email",
-        "ylabel": "Email length (in characters)",
-    },
-    "nl": {
-        "title": "Logistische regressie: spam versus geen spam",
-        "xlabel": "Aantal links in e-mail",
-        "ylabel": "E-maillengte (in karakters)",
-    },
-}
+class LogisticRegression(PlotExample):
 
+    CONFIG_KEY = "logistic_regression"
 
-class LogisticRegressionExample(PlotExample):
     cmap_light = ListedColormap([
         to_rgba(BITROOT_PALETTE["background"], alpha=0.0),
         to_rgba(BITROOT_PALETTE["primary"], alpha=0.25),
@@ -46,7 +47,7 @@ class LogisticRegressionExample(PlotExample):
             random_state=42
         )
 
-        self.model = LogisticRegression(solver='lbfgs')
+        self.model = SKLogisticRegression(solver='lbfgs')
 
     def update(self, frame):
         self.model.max_iter = frame + 1
@@ -67,10 +68,8 @@ class LogisticRegressionExample(PlotExample):
         return self.ax.collections + [self.scatter]
 
     def main(self):
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"logistic_regression_animation{'_NL' if locale == 'nl' else ''}.gif"
-
-            fig, self.ax = plt.subplots()
+        for _locale, labels, suffix in self.iter_locales():
+            fig, self.ax = self.create_figure()
             self.ax.set_xlim(self.X[:, 0].min() - 1, self.X[:, 0].max() + 1)
             self.ax.set_ylim(self.X[:, 1].min() - 1, self.X[:, 1].max() + 1)
             self.ax.set_title(labels["title"], fontsize=16, color=BITROOT_PALETTE['text'])
@@ -89,9 +88,10 @@ class LogisticRegressionExample(PlotExample):
                                            cmap=ListedColormap(self.cmap_bold),
                                            edgecolor=self.accent, s=40)
 
-            apply_bitroot_style(self.ax)
+            self.apply_style(self.ax)
 
             ani = FuncAnimation(fig, self.update, frames=30, init_func=self.init_func, interval=200, repeat=False)
 
+            fname = self.config.resolve_output("animation", suffix=suffix)
             ani.save(output_path(fname), writer='pillow')
             plt.close(fig)
