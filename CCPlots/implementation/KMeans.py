@@ -19,18 +19,7 @@ from sklearn.cluster import KMeans as SKKMeans
 from sklearn.datasets import make_blobs
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE, darken_color, output_path
-
-
-CLUSTER_PALETTE = [
-    BITROOT_PALETTE["primary"],
-    BITROOT_PALETTE["secondary"],
-    BITROOT_PALETTE["highlight"],
-    darken_color(BITROOT_PALETTE["primary"]),
-    darken_color(BITROOT_PALETTE["secondary"]),
-    darken_color(BITROOT_PALETTE["highlight"]),
-    darken_color(BITROOT_PALETTE["primary"], 0.4),
-]
+from CCPlots.config import GLOBAL_RANDOM_STATE, output_path
 
 
 class KMeans(PlotExample):
@@ -42,6 +31,7 @@ class KMeans(PlotExample):
     legend = None
 
     def __init__(self, n_clusters=4, n_samples=200):
+        super().__init__()
         self.n_clusters = n_clusters
         self.n_samples = n_samples
         self.X, self.y = make_blobs(
@@ -57,13 +47,14 @@ class KMeans(PlotExample):
             algorithm='lloyd',
             random_state=GLOBAL_RANDOM_STATE)
 
-        self.cluster_colors = [CLUSTER_PALETTE[i % len(CLUSTER_PALETTE)]
-                               for i in range(self.n_clusters)]
+        # Build cluster colour palette from config
+        cluster_keys = [f'cluster_{i}' for i in range(7)]
+        self.cluster_colors = [self.resolve_color(k) for k in cluster_keys]
 
     def _make_legend(self, ax, labels):
         patches = [
             mpatches.Patch(facecolor=self.cluster_colors[i],
-                           edgecolor=BITROOT_PALETTE['text'],
+                           edgecolor=self.resolve_color('legend_border'),
                            linewidth=0.5,
                            label=labels['cluster_label'].format(n=i + 1))
             for i in range(self.n_clusters)
@@ -71,9 +62,9 @@ class KMeans(PlotExample):
         patches.append(
             mpatches.Patch(facecolor='none', edgecolor='none', label=''))
         patches.append(
-            plt.Line2D([0], [0], marker='X', color=BITROOT_PALETTE['text'],
-                       markerfacecolor=BITROOT_PALETTE['white'],
-                       markeredgecolor=BITROOT_PALETTE['text'],
+            plt.Line2D([0], [0], marker='X', color=self.resolve_color('legend_border'),
+                       markerfacecolor=self.resolve_color('centroid_fill'),
+                       markeredgecolor=self.resolve_color('centroid_edge'),
                        markersize=10, markeredgewidth=2, label=labels['centroid_label']))
         return ax.legend(handles=patches, title=labels['legend_title'], frameon=False,
                          fontsize=8, title_fontsize=9,
@@ -86,19 +77,19 @@ class KMeans(PlotExample):
             ax.set_ylim(-20, 20)
 
             self.scatter = ax.scatter(self.X[:, 0], self.X[:, 1], s=30,
-                                      c='grey', edgecolor=BITROOT_PALETTE['text'],
+                                      c='grey', edgecolor=self.resolve_color('scatter_edge'),
                                       linewidth=0.4)
             self.centers = ax.scatter([], [], s=200, marker='X',
-                                      facecolor=BITROOT_PALETTE['white'],
-                                      edgecolor=BITROOT_PALETTE['text'],
+                                      facecolor=self.resolve_color('centroid_fill'),
+                                      edgecolor=self.resolve_color('centroid_edge'),
                                       linewidth=2)
 
             ax.set_title(labels['title'],
-                         fontsize=16, color=BITROOT_PALETTE['text'], pad=10)
+                         fontsize=16, color=self.text_color, pad=10)
             ax.set_xlabel(labels['xlabel'],
-                          fontsize=14, color=BITROOT_PALETTE['text'])
+                          fontsize=14, color=self.text_color)
             ax.set_ylabel(labels['ylabel'],
-                          fontsize=14, color=BITROOT_PALETTE['text'])
+                          fontsize=14, color=self.text_color)
 
             self.legend = self._make_legend(ax, labels)
             self.apply_style(ax)
@@ -121,10 +112,10 @@ class KMeans(PlotExample):
         scatter_colors = [self.cluster_colors[label] for label in labels]
 
         self.scatter.set_color(scatter_colors)
-        self.scatter.set_edgecolor(BITROOT_PALETTE['text'])
+        self.scatter.set_edgecolor(self.resolve_color('scatter_edge'))
         self.centers.set_offsets(self.kmeans.cluster_centers_)
         center_colors = [self.cluster_colors[i] for i in range(self.n_clusters)]
-        self.centers.set_facecolor([BITROOT_PALETTE['white']] * self.n_clusters)
+        self.centers.set_facecolor([self.resolve_color('centroid_fill')] * self.n_clusters)
         self.centers.set_edgecolor(center_colors)
         self.centers.set_linewidth(2.5)
         return self.scatter, self.centers

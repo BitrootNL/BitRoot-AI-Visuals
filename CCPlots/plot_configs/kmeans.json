@@ -9,7 +9,20 @@
     "dpi": 100,
     "params": {
         "n_clusters": [3, 4],
-        "n_samples": 300
+        "n_samples": 200
+    },
+    "colors": {
+        "cluster_0": "primary",
+        "cluster_1": "secondary",
+        "cluster_2": "highlight",
+        "cluster_3": "primary@shade(0.6)",
+        "cluster_4": "secondary@shade(0.6)",
+        "cluster_5": "highlight@shade(0.6)",
+        "cluster_6": "primary@shade(0.4)",
+        "scatter_edge": "text",
+        "centroid_fill": "white",
+        "centroid_edge": "text",
+        "legend_border": "text"
     },
     "text": {
         "en": {
