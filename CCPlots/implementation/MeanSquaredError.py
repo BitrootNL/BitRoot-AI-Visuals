@@ -16,14 +16,11 @@ from sklearn.linear_model import SGDRegressor
 from sklearn.metrics import mean_squared_error
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE
+from CCPlots.config import GLOBAL_RANDOM_STATE
 
 
 class MSE(PlotExample):
     CONFIG_KEY = "mse"
-
-    primary = BITROOT_PALETTE['primary']
-    light_gray = BITROOT_PALETTE['grid']
 
     def __init__(self, n_samples=100, iterations=50, learning_rate=0.01):
         self.n_samples = n_samples
@@ -43,13 +40,11 @@ class MSE(PlotExample):
         for _locale, labels, suffix in self.iter_locales():
             fig, ax = self.create_figure()
 
-            ax.plot(range(1, self.iterations + 1), self.mse_values, color=self.primary, marker='o')
-            ax.set_title(labels['title'], fontsize=16, color=BITROOT_PALETTE['text'])
-            ax.set_xlabel(labels['xlabel'], fontsize=14, color=BITROOT_PALETTE['text'])
-            ax.set_ylabel(labels['ylabel'], fontsize=14, color=BITROOT_PALETTE['text'])
+            ax.plot(range(1, self.iterations + 1), self.mse_values, color=self.resolve_color('mse_line'), marker='o')
+            self.apply_labels(ax, title=labels['title'], xlabel=labels['xlabel'],
+                              ylabel=labels['ylabel'])
 
             self.apply_style(ax)
-            ax.grid(True, color=self.light_gray)
 
             self.save_figure(fig, "default", suffix=suffix)
 

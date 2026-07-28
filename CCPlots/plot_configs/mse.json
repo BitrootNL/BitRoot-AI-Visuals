@@ -6,6 +6,9 @@
     },
     "figsize": [10, 6],
     "dpi": 100,
+    "colors": {
+        "mse_line": "primary"
+    },
     "text": {
         "en": {
             "title": "MSE over Iterations",
