@@ -9,7 +9,7 @@ Figures
 
 Configuration
 -------------
-``CCPlots/plot_configs/knn.json``
+``CCPlots/plot_configs/knearest.json``
 """
 from typing import cast
 
@@ -25,7 +25,7 @@ from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE, output_path
 
 class KNearest(PlotExample):
 
-    CONFIG_KEY = "knn"
+    CONFIG_KEY = "knearest"
 
     def main(self):
         np.random.seed(GLOBAL_RANDOM_STATE)

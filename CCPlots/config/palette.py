@@ -42,6 +42,11 @@ _TINT_RE = re.compile(r"^(\w+)@tint\(([\d.]+)\)$")
 _SHADE_RE = re.compile(r"^(\w+)@shade\(([\d.]+)\)$")
 
 
+def _round_half_up(x: float) -> int:
+    """Round to nearest integer; .5 always rounds up (away from zero)."""
+    return int(x + 0.5)
+
+
 def tint_color(color: str, amount: float) -> str:
     """Tint *color* toward white by *amount* (0 = no change, 1 = white).
 
@@ -50,9 +55,9 @@ def tint_color(color: str, amount: float) -> str:
     Values are rounded to the nearest whole number (.5 rounds up).
     """
     r, g, b = mcolors.to_rgb(color)
-    r_int = round(r * 255 + (255 - r * 255) * amount)
-    g_int = round(g * 255 + (255 - g * 255) * amount)
-    b_int = round(b * 255 + (255 - b * 255) * amount)
+    r_int = _round_half_up(r * 255 + (255 - r * 255) * amount)
+    g_int = _round_half_up(g * 255 + (255 - g * 255) * amount)
+    b_int = _round_half_up(b * 255 + (255 - b * 255) * amount)
     return f"#{r_int:02X}{g_int:02X}{b_int:02X}"
 
 
@@ -64,15 +69,15 @@ def shade_color(color: str, amount: float) -> str:
     Values are rounded to the nearest whole number (.5 rounds up).
     """
     r, g, b = mcolors.to_rgb(color)
-    r_int = round(r * 255 * amount)
-    g_int = round(g * 255 * amount)
-    b_int = round(b * 255 * amount)
+    r_int = _round_half_up(r * 255 * amount)
+    g_int = _round_half_up(g * 255 * amount)
+    b_int = _round_half_up(b * 255 * amount)
     return f"#{r_int:02X}{g_int:02X}{b_int:02X}"
 
 
 # Pre-compute common tints for quick access
 BITROOT_PALETTE.update({
-    "primary_soft": tint_color(BITROOT_PALETTE["primary"], 0.20),
+    "primary_soft": tint_color(BITROOT_PALETTE["primary"], 0.18),
     "primary_pale": tint_color(BITROOT_PALETTE["primary"], 0.80),
     "secondary_light": tint_color(BITROOT_PALETTE["secondary"], 0.25),
     "secondary_soft": tint_color(BITROOT_PALETTE["secondary"], 0.12),
@@ -121,7 +126,7 @@ def probability_color(probability: float, light_color: str = "primary_soft", dar
     light = mcolors.to_rgb(resolve_palette_key(light_color))
     dark = mcolors.to_rgb(resolve_palette_key(dark_color))
     blended = tuple(light[i] + probability * (dark[i] - light[i]) for i in range(3))
-    return f"#{round(blended[0] * 255):02X}{round(blended[1] * 255):02X}{round(blended[2] * 255):02X}"
+    return f"#{_round_half_up(blended[0] * 255):02X}{_round_half_up(blended[1] * 255):02X}{_round_half_up(blended[2] * 255):02X}"
 
 
 def apply_bitroot_style(ax=None, *, background=None, text=None, grid=None, title_size=16, label_size=14):

@@ -6,6 +6,10 @@ test set (tertiary colour) in each fold.
 Figures
 -------
 - ``kfold_validation.png`` / ``_NL.png`` — fold-assignment grid
+
+Configuration
+-------------
+``CCPlots/plot_configs/kfolds.json``
 """
 import matplotlib.pyplot as plt
 import numpy as np
@@ -20,7 +24,7 @@ from CCPlots.config import GLOBAL_RANDOM_STATE
 class KFolds(PlotExample):
 
     # CCPlots/plot_configs/kfold.json
-    CONFIG_KEY = "kfold"
+    CONFIG_KEY = "kfolds"
 
     def __init__(self):
         self.cmap = ListedColormap([

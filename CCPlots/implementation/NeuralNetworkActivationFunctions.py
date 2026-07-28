@@ -9,7 +9,7 @@ Figures
 
 Configuration
 -------------
-``CCPlots/plot_configs/neural_network_activation.json``
+``CCPlots/plot_configs/neural_network_activation_functions.json``
 """
 import numpy as np
 
@@ -17,7 +17,7 @@ from CCPlots.PlotExample import PlotExample
 
 class NeuralNetworkActivationFunctions(PlotExample):
 
-    CONFIG_KEY = "neural_network_activation"
+    CONFIG_KEY = "neural_network_activation_functions"
 
     def main(self):
         x = np.linspace(-10, 10, 400)

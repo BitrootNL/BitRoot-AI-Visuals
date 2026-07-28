@@ -89,7 +89,7 @@ class LogisticRegression(PlotExample):
 
             Z = np.zeros_like(self.xx)
             self.contourf = self.ax.contourf(self.xx, self.yy, Z, alpha=0.8, cmap=self.cmap_light)
-            self.contour = self.ax.contour(self.xx, self.yy, Z, levels=[0.5], linewidths=2, colors=self.accent)
+            self.contour = self.ax.contour(self.xx, self.yy, Z, levels=[0.5], linewidths=2, colors=self.resolve_color('decision_boundary'))
 
             self.scatter = self.ax.scatter(self.X[:, 0], self.X[:, 1], c=self.y,
                                            cmap=ListedColormap(self.cmap_bold),

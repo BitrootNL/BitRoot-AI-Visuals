@@ -1,0 +1,37 @@
+{
+    "description": "2x3 subplot grid of six activation functions (Sigmoid, Tanh, ReLU, Leaky ReLU, Swish, Softplus) each drawn in a distinct Bitroot colour.",
+    "key": "neural_network_activation",
+    "output_files": {
+        "default": "neural_network_activation_functions{suffix}.png"
+    },
+    "figsize": [12, 8],
+    "dpi": 100,
+    "colors": {
+        "sigmoid": "primary",
+        "tanh": "secondary",
+        "relu": "tertiary",
+        "leaky_relu": "highlight",
+        "swish": "primary",
+        "softplus": "secondary"
+    },
+    "text": {
+        "en": {
+            "title": "Neural Network Activation Functions",
+            "sigmoid": "Sigmoid",
+            "tanh": "Tanh",
+            "relu": "ReLU",
+            "leaky_relu": "Leaky ReLU",
+            "swish": "Swish",
+            "softplus": "Softplus"
+        },
+        "nl": {
+            "title": "Neurale netwerk activatiefuncties",
+            "sigmoid": "Sigmoid",
+            "tanh": "Tanh",
+            "relu": "ReLU",
+            "leaky_relu": "Leaky ReLU",
+            "swish": "Swish",
+            "softplus": "Softplus"
+        }
+    }
+}
