@@ -1,41 +1,29 @@
+"""
+Two-panel comparison of underfitting (degree-2 polynomial, high bias) versus
+overfitting (degree-11 polynomial, high variance) on a sine-wave dataset.
+Each panel shows training/test MSE.
+
+Figures
+-------
+- ``overfitting_underfitting.png`` / ``_NL.png`` — side-by-side under/over fit
+
+Configuration
+-------------
+``CCPlots/plot_configs/overfitting_underfitting.json``
+"""
 import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import PolynomialFeatures
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
+from CCPlots.config import BITROOT_PALETTE
 
 
-TEXT_BY_LOCALE = {
-    "en": {
-        "under_title": "Underfitting\nTrain MSE: {train_mse:.2f}, Test MSE: {test_mse:.2f}",
-        "over_title": "Overfitting\nTrain MSE: {train_mse:.2f}, Test MSE: {test_mse:.2f}",
-        "xlabel": "X",
-        "ylabel": "y",
-        "train_label": "Training Data",
-        "test_label": "Test Data",
-        "under_label": "Model (Underfitting)",
-        "over_label": "Model (Overfitting)",
-    },
-    "nl": {
-        "under_title": "Underfitting\nTrain MSE: {train_mse:.2f}, Test MSE: {test_mse:.2f}",
-        "over_title": "Overfitting\nTrain MSE: {train_mse:.2f}, Test MSE: {test_mse:.2f}",
-        "xlabel": "X",
-        "ylabel": "y",
-        "train_label": "Trainingsgegevens",
-        "test_label": "Testgegevens",
-        "under_label": "Model (underfitting)",
-        "over_label": "Model (overfitting)",
-    },
-}
+class OverfittingUnderfitting(PlotExample):
 
-
-class OverfittingUnderfittingExample(PlotExample):
-
-    output_file: str = "overfitting_underfitting.png"
+    CONFIG_KEY = "overfitting_underfitting"
 
     prediction_color = BITROOT_PALETTE['highlight']
     training_color = BITROOT_PALETTE['secondary']
@@ -81,13 +69,9 @@ class OverfittingUnderfittingExample(PlotExample):
         mse_over_train = mean_squared_error(y_train, y_pred_over_train)
         mse_over_test = mean_squared_error(y_test, y_pred_over_test)
 
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"overfitting_underfitting{'_NL' if locale == 'nl' else ''}.png"
+        for _locale, labels, suffix in self.iter_locales():
+            fig, (ax1, ax2) = self.create_figure(ncols=2)
 
-            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6),
-                                           facecolor=BITROOT_PALETTE['background'])
-
-            # Underfitting
             ax1.scatter(X_train, y_train, color=self.training_color, label=labels['train_label'])
             ax1.scatter(X_test, y_test, color=self.test_color, label=labels['test_label'])
             ax1.plot(X_range, y_range_pred_under, color=self.prediction_color, label=labels['under_label'])
@@ -97,9 +81,8 @@ class OverfittingUnderfittingExample(PlotExample):
             ax1.set_ylabel(labels['ylabel'], color=BITROOT_PALETTE['text'])
             ax1.legend()
             ax1.grid(True, c=self.light_gray)
-            apply_bitroot_style(ax1)
+            self.apply_style(ax1)
 
-            # Overfitting
             ax2.scatter(X_train, y_train, color=self.training_color, label=labels['train_label'])
             ax2.scatter(X_test, y_test, color=self.test_color, label=labels['test_label'])
             ax2.plot(X_range, y_range_pred_over, color=self.prediction_color, label=labels['over_label'])
@@ -109,7 +92,6 @@ class OverfittingUnderfittingExample(PlotExample):
             ax2.set_ylabel(labels['ylabel'], color=BITROOT_PALETTE['text'])
             ax2.legend()
             ax2.grid(True, c=self.light_gray)
-            apply_bitroot_style(ax2)
+            self.apply_style(ax2)
 
-            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.1)
-            plt.close(fig)
+            self.save_figure(fig, "default", suffix=suffix)
