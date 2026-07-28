@@ -6,6 +6,15 @@
     },
     "figsize": [12, 8],
     "dpi": 100,
+    "colors": {
+        "sigmoid": "primary",
+        "tanh": "secondary",
+        "relu": "tertiary",
+        "leaky_relu": "highlight",
+        "swish": "primary",
+        "softplus": "secondary",
+        "grid": "grid"
+    },
     "text": {
         "en": {
             "title": "Neural Network Activation Functions",

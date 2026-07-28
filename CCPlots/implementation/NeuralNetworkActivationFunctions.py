@@ -21,39 +21,30 @@ class NeuralNetworkActivationFunctions(PlotExample):
 
     CONFIG_KEY = "neural_network_activation"
 
-    primary = BITROOT_PALETTE["primary"]
-    secondary = BITROOT_PALETTE["secondary"]
-    tertiary = BITROOT_PALETTE["tertiary"]
-    highlight = BITROOT_PALETTE["highlight"]
-    success = BITROOT_PALETTE["success"]
-    info = BITROOT_PALETTE["info"]
-
-    light_gray = BITROOT_PALETTE['grid']
-
     def main(self):
         x = np.linspace(-10, 10, 400)
 
         func_specs = [
-            (self.sigmoid, self.primary, "sigmoid"),
-            (self.tanh, self.secondary, "tanh"),
-            (self.relu, self.tertiary, "relu"),
-            (self.leaky_relu, self.info, "leaky_relu"),
-            (self.swish, self.success, "swish"),
-            (self.softplus, self.highlight, "softplus"),
+            (self.sigmoid, "sigmoid"),
+            (self.tanh, "tanh"),
+            (self.relu, "relu"),
+            (self.leaky_relu, "leaky_relu"),
+            (self.swish, "swish"),
+            (self.softplus, "softplus"),
         ]
 
         for _locale, labels, suffix in self.iter_locales():
             fig, axs = self.create_figure(nrows=2, ncols=3)
 
-            for idx, (func, color, key) in enumerate(func_specs):
+            for idx, (func, color_key) in enumerate(func_specs):
                 row, col = divmod(idx, 3)
                 ax = axs[row, col]
-                ax.plot(x, func(x), color=color, linewidth=2)
-                ax.set_title(labels[key], color=BITROOT_PALETTE['text'])
+                ax.plot(x, func(x), color=self.resolve_color(color_key), linewidth=2)
+                ax.set_title(labels[color_key], color=self.text_color)
                 self.apply_style(ax)
-                ax.grid(True, color=self.light_gray)
+                ax.grid(True, color=self.resolve_color('grid'))
 
-            fig.suptitle(labels["title"], fontsize=16, color=BITROOT_PALETTE['text'], y=1.02)
+            fig.suptitle(labels["title"], fontsize=16, color=self.text_color, y=1.02)
 
             self.save_figure(fig, "default", suffix=suffix)
 
