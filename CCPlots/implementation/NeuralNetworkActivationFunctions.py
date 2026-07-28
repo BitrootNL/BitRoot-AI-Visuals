@@ -14,8 +14,6 @@ Configuration
 import numpy as np
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE
-
 
 class NeuralNetworkActivationFunctions(PlotExample):
 
@@ -42,7 +40,6 @@ class NeuralNetworkActivationFunctions(PlotExample):
                 ax.plot(x, func(x), color=self.resolve_color(color_key), linewidth=2)
                 ax.set_title(labels[color_key], color=self.text_color)
                 self.apply_style(ax)
-                ax.grid(True, color=self.resolve_color('grid'))
 
             fig.suptitle(labels["title"], fontsize=16, color=self.text_color, y=1.02)
 

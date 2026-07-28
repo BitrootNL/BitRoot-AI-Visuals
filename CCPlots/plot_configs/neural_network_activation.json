@@ -12,8 +12,7 @@
         "relu": "tertiary",
         "leaky_relu": "highlight",
         "swish": "primary",
-        "softplus": "secondary",
-        "grid": "grid"
+        "softplus": "secondary"
     },
     "text": {
         "en": {
