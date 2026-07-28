@@ -21,7 +21,7 @@ The `CCPlots` module generates all plots in `plots/`.
 
 1. Install dependencies: `pip install -r requirements.txt`
 2. Regenerate all plots: `python main.py`
-3. Or run a single example: `python -c "from CCPlots.implementation.<ModuleName> import <ClassName>; <ClassName>().main()"` (see table below for class names)
+3. Or run a single example: `python -c "import CCPlots; CCPlots.<ClassName>().main()"` (see table below for class names)
 
 Every example is a subclass of `PlotExample` (defined in `CCPlots/PlotExample.py`)
 with a `CONFIG_KEY` that links it to its JSON config in `CCPlots/plot_configs/`.
@@ -36,6 +36,9 @@ Each plot is configured by a JSON file in `CCPlots/plot_configs/`:
 - Plot-specific parameters (``params``, ``run`` sections)
 
 To change a label or colour, edit the JSON — no Python code changes needed.
+
+A global random seed (`GLOBAL_RANDOM_STATE = 42` in `CCPlots/config/`) is
+used consistently by all examples for numpy, sklearn, and Python random calls.
 
 ### Localization
 
@@ -53,7 +56,7 @@ locale pairs `("en", "nl")`.
 | `DecisionTree` | `decision_tree.json` | `decision_tree_iris.png` |
 | `EmployeeAIAdoption` | `employee_ai_adoption.json` | `employee_ai_adoption.png` |
 | `FraudDetection` | `fraud_detection.json` | `fraud_detection_boundary.png` |
-| `KFold` | `kfold.json` | `kfold_validation.png` |
+| `KFolds` | `kfold.json` | `kfold_validation.png` |
 | `KMeans` | `kmeans.json` | `kmeans_animation_k3.gif`, `kmeans_clustering_k3.png` |
 | `KNearest` | `knn.json` | `knn_visualization_animation.gif` |
 | `LLMPredict` | `llm_predict.json` | `llm_predict_next.png` |
@@ -67,9 +70,9 @@ locale pairs `("en", "nl")`.
 | `NeuralNetworkActivationFunctions` | `neural_network_activation.json` | `neural_network_activation_functions.png` |
 | `NeuralNetworkGrowth` | `neural_network_growth.json` | `neural_network_growth_line_log.png` |
 | `NoisyData` | `noisy_data.json` | `noisy_data.png` |
+| `NormalDistribution` | `normal_distribution.json` | `normal_distribution.png` |
 | `OverfittingUnderfitting` | `overfitting_underfitting.json` | `overfitting_underfitting.png` |
 | `Perceptron` | `perceptron.json` | `perceptron_schematic.png` |
-| `Regression` | `regression.json` | `regression.png` |
 | `Tokenization` | `tokenization.json` | `tokenization.png` |
 | `TravelingSalesman` | `traveling_salesman.json` | `traveling_salesman_small_<n>_cities.png`, `traveling_salesman_large_<n>_cities.png` |
 
@@ -84,7 +87,7 @@ and PNG exports. Topics include:
 
 ## Code Snippets
 
-The `ray.so_images/` folder contains code snippet screenshots generated with
+The `code-snippets/` folder contains code snippet screenshots generated with
 [ray.so](https://ray.so). These accompany the course slides.
 
 Settings: Theme `meadow`, Background off, Margin 16px, Languages Python / Markdown.
@@ -131,7 +134,7 @@ palette defaults to any Matplotlib axis.
 ![Neural Network Growth](plots/neural_network_growth_line_log.png)
 ![Activation Functions](plots/neural_network_activation_functions.png)
 ![Noisy Data](plots/noisy_data.png)
-![Regression](plots/regression.png)
+![Normal Distribution](plots/normal_distribution.png)
 ![Perceptron Schematic](plots/perceptron_schematic.png)
 ![Neural Network Schematic](plots/neural_net_schematic.png)
 ![Traveling Salesman](plots/traveling_salesman_small_4_cities.png)

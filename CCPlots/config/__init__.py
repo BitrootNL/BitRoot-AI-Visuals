@@ -27,6 +27,9 @@ from .palette import (
     apply_bitroot_style,
     darken_color,
     probability_color,
+    resolve_palette_key,
+    shade_color,
+    tint_color,
 )
 from .paths import OUTPUT_PATH, output_path
 from .loader import load_example_config
@@ -44,4 +47,7 @@ __all__ = [
     "load_example_config",
     "output_path",
     "probability_color",
+    "resolve_palette_key",
+    "shade_color",
+    "tint_color",
 ]
