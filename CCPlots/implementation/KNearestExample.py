@@ -1,32 +1,32 @@
+"""
+3D animated K-Nearest Neighbors regression. Points are added sequentially
+and the model predicts the price for each new point based on its closest
+neighbours in house-size / room-count space.
+
+Figures
+-------
+- ``knn_visualization_animation.gif`` / ``_NL.gif`` — 3D animation
+
+Configuration
+-------------
+``CCPlots/plot_configs/knn.json``
+"""
 from typing import cast
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.animation import FuncAnimation
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 from sklearn.neighbors import KNeighborsRegressor
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
+from CCPlots.config import BITROOT_PALETTE, output_path
 
 
-TEXT_BY_LOCALE = {
-    "en": {
-        "title": "K-Nearest Neighbors for Housing",
-        "xlabel": "House Size (sq ft)",
-        "ylabel": "Number of Rooms",
-        "zlabel": "Price ($)",
-    },
-    "nl": {
-        "title": "K-dichtstbijzijnde buren voor huisvesting",
-        "xlabel": "Huismaat (m\u00b2)",
-        "ylabel": "Aantal kamers",
-        "zlabel": "Prijs (\u20ac)",
-    },
-}
+class KNearest(PlotExample):
 
+    CONFIG_KEY = "knn"
 
-class KNearestExample(PlotExample):
     def main(self):
         np.random.seed(42)
         house_sizes = np.random.rand(100) * 2000 + 500
@@ -34,10 +34,8 @@ class KNearestExample(PlotExample):
         prices = house_sizes * 150 + num_rooms * 20000 + (
                     np.random.randn(100) * 10000)
 
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"knn_visualization_animation{'_NL' if locale == 'nl' else ''}.gif"
-
-            fig = plt.figure(figsize=(12, 8), facecolor=BITROOT_PALETTE['background'])
+        for _locale, labels, suffix in self.iter_locales():
+            fig = plt.figure(figsize=self.config.figsize, facecolor=BITROOT_PALETTE['background'])
             ax = cast(Axes3D, fig.add_subplot(111, projection='3d'))
             fig.subplots_adjust(left=0.05, right=0.95, top=0.92, bottom=0.05)
             ax.set_facecolor(BITROOT_PALETTE['background'])
@@ -82,7 +80,8 @@ class KNearestExample(PlotExample):
 
             ani = FuncAnimation(fig, update, frames=len(house_sizes), init_func=init, blit=False, interval=200)
 
-            apply_bitroot_style(ax)
+            self.apply_style(ax)
 
+            fname = self.config.resolve_output("animation", suffix=suffix)
             ani.save(output_path(fname), writer='pillow')
             plt.close(fig)
