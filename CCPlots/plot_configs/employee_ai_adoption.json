@@ -6,6 +6,11 @@
     },
     "figsize": [10, 5],
     "dpi": 100,
+    "colors": {
+        "bar_edge": "primary",
+        "bar_gradient_start": "primary",
+        "bar_gradient_end": "primary_pale"
+    },
     "text": {
         "en": {
             "title": "Impact of AI on Work Experience (% of employees agreeing)",
