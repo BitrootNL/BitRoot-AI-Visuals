@@ -20,12 +20,12 @@ ensuring consistent styling from the Bitroot design palette.
 The `CCPlots` module generates all plots in `plots/`.
 
 1. Install dependencies: `pip install -r requirements.txt`
-2. Regenerate all plots: `python main.py`
+2. Regenerate all plots: `python generate_plots.py`
 3. Or run a single example: `python -c "import CCPlots; CCPlots.<ClassName>().main()"` (see table below for class names)
 
 Every example is a subclass of `PlotExample` (defined in `CCPlots/PlotExample.py`)
 with a `CONFIG_KEY` that links it to its JSON config in `CCPlots/plot_configs/`.
-All examples can be run via `main.py` uniformly.
+All examples can be run via `generate_plots.py` uniformly.
 
 ### Configuration-driven
 
@@ -79,11 +79,21 @@ locale pairs `("en", "nl")`.
 ## Mermaid Diagrams
 
 The `mermaid/` folder stores Mermaid diagram source (`.md`), rendered SVG,
-and PNG exports. Topics include:
+and PNG exports. Diagrams are styled with the Bitroot theme derived from
+`bitroot.json` and rendered via the Mermaid CLI.
 
-- EU AI Act classification
-- Machine learning algorithms overview
-- Scientific method flowchart
+1. Install Node dependencies: `npm install`
+2. Regenerate all diagrams: `python generate_mermaid.py`
+
+### Available diagrams
+
+| File | Topic | Locales |
+|---|---|---|
+| `eu_ai_act_classification_NL.md` | EU AI Act risk classification (NL) | NL |
+| `eu_ai_act_classification.md` | EU AI Act risk classification (EN) | EN |
+| `ml_algorithms_overview.md` | Machine learning overview tree | EN |
+| `ml_algorithms.md` | Full ML algorithm breakdown | EN |
+| `scientific_method.md` | Scientific method flowchart | EN |
 
 ## Code Snippets
 
@@ -104,18 +114,21 @@ Settings: Theme `meadow`, Background off, Margin 16px, Languages Python / Markdo
 
 ## Styling
 
-All visuals follow the **Bitroot** palette defined in
-[`colour_reference.md`](colour_reference.md) and
-[`CCPlots/config/palette.py`](CCPlots/config/palette.py).
+All visuals (plots and Mermaid diagrams) follow the **Bitroot** palette
+defined in [`CCPlots/config/bitroot.json`](CCPlots/config/bitroot.json),
+the single source of truth derived from the Bitroot design system.
 
-| Role | Hex |
-|---|---|
-| Primary (Cyan) | `#269FBA` |
-| Secondary (Purple) | `#5C78D9` |
-| Tertiary (Green) | `#A3D979` |
-| Highlight (Beet) | `#B1325D` |
-| Background | `#F8FAFA` |
-| Text | `#2D3333` |
+| Token | Hex | Role |
+|---|---|---|
+| `primary` | `#269FBA` | Brand accent / node borders |
+| `secondary` | `#5C78D9` | Connector lines / arrows |
+| `tertiary` | `#A3D979` | Secondary node fills |
+| `brand` | `#B1325D` | Emphatic accent (sparingly) |
+| `surface` | `#F8FAFA` | Page / chart background |
+| `on-surface` | `#2D3333` | Primary text colour |
+| `on-surface-muted` | `#4D5C5C` | Secondary / muted text |
+| `border` | `#D8E0E0` | Grid lines / borders |
+| `white` | `#F2F2F5` | Card backgrounds / light contrast |
 
 Use the `apply_bitroot_style()` helper in `CCPlots/config/palette.py` to apply the
 palette defaults to any Matplotlib axis.
