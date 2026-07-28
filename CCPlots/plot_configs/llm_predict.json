@@ -6,6 +6,11 @@
     },
     "figsize": [6, 4],
     "dpi": 100,
+    "colors": {
+        "bar_edge": "primary",
+        "bar_gradient_start": "primary_pale",
+        "bar_gradient_end": "primary"
+    },
     "text": {
         "en": {
             "title": "Predicting the Next Word for: '{prompt}'",
