@@ -30,6 +30,7 @@ from CCPlots.config import (
     load_example_config,
     output_path,
 )
+from CCPlots.config.palette import resolve_palette_key
 
 
 class PlotExample(ABC):
@@ -117,20 +118,50 @@ class PlotExample(ABC):
     def resolve_color(self, semantic: str) -> str:
         """Resolve a semantic colour name from the config to a hex string.
 
-        Looks up ``config.colors[semantic]``, then resolves it against
-        ``BITROOT_PALETTE``. Falls back to treating *semantic* itself as
-        a palette key, then as a literal hex string.
+        Looks up ``config.colors[semantic]``; if no mapping exists, falls
+        back to treating *semantic* itself as a palette key or
+        tint/shade expression (e.g. ``"primary@tint(0.8)"``).
+
+        Colour expressions are resolved via ``CCPlots.config.palette.resolve_palette_key``.
         """
-        key: str
+        key_spec: str
         if self.config.colors and semantic in self.config.colors:
-            key = self.config.colors[semantic]
+            key_spec = self.config.colors[semantic]
         else:
-            key = semantic
-        return BITROOT_PALETTE.get(key, key)
+            key_spec = semantic
+        return resolve_palette_key(key_spec)
 
     def apply_style(self, ax, **kwargs):
         """Apply the Bitroot theme to *ax* (proxies ``apply_bitroot_style``)."""
         return apply_bitroot_style(ax, **kwargs)
+
+    # ------------------------------------------------------------------
+    # Label styling
+    # ------------------------------------------------------------------
+
+    @property
+    def text_color(self) -> str:
+        """Convenience shortcut for ``BITROOT_PALETTE['text']``."""
+        return BITROOT_PALETTE["text"]
+
+    def apply_labels(self, ax, *,
+                     title: str | None = None,
+                     xlabel: str | None = None,
+                     ylabel: str | None = None,
+                     title_size: int = 16,
+                     label_size: int = 14,
+                     color: str | None = None):
+        """Set title / axis labels with Bitroot-consistent styling in one call.
+
+        Uses ``self.text_color`` by default; pass *color* to override.
+        """
+        c = color or self.text_color
+        if title is not None:
+            ax.set_title(title, fontsize=title_size, color=c, pad=10)
+        if xlabel is not None:
+            ax.set_xlabel(xlabel, fontsize=label_size, color=c)
+        if ylabel is not None:
+            ax.set_ylabel(ylabel, fontsize=label_size, color=c)
 
     # ------------------------------------------------------------------
     # Output helpers
