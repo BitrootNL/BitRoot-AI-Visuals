@@ -1,28 +1,25 @@
-import matplotlib.pyplot as plt
-import numpy as np
+"""
+Normal distribution curve of female height with shaded standard-deviation
+regions (68 %, 95 %), dashed mean markers, and highlighted interval labels.
+
+Figures
+-------
+- ``regression_example.png`` / ``_NL.png`` — bell curve with SD bands
+
+Configuration
+-------------
+``CCPlots/plot_configs/regression.json``
+"""
 import matplotlib.ticker as ticker
+import numpy as np
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
+from CCPlots.config import BITROOT_PALETTE
 
 
-TEXT_BY_LOCALE = {
-    "en": {
-        "title": "Female Height Distribution World-wide",
-        "xlabel": "Height in cms (mean=159, std=6.1)",
-        "ylabel": "Probability Density",
-        "label_line": "Female Height Distribution World-wide",
-    },
-    "nl": {
-        "title": "Wereldwijde lengteverdeling van vrouwen",
-        "xlabel": "Lengte in cm (gem=159, std=6.1)",
-        "ylabel": "Kansdichtheid",
-        "label_line": "Wereldwijde lengteverdeling van vrouwen",
-    },
-}
+class Regression(PlotExample):
 
-
-class RegressionExample(PlotExample):
+    CONFIG_KEY = "regression"
 
     primary = BITROOT_PALETTE['primary']
     secondary = BITROOT_PALETTE['secondary']
@@ -36,11 +33,8 @@ class RegressionExample(PlotExample):
         x = np.linspace(mean - 4*std_dev, mean + 4*std_dev, 1000)
         y = (1/(std_dev * np.sqrt(2 * np.pi))) * np.exp(-0.5 * ((x - mean) / std_dev)**2)
 
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"regression_example{'_NL' if locale == 'nl' else ''}.png"
-
-            fig, ax = plt.subplots(figsize=(10, 6), facecolor=BITROOT_PALETTE['background'])
-            ax.set_facecolor(BITROOT_PALETTE['background'])
+        for _locale, labels, suffix in self.iter_locales():
+            fig, ax = self.create_figure()
 
             ax.plot(x, y, label=labels['label_line'], color=self.primary)
 
@@ -69,11 +63,10 @@ class RegressionExample(PlotExample):
             ax.set_xlabel(labels['xlabel'], fontsize=14, color=BITROOT_PALETTE['text'])
             ax.set_ylabel(labels['ylabel'], fontsize=14, color=BITROOT_PALETTE['text'])
 
-            apply_bitroot_style(ax)
+            self.apply_style(ax)
             ax.xaxis.set_major_locator(ticker.MultipleLocator(15))
             ax.xaxis.set_minor_locator(ticker.MultipleLocator(5))
             ax.grid(True, which='both', linestyle='--', linewidth=0.5, color=BITROOT_PALETTE['grid'])
             ax.set_ylim(0, max(y) * 1.1)
 
-            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.1)
-            plt.close(fig)
+            self.save_figure(fig, "default", suffix=suffix)
