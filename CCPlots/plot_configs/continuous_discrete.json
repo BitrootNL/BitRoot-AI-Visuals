@@ -6,6 +6,10 @@
     },
     "figsize": [14, 5],
     "dpi": 100,
+    "colors": {
+        "bar_fill": "primary",
+        "hist_fill": "primary"
+    },
     "text": {
         "en": {
             "cat_title": "Ages divided into age categories",

@@ -5,23 +5,18 @@ age-group categories (bar chart), illustrating the binning concept.
 Figures
 -------
 - ``continuous_discrete.png`` / ``_NL.png`` — histogram + bar chart
-
-Configuration
--------------
-``CCPlots/plot_configs/continuous_discrete.json``
 """
 import numpy as np
 import pandas as pd
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE
+from CCPlots.config import GLOBAL_RANDOM_STATE
 
 
 class ContinuousDiscrete(PlotExample):
 
+    # CCPlots/plot_configs/continuous_discrete.json
     CONFIG_KEY = "continuous_discrete"
-
-    primary = BITROOT_PALETTE['primary']
 
     def main(self) -> None:
         np.random.seed(GLOBAL_RANDOM_STATE)
@@ -48,17 +43,15 @@ class ContinuousDiscrete(PlotExample):
             cat_counts = df['Age Group'].value_counts()
             cat_vals = [cat_counts.get(c, 0) for c in cat_order]
             bar_positions = range(len(cat_order))
-            axs[1].bar(bar_positions, cat_vals, color=self.primary, edgecolor=self.primary)
+            axs[1].bar(bar_positions, cat_vals, color=self.resolve_color('bar_fill'), edgecolor=self.resolve_color('bar_fill'))
             axs[1].set_xticks(list(bar_positions))
             axs[1].set_xticklabels(cat_order)
-            axs[1].set_title(labels["cat_title"], color=BITROOT_PALETTE['text'])
-            axs[1].set_xlabel(labels["cat_xlabel"], color=BITROOT_PALETTE['text'])
-            axs[1].set_ylabel(labels["cat_ylabel"], color=BITROOT_PALETTE['text'])
+            self.apply_labels(axs[1], title=labels["cat_title"],
+                              xlabel=labels["cat_xlabel"], ylabel=labels["cat_ylabel"])
 
-            axs[0].hist(df['Age'], bins=30, density=True, color=self.primary, alpha=0.7)
-            axs[0].set_title(labels["cont_title"], color=BITROOT_PALETTE['text'])
-            axs[0].set_xlabel(labels["cont_xlabel"], color=BITROOT_PALETTE['text'])
-            axs[0].set_ylabel(labels["cont_ylabel"], color=BITROOT_PALETTE['text'])
+            axs[0].hist(df['Age'], bins=30, density=True, color=self.resolve_color('hist_fill'), alpha=0.7)
+            self.apply_labels(axs[0], title=labels["cont_title"],
+                              xlabel=labels["cont_xlabel"], ylabel=labels["cont_ylabel"])
 
             for ax in axs:
                 self.apply_style(ax)
