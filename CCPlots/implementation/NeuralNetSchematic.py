@@ -6,22 +6,18 @@ tertiary, output nodes secondary.
 Figures
 -------
 - ``neural_net_schematic.png`` / ``_NL.png`` — node-and-edge network schematic
-
-Configuration
--------------
-``CCPlots/plot_configs/neural_net_schematic.json``
 """
 import networkx as nx
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE
-
 
 class NeuralNetSchematic(PlotExample):
 
+    # CCPlots/plot_configs/neural_net_schematic.json
     CONFIG_KEY = "neural_net_schematic"
 
     def __init__(self, n_input_nodes=3, hidden_layers: tuple[int] = (5, 5), n_output_nodes=2):
+        super().__init__()
         self.layers = [n_input_nodes] + list(hidden_layers) + [n_output_nodes]
 
     def main(self):
@@ -35,9 +31,9 @@ class NeuralNetSchematic(PlotExample):
         y_spacing = 1.2
 
         colors = [
-            BITROOT_PALETTE['primary'],
-            *([BITROOT_PALETTE['tertiary']] * (layer_count - 2)),
-            BITROOT_PALETTE['secondary']
+            self.resolve_color('layer_input'),
+            *([self.resolve_color('layer_hidden')] * (layer_count - 2)),
+            self.resolve_color('layer_output')
         ]
 
         for layer_index, num_neurons in enumerate(self.layers):
@@ -78,9 +74,9 @@ class NeuralNetSchematic(PlotExample):
                     label = f"{labels['hidden']} {layer_index}"
                 y_bottom = min(y for (xx, y) in positions.values())
                 ax.text(x, y_bottom - 0.75, label, ha='center', fontsize=12,
-                        fontweight='bold', color=BITROOT_PALETTE['text'])
+                        fontweight='bold', color=self.text_color)
 
-            ax.set_title(labels["title"], fontsize=14, color=BITROOT_PALETTE['text'])
+            ax.set_title(labels["title"], fontsize=14, color=self.text_color)
             self.apply_style(ax)
             ax.axis('off')
 

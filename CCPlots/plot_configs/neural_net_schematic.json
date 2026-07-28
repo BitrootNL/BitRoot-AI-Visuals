@@ -6,6 +6,11 @@
     },
     "figsize": [12, 6],
     "dpi": 100,
+    "colors": {
+        "layer_input": "primary",
+        "layer_hidden": "tertiary",
+        "layer_output": "secondary"
+    },
     "text": {
         "en": {
             "title": "Neural Network Schematic",
