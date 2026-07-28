@@ -1,29 +1,24 @@
+"""
+Demonstrates the concept of noise in data by plotting a clean sin(x) curve
+alongside noisy observations sampled from a Gaussian distribution around it.
+
+Figures
+-------
+- ``noisy_data_example.png`` / ``_NL.png`` — clean curve + noisy scatter
+
+Configuration
+-------------
+``CCPlots/plot_configs/noisy_data.json``
+"""
 import numpy as np
-import matplotlib.pyplot as plt
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, apply_bitroot_style, output_path
+from CCPlots.config import BITROOT_PALETTE
 
 
-TEXT_BY_LOCALE = {
-    "en": {
-        "title": "Illustration of Noise in Data",
-        "xlabel": "X Values",
-        "ylabel": "Y Values",
-        "true_label": "True Function (sin(x))",
-        "noisy_label": "Noisy Observations",
-    },
-    "nl": {
-        "title": "Illustratie van ruis in gegevens",
-        "xlabel": "X-waarden",
-        "ylabel": "Y-waarden",
-        "true_label": "Werkelijke functie (sin(x))",
-        "noisy_label": "Ruiswaarnemingen",
-    },
-}
+class NoisyData(PlotExample):
 
-
-class NoiseIllustration(PlotExample):
+    CONFIG_KEY = "noisy_data"
 
     primary: str = BITROOT_PALETTE['primary']
     tertiary: str = BITROOT_PALETTE['tertiary']
@@ -34,11 +29,8 @@ class NoiseIllustration(PlotExample):
         noise = np.random.normal(0, 0.3, size=x.shape)
         y_noisy = y_actual + noise
 
-        for locale, labels in (("en", TEXT_BY_LOCALE["en"]), ("nl", TEXT_BY_LOCALE["nl"])):
-            fname = f"noisy_data_example{'_NL' if locale == 'nl' else ''}.png"
-
-            fig, ax = plt.subplots(figsize=(8, 5), facecolor=BITROOT_PALETTE['background'])
-            ax.set_facecolor(BITROOT_PALETTE['background'])
+        for _locale, labels, suffix in self.iter_locales():
+            fig, ax = self.create_figure()
 
             ax.plot(x, y_actual, label=labels["true_label"], color=self.primary, linewidth=2)
             ax.scatter(x, y_noisy, label=labels["noisy_label"], color=self.tertiary, alpha=0.6)
@@ -48,7 +40,9 @@ class NoiseIllustration(PlotExample):
             ax.set_title(labels["title"], color=BITROOT_PALETTE['text'])
             ax.legend()
 
-            apply_bitroot_style(ax)
+            self.apply_style(ax)
+            self.save_figure(fig, "default", suffix=suffix)
 
-            fig.savefig(output_path(fname), bbox_inches='tight', pad_inches=0.1)
-            plt.close(fig)
+
+if __name__ == "__main__":
+    NoisyData().main()
