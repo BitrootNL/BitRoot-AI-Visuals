@@ -12,18 +12,17 @@ Configuration
 ``CCPlots/plot_configs/linear_regression.json``
 """
 import numpy as np
+from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 from sklearn.linear_model import LinearRegression
 
 from CCPlots.PlotExample import PlotExample
-from CCPlots.config import BITROOT_PALETTE, GLOBAL_RANDOM_STATE, output_path
+from CCPlots.config import GLOBAL_RANDOM_STATE, output_path
 
 
 class LinearRegression(PlotExample):
 
     CONFIG_KEY = "linear_regression"
-
-    primary = BITROOT_PALETTE['primary']
 
     def main(self):
         np.random.seed(GLOBAL_RANDOM_STATE)
@@ -38,14 +37,14 @@ class LinearRegression(PlotExample):
             fig, ax = self.create_figure()
             ax.set_xlim(min(house_sizes) - 100, max(house_sizes) + 100)
             ax.set_ylim(min(prices) - 10000, max(prices) + 10000)
-            ax.set_title(labels["title"], fontsize=16, color=BITROOT_PALETTE['text'])
-            ax.set_xlabel(labels["xlabel"], fontsize=14, color=BITROOT_PALETTE['text'])
-            ax.set_ylabel(labels["ylabel"], fontsize=14, color=BITROOT_PALETTE['text'])
+            ax.set_title(labels["title"], fontsize=16, color=self.text_color)
+            ax.set_xlabel(labels["xlabel"], fontsize=14, color=self.text_color)
+            ax.set_ylabel(labels["ylabel"], fontsize=14, color=self.text_color)
 
-            scatter = ax.scatter(house_sizes, prices, color=self.primary,
-                                 edgecolor=BITROOT_PALETTE['secondary_text'], s=40)
+            scatter = ax.scatter(house_sizes, prices, color=self.resolve_color('data_points'),
+                                 edgecolor=self.resolve_color('data_edge'), s=40)
 
-            line, = ax.plot([], [], color=self.primary, linewidth=2)
+            line, = ax.plot([], [], color=self.resolve_color('regression_line'), linewidth=2)
 
             def init():
                 line.set_data([], [])

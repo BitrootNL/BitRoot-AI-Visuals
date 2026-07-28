@@ -6,6 +6,11 @@
     },
     "figsize": [8, 6],
     "dpi": 100,
+    "colors": {
+        "regression_line": "primary",
+        "data_points": "primary",
+        "data_edge": "secondary_text"
+    },
     "text": {
         "en": {
             "title": "Linear Regression: House Size vs. Price",
