@@ -1,11 +1,19 @@
 {
     "description": "Normal distribution curve of female height with shaded standard-deviation regions (68 %, 95 %).",
-    "key": "regression",
+    "key": "normal_distribution",
     "output_files": {
-        "default": "regression{suffix}.png"
+        "default": "normal_distribution{suffix}.png"
     },
     "figsize": [10, 6],
     "dpi": 100,
+    "colors": {
+        "line": "primary",
+        "inner_band": "secondary@tint(0.25)",
+        "middle_band": "secondary@tint(0.18)",
+        "outer_band": "tertiary@tint(0.22)",
+        "divider": "secondary",
+        "grid": "grid"
+    },
     "text": {
         "en": {
             "title": "Female Height Distribution World-wide",
