@@ -11,8 +11,7 @@
         "inner_band": "secondary@tint(0.25)",
         "middle_band": "secondary@tint(0.18)",
         "outer_band": "tertiary@tint(0.22)",
-        "divider": "secondary",
-        "grid": "grid"
+        "divider": "secondary"
     },
     "text": {
         "en": {

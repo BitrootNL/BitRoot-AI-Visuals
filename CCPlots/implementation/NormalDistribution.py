@@ -62,7 +62,7 @@ class NormalDistribution(PlotExample):
             self.apply_style(ax)
             ax.xaxis.set_major_locator(ticker.MultipleLocator(15))
             ax.xaxis.set_minor_locator(ticker.MultipleLocator(5))
-            ax.grid(True, which='both', linestyle='--', linewidth=0.5, color=self.resolve_color('grid'))
+            ax.grid(True, which='both', linestyle='--', linewidth=0.5)
             ax.set_ylim(0, max(y) * 1.1)
 
             self.save_figure(fig, "default", suffix=suffix)
