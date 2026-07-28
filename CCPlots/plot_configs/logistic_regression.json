@@ -6,6 +6,11 @@
     },
     "figsize": [8, 6],
     "dpi": 100,
+    "colors": {
+        "decision_boundary": "primary",
+        "class_0_fill": "primary",
+        "class_1_fill": "primary"
+    },
     "text": {
         "en": {
             "title": "Logistic Regression: Spam vs. not spam",

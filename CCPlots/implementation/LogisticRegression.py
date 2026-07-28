@@ -27,15 +27,6 @@ class LogisticRegression(PlotExample):
 
     CONFIG_KEY = "logistic_regression"
 
-    cmap_light = ListedColormap([
-        to_rgba(BITROOT_PALETTE["background"], alpha=0.0),
-        to_rgba(BITROOT_PALETTE["primary"], alpha=0.25),
-    ])
-
-    cmap_bold = [to_rgba(BITROOT_PALETTE["primary"], alpha=0.65), BITROOT_PALETTE["primary"]]
-
-    accent = BITROOT_PALETTE['primary']
-
     def __init__(self, n_samples=200):
         self.n_samples = n_samples
 
@@ -51,6 +42,20 @@ class LogisticRegression(PlotExample):
 
         self.model = SKLogisticRegression(solver='lbfgs', max_iter=1000)
 
+    @property
+    def cmap_light(self):
+        return ListedColormap([
+            to_rgba(BITROOT_PALETTE["background"], alpha=0.0),
+            to_rgba(self.resolve_color('decision_boundary'), alpha=0.25),
+        ])
+
+    @property
+    def cmap_bold(self):
+        return [
+            to_rgba(self.resolve_color('decision_boundary'), alpha=0.65),
+            self.resolve_color('decision_boundary'),
+        ]
+
     def update(self, frame):
         self.model.max_iter = frame + 1
         self.model.fit(self.X, self.y)
@@ -62,7 +67,7 @@ class LogisticRegression(PlotExample):
             coll.remove()
 
         self.contourf = self.ax.contourf(self.xx, self.yy, Z, alpha=0.3, cmap=self.cmap_light)
-        self.contour = self.ax.contour(self.xx, self.yy, Z, levels=[0.5], linewidths=2, colors=self.accent)
+        self.contour = self.ax.contour(self.xx, self.yy, Z, levels=[0.5], linewidths=2, colors=self.resolve_color('decision_boundary'))
 
         return self.ax.collections + [self.scatter]
 
@@ -74,9 +79,9 @@ class LogisticRegression(PlotExample):
             fig, self.ax = self.create_figure()
             self.ax.set_xlim(self.X[:, 0].min() - 1, self.X[:, 0].max() + 1)
             self.ax.set_ylim(self.X[:, 1].min() - 1, self.X[:, 1].max() + 1)
-            self.ax.set_title(labels["title"], fontsize=16, color=BITROOT_PALETTE['text'])
-            self.ax.set_xlabel(labels["xlabel"], fontsize=14, color=BITROOT_PALETTE['text'])
-            self.ax.set_ylabel(labels["ylabel"], fontsize=14, color=BITROOT_PALETTE['text'])
+            self.ax.set_title(labels["title"], fontsize=16, color=self.text_color)
+            self.ax.set_xlabel(labels["xlabel"], fontsize=14, color=self.text_color)
+            self.ax.set_ylabel(labels["ylabel"], fontsize=14, color=self.text_color)
 
             self.xx, self.yy = np.meshgrid(
                 np.arange(self.X[:, 0].min() - 1, self.X[:, 0].max() + 1, 0.1),
@@ -88,7 +93,7 @@ class LogisticRegression(PlotExample):
 
             self.scatter = self.ax.scatter(self.X[:, 0], self.X[:, 1], c=self.y,
                                            cmap=ListedColormap(self.cmap_bold),
-                                           edgecolor=self.accent, s=40)
+                                           edgecolor=self.resolve_color('decision_boundary'), s=40)
 
             self.apply_style(self.ax)
 
