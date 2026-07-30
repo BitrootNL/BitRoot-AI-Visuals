@@ -3,7 +3,8 @@ title: EU AI Act — Nederlands toezichtskader
 description: >
   Organisatie van het Nederlandse toezicht onder de EU AI Act. De EU-AI-raad
   coördineert de AP (verboden AI, transparantie, hoog-risico-systemen), de
-  RDI (productcoördinatie) en de sectorale toezichthouders (AFM, DNB, etc.).
+  RDI (productcoördinatie) en de sectorale toezichthouders (AFM, DNB, etc.). 
+  Wordt gebruikt om compliance-onderdelen te ondersteunen.
 ---
 ```mermaid
 flowchart TB
