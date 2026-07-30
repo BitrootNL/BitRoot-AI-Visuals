@@ -17,6 +17,10 @@ def get_carbon_config() -> dict[str, Any]:
 
     The syntax-highlighting colours are mapped from the Bitroot design
     system to provide a clean, readable code snippet appearance.
+
+    Brand (beetroot) is used sparingly — only for class-name tokens.
+    Base text carries a subtle primary (cyan) undertone via a dark shade.
+    Numbers use primary for visibility without overusing brand.
     """
     p = BITROOT_PALETTE
     mono_font = "JetBrains Mono, IBM Plex Mono, ui-monospace, Menlo, monospace"
@@ -36,14 +40,14 @@ def get_carbon_config() -> dict[str, Any]:
         "exportSize": "2x",
         "customColors": {
             "backgroundColor": p["surface-elev"],
-            "textColor": p["on-surface"],
+            "textColor": shade_color(p["primary"], 0.25),
             "lineNumberColor": p["on-surface-disabled"],
             "stringColor": p["success"],
             "keywordColor": p["primary"],
             "functionColor": p["secondary"],
-            "numberColor": p["brand"],
+            "numberColor": p["primary"],
             "commentColor": p["on-surface-disabled"],
-            "variableColor": p["on-surface"],
+            "variableColor": shade_color(p["primary"], 0.25),
             "operatorColor": p["on-surface-muted"],
             "typeColor": p["tertiary"],
             "punctuationColor": p["on-surface-muted"],

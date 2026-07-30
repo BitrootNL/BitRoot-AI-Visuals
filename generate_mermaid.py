@@ -137,8 +137,8 @@ def main() -> None:
             name = os.path.basename(src)
             print(f"  {name}")
             svg, png = _render_one(src, config_path, mmdc_path, bg)
-            print(f"    SVG -> {os.path.basename(svg)}")
-            print(f"    PNG -> {os.path.basename(png)}")
+            print(f"    SVG -> {os.path.relpath(svg, PROJECT_ROOT)}")
+            print(f"    PNG -> {os.path.relpath(png, PROJECT_ROOT)}")
     finally:
         os.unlink(config_path)
 

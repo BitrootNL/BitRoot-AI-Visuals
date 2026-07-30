@@ -1,7 +1,7 @@
 {
   "name": "Bitroot",
   "version": "alpha",
-  "design_system_source": ".github/instructions/DESIGN.md",
+  "design_system_source": "https://github.com/BitrootNL/Branding/blob/main/Huisstijl/DESIGN.md",
   "description": "Unified design system for targeted, high-depth IT courses — bridging complex technical concepts and clear, accessible learning pathways.",
   "colors": {
     "primary":          { "hex": "#269FBA", "oklch": "oklch(0.65 0.16 195)" },

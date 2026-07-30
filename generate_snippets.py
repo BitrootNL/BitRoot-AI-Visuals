@@ -17,7 +17,6 @@ import json
 import os
 import subprocess
 import sys
-import tempfile
 
 from CCPlots.config.carbon_theme import get_carbon_config
 
@@ -52,7 +51,7 @@ def _find_carbon_now() -> str:
     )
 
 
-def _render_one(source_path: str, carbon_path: str, config_path: str) -> str:
+def _render_one(source_path: str, carbon_path: str, settings_json: str) -> str:
     """Render *source_path* to ``.py.png`` under ``SNIPPETS_OUTPUT_DIR``.
 
     Returns the output image path.
@@ -67,7 +66,7 @@ def _render_one(source_path: str, carbon_path: str, config_path: str) -> str:
         [carbon_path, source_path,
          "--save-to", out_dir,
          "--save-as", src_stem,
-         "--config", config_path,
+         "--settings", settings_json,
          "--skip-display"],
         check=True, capture_output=True, text=True,
     )
@@ -87,29 +86,21 @@ def main() -> None:
         sys.exit(1)
 
     config = get_carbon_config()
-
-    with tempfile.NamedTemporaryFile(
-        mode="w", suffix=".json", delete=False, encoding="utf-8",
-    ) as f:
-        json.dump(config, f, indent=2)
-        config_path = f.name
+    settings_json = json.dumps(config)
 
     print(f"Rendering {len(sources)} code snippet(s)...")
     ok = 0
     failed: list[str] = []
-    try:
-        for src in sources:
-            rel = os.path.relpath(src, SNIPPETS_DIR)
-            print(f"  {rel}")
-            try:
-                out = _render_one(src, carbon_path, config_path)
-                print(f"    -> {os.path.basename(out)}")
-                ok += 1
-            except subprocess.CalledProcessError as exc:
-                print(f"    FAILED (exit {exc.returncode})")
-                failed.append(rel)
-    finally:
-        os.unlink(config_path)
+    for src in sources:
+        rel = os.path.relpath(src, SNIPPETS_DIR)
+        print(f"  {rel}")
+        try:
+            out = _render_one(src, carbon_path, settings_json)
+            print(f"    -> {os.path.relpath(out, PROJECT_ROOT)}")
+            ok += 1
+        except subprocess.CalledProcessError as exc:
+            print(f"    FAILED (exit {exc.returncode})")
+            failed.append(rel)
 
     if failed:
         print(f"\n{ok} succeeded, {len(failed)} failed:")
