@@ -59,6 +59,9 @@ def get_mermaid_theme() -> dict[str, Any]:
             "fontSize": "16px",
             "edgeLabelBackground": p["white"],
         },
+        "themeCSS": (
+            f".hl {{ color: {p['primary']}; font-weight: bold; }}\n"
+        ),
     }
 
 
