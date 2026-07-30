@@ -29,7 +29,8 @@ import matplotlib.pyplot as plt
 
 # ── Load palette from the shared JSON config ──────────────────────────────
 
-_CONFIG_PATH = os.path.join(os.path.dirname(__file__), "bitroot.json")
+_PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+_CONFIG_PATH = os.path.join(_PROJECT_ROOT, "bitroot.json")
 
 with open(_CONFIG_PATH, encoding="utf-8") as _f:
     _BITROOT_CONFIG = json.load(_f)
