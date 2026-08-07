@@ -11,7 +11,7 @@ flowchart TB
 
     EAB["EU-AI-raad"]
 
-    AP[""<b class='hl'>AP</b><br/>Verboden AI<br/>Hoog Risico<br/>Transparantie"]
+    AP["<b class='hl'>AP</b><br/>Verboden AI<br/>Hoog Risico<br/>Transparantie"]
 
     RDI["<b class='hl'>RDI</b><br/>Coördinatie<br/>Producten"]
 

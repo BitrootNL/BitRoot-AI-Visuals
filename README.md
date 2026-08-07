@@ -4,15 +4,21 @@ Teaching-focused plots and learning materials for AI and machine learning course
 
 ## About
 
-This repository generates plots, diagrams, and code snippets used in AI course
-materials. All visuals are generated programmatically and styled from the
-[Bitroot design system](CCPlots/config/bitroot.json).
+This repository generates plots, diagrams, and code snippets used in AI
+course materials.  All visuals are generated programmatically and styled
+from the [Bitroot design system](bitroot.json).
+
+> **AI agent instructions:** This repository contains `.agent-instructions/` —
+> guidance that lets AI tools (such as Kilo) generate new diagrams, plots,
+> and code snippets in the Bitroot style.  See the files in that directory
+> for the details per medium.
 
 ## Contents
 
 - [Python Plots](#python-plots) — matplotlib plots via CCPlots
 - [Mermaid Diagrams](#mermaid-diagrams) — flowcharts via mmdc (`mermaid/` → `mermaid-output/`)
 - [Code Snippets](#code-snippets) — syntax-highlighted code via carbon-now-cli (`code-snippets/` → `snippet-output/`)
+- [Agent Instructions](#agent-instructions) — AI guidance for generating new content
 - [Plot Showcase](#plot-showcase)
 
 ## Python Plots
@@ -89,6 +95,12 @@ derived from `bitroot.json` and rendered via the Mermaid CLI.
 |---|---|---|
 | `eu_ai_act_classification.md` | EN | `{stem}.svg`, `{stem}.png` |
 | `eu_ai_act_classification_NL.md` | NL | `{stem}.svg`, `{stem}.png` |
+| `eu_ai_act_timeline.md` | EN | `{stem}.svg`, `{stem}.png` |
+| `eu_ai_act_timeline_NL.md` | NL | `{stem}.svg`, `{stem}.png` |
+| `eu_ai_act_governance.md` | EN | `{stem}.svg`, `{stem}.png` |
+| `eu_ai_act_governance_NL.md` | NL | `{stem}.svg`, `{stem}.png` |
+| `eu_ai_act_nl_supervision.md` | EN | `{stem}.svg`, `{stem}.png` |
+| `eu_ai_act_nl_supervision_NL.md` | NL | `{stem}.svg`, `{stem}.png` |
 | `ml_algorithms_overview.md` | EN | `{stem}.svg`, `{stem}.png` |
 | `ml_algorithms.md` | EN | `{stem}.svg`, `{stem}.png` |
 | `scientific_method.md` | EN | `{stem}.svg`, `{stem}.png` |
@@ -111,11 +123,43 @@ Bitroot syntax-highlighting theme and rendered via carbon-now-cli.
 | `model_selection/` | LazyPredict comparison output | `model_selection/*.py.png` |
 | `preprocessing/` | Data cleaning, binning, normalization, etc. | `preprocessing/*.py.png` |
 
+## Slide Bases
+
+Text-free SVG and PNG base structures for presentations (PowerPoint, Google
+Slides).  These are backdrops — you add labels and annotations on top in
+your presentation tool.
+
+All bases are generated from `bases/` (a standalone Python module, independent
+from `CCPlots`).  Variants are configured in `bases_config.json`.
+
+1. Install Node dependencies: `npm install`
+2. Generate all bases: `python generate_bases.py`
+
+| Generator | Variants | Outputs (`bases-output/`) |
+|---|---|---|
+| `pyramid` | 3, 4, 5 layers | `pyramid{suffix}.svg`, `.png` |
+| `grid` | 2×2, 2×3, 3×1, 3×3 | `grid_{rows}x{cols}.svg`, `.png` |
+| `timeline` | 3, 5, 7 ticks | `timeline_{n}.svg`, `.png` |
+| `process` | 3, 4, 5 blocks | `process_{n}.svg`, `.png` |
+| `layers` | 3, 4, 5 bars | `layers_{n}.svg`, `.png` |
+| `venn` | 2, 3 sets | `venn_{n}.svg`, `.png` |
+
+**Adding a new base?** The easiest way is an AI tool.  Use the prompt
+template below, or read the full instructions in
+`.agent-instructions/slide-bases.instructions.md`:
+
+> Create a new base generator for [structure] in the `bases/` module.
+> It should return an SVG styled with the Bitroot palette via
+> `bases.palette.resolve_color()`.  Add variants to `bases_config.json`
+> and register the generator in `generate_bases.py`.
+
+The AI writes the generator, the config, and the registration — you just
+run `python generate_bases.py` and the SVG/PNG appear in `bases-output/`.
+
 ## Styling
 
-All visuals (plots and Mermaid diagrams) follow the **Bitroot** palette
-defined in [`CCPlots/config/bitroot.json`](CCPlots/config/bitroot.json),
-the single source of truth derived from the Bitroot design system.
+All visuals follow the **Bitroot** palette defined in
+[`bitroot.json`](bitroot.json) (project root — the single source of truth).
 
 | Token | Hex | Role |
 |---|---|---|
@@ -129,13 +173,30 @@ the single source of truth derived from the Bitroot design system.
 | `border` | `#D8E0E0` | Grid lines / borders |
 | `white` | `#F2F2F5` | Card backgrounds / light contrast |
 
-The palette is consumed by three theme modules — one per output type:
+The palette is consumed by four theme modules — one per output type:
 
 | Module | Config | Purpose |
 |---|---|---|
 | `CCPlots/config/palette.py` | `bitroot.json` | `BITROOT_PALETTE`, matplotlib styling, colour derivation |
 | `CCPlots/config/mermaid_theme.py` | `bitroot.json` | `mmdc`-compatible theme for Mermaid diagrams |
 | `CCPlots/config/carbon_theme.py` | `bitroot.json` | `carbon-now`-compatible theme for code snippets |
+
+## Agent Instructions
+
+This repository contains `.agent-instructions/` with guidance for AI tools
+(Kilo, ChatGPT, Claude, Copilot, etc.) to generate new visuals in the
+Bitroot style.
+
+| File | Purpose |
+|---|---|
+| `plotting-style.instructions.md` | Adding matplotlib plots via the CCPlots pipeline |
+| `mermaid-style.instructions.md` | Adding Mermaid diagrams (flowcharts, timelines) |
+| `code-snippet-style.instructions.md` | Adding code examples via carbon-now |
+| `slide-bases.instructions.md` | Generating text-free SVG bases for presentations |
+
+**Getting started:** Copy the prompt from the file you need, hand it to an
+AI tool, and let the AI generate the boilerplate.  Review the output and
+run the corresponding `generate_*.py` script.
 
 ## Plot Showcase
 

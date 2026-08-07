@@ -1,15 +1,20 @@
 ---
 title: EU AI Act — Timeline
 description: >
-  Horizontal timeline of the EU AI Act's phased entry into force, from publication
-  in the Official Journal (July 2024) through the large-scale IT systems compliance
-  deadline (December 2030). Mid-2026 marks "most obligations apply" — high-risk
-  classification rules (Art. 6(1)) follow in August 2027.
+  Horizontal timeline of the EU AI Act's phased entry into force. Law takes effect
+  (Aug 2024), core definitions, AI literacy & banned practices (Feb 2025), rules for
+  general-purpose AI & governance (Aug 2025), most rules apply & enforcement starts
+  (Aug 2026), deepfake bans & transition deadline (Dec 2026), AI sandboxes (Aug 2027),
+  high-risk AI in hiring/credit/education (Dec 2027), high-risk AI in products (Aug 2028).
+  Source: EC AI Service Desk.
 ---
 ```mermaid
 flowchart LR
-    A["<b class='hl'>2024</b><br>Publication &<br>entry into force"] --> B["<b class='hl'>2025</b><br>Prohibitions &<br>GPAI rules"]
-    B --> C["<b class='hl'>2026</b><br>Most obligations"]
-    C --> D["<b class='hl'>2027</b><br>Art. 6(1) &<br>GPAI deadline"]
-    D --> E["<b class='hl'>2030</b><br>Large-scale<br>IT systems"]
+    A["<b class='hl'>Aug 2024</b><br>Law takes<br>effect"] --> B["<b class='hl'>Feb 2025</b><br>Core definitions,<br>AI literacy &<br>banned practices"]
+    B --> C["<b class='hl'>Aug 2025</b><br>Rules for general-<br>purpose AI (e.g.<br>ChatGPT) & governance"]
+    C --> D["<b class='hl'>Aug 2026</b><br>Most rules apply<br>— enforcement<br>starts"]
+    D --> E["<b class='hl'>Dec 2026</b><br>Deepfake bans &<br>transition deadline<br>for existing AI"]
+    E --> F["<b class='hl'>Aug 2027</b><br>AI sandboxes for<br>safe testing in<br>every EU country"]
+    F --> G["<b class='hl'>Dec 2027</b><br>High-risk AI rules:<br>hiring, credit,<br>education"]
+    G --> H["<b class='hl'>Aug 2028</b><br>High-risk AI in<br>products: medical<br>devices, cars"]
 ```
