@@ -125,13 +125,23 @@ in diagram source files — if you need a new reusable class, add it to the
 - **Compact node labels** — max 6-8 words per node. Use `<br>` for multi-line text.
 - **Max 7-8 nodes** in a `flowchart LR` (horizontal) to fit on a slide.
 - **Max 5-6 levels** in a `flowchart TD` (vertical).
-- Use **Descriptio**n in YAML front matter to document the diagram's intent without
+- Use **Description** in YAML front matter to document the diagram's intent without
   cluttering the rendered output.
 - Avoid emojis in diagram text (per Bitroot design guidelines — only permitted in
   editorial content, not functional diagrams).
 
+### Slide-friendly preference
+
+Prefer compact diagrams that fit on a presentation slide (max 7-8 nodes, 2-3 levels deep).
+This ensures diagrams remain readable when projected and leaves room for speaker notes.
+
+When a topic requires more detail (e.g. reference documentation, complex hierarchies),
+create a **compact version** for slides alongside a **detailed version** for other uses.
+Name the detailed version with a `_detailed` suffix (e.g. `topic_detailed.md`).
+
 ## Verification
 - Run `python generate_mermaid.py` to regenerate all diagrams.
+- Run `python generate_mermaid.py topic.md topic_NL.md` to regenerate specific files.
 - Check that both SVG and PNG were created in `mermaid-output/`.
 - Verify the SVG uses the expected Bitroot palette:
   - Background: `#F8FAFA` (surface)

@@ -90,6 +90,7 @@ derived from `bitroot.json` and rendered via the Mermaid CLI.
 
 1. Install Node dependencies: `npm install`
 2. Regenerate all diagrams: `python generate_mermaid.py`
+3. Regenerate specific files: `python generate_mermaid.py topic.md topic_NL.md`
 
 | Source (`mermaid/`) | Locales | Outputs (`mermaid-output/`) |
 |---|---|---|
@@ -104,6 +105,8 @@ derived from `bitroot.json` and rendered via the Mermaid CLI.
 | `ml_algorithms_overview.md` | EN | `{stem}.svg`, `{stem}.png` |
 | `ml_algorithms.md` | EN | `{stem}.svg`, `{stem}.png` |
 | `scientific_method.md` | EN | `{stem}.svg`, `{stem}.png` |
+| `cen_clc_tr_18115_data_management.md` | EN | `{stem}.svg`, `{stem}.png` |
+| `cen_clc_tr_18115_data_management_NL.md` | NL | `{stem}.svg`, `{stem}.png` |
 
 ## Code Snippets
 

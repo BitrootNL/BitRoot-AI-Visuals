@@ -1,5 +1,5 @@
 """
-Render all Mermaid diagrams in ``mermaid/`` via the Mermaid CLI (mmdc).
+Render Mermaid diagrams in ``mermaid/`` via the Mermaid CLI (mmdc).
 
 Each ``.md`` source file containing a `` ```mermaid `` code block is
 rendered to SVG and PNG using the Bitroot theme derived from
@@ -7,7 +7,8 @@ rendered to SVG and PNG using the Bitroot theme derived from
 
 Usage
 -----
-    python generate_mermaid.py
+    python generate_mermaid.py                    # render all diagrams
+    python generate_mermaid.py file1.md file2.md  # render specific files
 
 Requires ``@mermaid-js/mermaid-cli`` (install via ``npm install``).
 """
@@ -109,7 +110,21 @@ def _render_one(source_path: str, config_path: str, mmdc_path: str, bg: str) -> 
 
 
 def main() -> None:
-    sources = _find_sources()
+    if len(sys.argv) > 1:
+        sources = []
+        for arg in sys.argv[1:]:
+            path = os.path.join(MERMAID_DIR, arg) if not os.path.isabs(arg) else arg
+            if not os.path.isfile(path):
+                print(f"File not found: {arg}", file=sys.stderr)
+                sys.exit(1)
+            with open(path, encoding="utf-8") as f:
+                if "```mermaid" not in f.read():
+                    print(f"No mermaid code block in: {arg}", file=sys.stderr)
+                    sys.exit(1)
+            sources.append(path)
+    else:
+        sources = _find_sources()
+
     if not sources:
         print("No Mermaid source files found in mermaid/")
         return
