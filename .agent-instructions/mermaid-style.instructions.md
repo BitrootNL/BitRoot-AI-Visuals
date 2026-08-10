@@ -1,152 +1,125 @@
-# Mermaid Diagram Style Instructions
+# Mermaid Diagram Style Guide
 
-## Shared design foundation
-All visuals in this repository share ONE source of truth: `CCPlots/config/bitroot.json`.
-Do NOT hard-code hex values in Mermaid sources — always reference the theme layer
-(`CCPlots/config/mermaid_theme.py`), which is derived from `bitroot.json` and passed
-to the `mmdc` CLI at render time via `generate_mermaid.py`.
+Add new Mermaid diagrams (flowcharts, timelines, process diagrams) to `mermaid/`.
+Each diagram is a Markdown file containing a ` ```mermaid ` code block.
 
-If you need inline styling within a diagram (e.g. coloured text in a flowchart node),
-use the primary hex `#269FBA` sparingly — only when the theme's global variables
-cannot achieve the effect. See "Diagram-level styling" below.
+## File conventions
 
-## Theme architecture
-
-| Layer | File | Role |
-|---|---|---|
-| Source of truth | `CCPlots/config/bitroot.json` | All hex values, typography, spacing |
-| Theme builder | `CCPlots/config/mermaid_theme.py` | Maps palette to `mmdc`-compatible JSON (`get_mermaid_theme()`) |
-| Renderer | `generate_mermaid.py` | Extracts ` ```mermaid ` blocks from `.md` files, passes theme to `mmdc` |
-
-Theme variable mapping (also documented in `mermaid_theme.py`):
-
-| Mermaid variable | Bitroot key | Role |
-|---|---|---|
-| `background` | `surface` | Page background |
-| `primaryColor` | `surface-elev` | Default node fill |
-| `primaryTextColor` | `on-surface` | Node label text |
-| `primaryBorderColor` | `primary` | Node border (cyan) |
-| `lineColor` | `secondary` | Connector lines / arrows (purple) |
-| `secondaryColor` | `tertiary` | Secondary node fill (green) |
-| `secondaryTextColor` | `on-surface` | Secondary node label text |
-| `tertiaryColor` | `surface` | Tertiary node fill |
-| `tertiaryTextColor` | `on-surface-muted` | Tertiary node text |
-| `edgeLabelBackground` | `white` | Edge label background |
-| `fontFamily` | — | `Inter, system-ui, sans-serif` |
-
-All colours are resolved at render time — never embed hex values in diagram source
-unless the theme variables cannot express the desired styling.
-
-## Directory & file conventions
-
-| Location | Purpose |
+| Item | Convention |
 |---|---|
-| `mermaid/*.md` | Source files (one per diagram) |
-| `mermaid-output/*.svg` | Rendered vector output (auto-generated) |
-| `mermaid-output/*.png` | Rendered bitmap output (auto-generated) |
+| Directory | `mermaid/` |
+| EN source | `topic.md` |
+| NL source | `topic_NL.md` |
+| Output | `mermaid-output/{stem}.svg` and `{stem}.png` |
 
-### File naming
-- **EN:** `topic.md` (no language suffix)
-- **NL:** `topic_NL.md` (append `_NL` before `.md`)
-- Use kebab-case for multi-word topics: `eu_ai_act_timeline.md`
+Every diagram that supports text labels must have both an English and Dutch
+version. The Dutch filename ends with `_NL`.
 
-### Localization convention
-For every EN diagram that contains text, create an NL counterpart. Both files use
-exactly the same diagram structure — only the label text changes. The renderer
-(`generate_mermaid.py`) processes every `.md` file in `mermaid/` automatically, so
-the output files appear in `mermaid-output/` with matching names.
+## Source file format
 
-## Workflow for adding a new diagram
-
-1. Create `mermaid/<topic>.md` (EN) with a ` ```mermaid ` code block.
-   - Optionally add YAML front matter (title, description) for source-code documentation.
-     Front matter is ignored by the renderer.
-2. Create `mermaid/<topic>_NL.md` (NL) with the same diagram and translated labels.
-3. Run `python generate_mermaid.py` from the project root.
-4. Verify the SVG and PNG outputs appear in `mermaid-output/`.
-
-Example source skeleton (`mermaid/my_topic.md`):
 ```markdown
 ---
-title: My Topic — Diagram
+title: Short Title — Subtitle
 description: >
-  Brief description visible only in source code. Explains what the diagram
-  shows and which audience it targets.
+  One-paragraph description of the diagram contents.
 ---
 ```mermaid
 flowchart TD
-    A[Start] --> B[End]
+
+    A["Node label"]:::step
+    B["Another node"]:::step
+
+    A --> B
 ```
 ```
 
-## Diagram type selection
+- **Frontmatter** (optional but recommended): `title` and `description` fields.
+- **Code block**: A single ` ```mermaid ` fenced block containing the diagram.
 
-| Type | Use for | Slide-friendly |
+## Styling
+
+All diagrams use the Bitroot theme derived from `bitroot.json`. The theme is
+applied automatically by `generate_mermaid.py` — do not hardcode colours in the
+Mermaid source.
+
+### Theme variables
+
+| Mermaid variable | Bitroot token | Role |
 |---|---|---|
-| `flowchart TD` / `flowchart LR` | Process flows, decision trees, timelines | Yes — compact, respects theme variables |
-| `sequenceDiagram` | Message passing, API flows | Yes |
-| `classDiagram` | OOP/type hierarchies | Yes |
-| `gantt` | Project timelines | Wide — use sparingly on slides |
-| `timeline` | Chronological timelines | **Avoid** — does NOT respect theme variables (uses internal HSL cycling) |
+| `primaryColor` | `surface-elev` | Default node fill |
+| `primaryTextColor` | `on-surface` | Node label text |
+| `primaryBorderColor` | `primary` | Node border (cyan) |
+| `lineColor` | `secondary` | Connector lines / arrows |
+| `secondaryColor` | `tertiary` | Secondary node fill |
+| `tertiaryColor` | `surface` | Tertiary node fill |
 
-**Rule of thumb:** Use `flowchart` variants when in doubt. They have the best theme
-variable support and produce the most consistent Bitroot-styled output.
+### Highlighted text
 
-## Diagram-level styling
+Use `<b class='hl'>text</b>` inside node labels to apply the primary (cyan)
+accent colour with bold weight. Use this for step numbers, key terms, or
+headings within nodes:
 
-The theme JSON sets global defaults. When you need per-element control:
-
-### Bold / colour on specific text
-Use the predefined `.hl` CSS class (defined in `mermaid_theme.py` via `themeCSS`)
-to highlight text in the primary (cyan) colour:
+```mermaid
+flowchart TD
+    A["<b class='hl'>1. Step One</b><br/>Description"]
 ```
-A["<b class='hl'>2024</b><br>description"]
+
+### Node types
+
+| Syntax | Shape | Use |
+|---|---|---|
+| `[Label]` | Rectangle | Standard process step |
+| `(["Label"])` | Rounded | Start/end nodes |
+| `["Label"]` | Stadium | Terminal states |
+| `{Label?}` | Diamond | Decision points |
+| `("Label")` | Cylinder | Data storage |
+
+### Flowchart direction
+
+| Direction | When to use |
+|---|---|
+| `flowchart TD` | Hierarchical trees, decision flows, top-down processes |
+| `flowchart LR` | Timelines, linear sequences, left-to-right flows |
+| `flowchart TB` | Same as TD (alias) |
+
+### Line breaks
+
+Use `<br/>` inside node labels for multi-line content:
+
+```mermaid
+flowchart TD
+    A["<b class='hl'>Title</b><br/>Line one<br/>Line two"]
 ```
-The `.hl` class is available in every diagram because `get_mermaid_theme()` injects
-it into the SVG via `themeCSS`. Do NOT hard-code hex values inside `style` attributes
-in diagram source files — if you need a new reusable class, add it to the
-`themeCSS` string in `mermaid_theme.py` instead.
 
-### Node shape selection
-- `[text]` — rectangle (default, good for general use)
-- `([text])` — stadium/pill (use sparingly for emphasis)
-- `{text}` — rhombus/diamond (decisions)
-- `((text))` — circle (start/end nodes)
+### Dashed / annotated edges
 
-### Styling caveats
-- Only `flowchart` and `graph` diagram types reliably inherit all theme variables.
-- `timeline` sections use internal HSL colour cycling and ignore `primaryColor`,
-  `secondaryColor`, etc. — use `flowchart LR` instead.
-- Inline `<b style="...">` works via SVG `foreignObject` rendering. Test after adding.
+Use dashed edges for feedback loops, secondary relationships, or
+non-primary flows:
 
-## Content guidelines for slides
+```mermaid
+flowchart LR
+    A[Start] --> B[Middle]
+    B --> C[End]
+    C -. "Feedback" .-> A
+```
 
-- **One concept per diagram** — keep it focused.
-- **Compact node labels** — max 6-8 words per node. Use `<br>` for multi-line text.
-- **Max 7-8 nodes** in a `flowchart LR` (horizontal) to fit on a slide.
-- **Max 5-6 levels** in a `flowchart TD` (vertical).
-- Use **Description** in YAML front matter to document the diagram's intent without
-  cluttering the rendered output.
-- Avoid emojis in diagram text (per Bitroot design guidelines — only permitted in
-  editorial content, not functional diagrams).
+## Rendering
 
-### Slide-friendly preference
+Regenerate only the specific files you created or modified. Do **not** render
+every diagram in `mermaid/` — only the relevant ones:
 
-Prefer compact diagrams that fit on a presentation slide (max 7-8 nodes, 2-3 levels deep).
-This ensures diagrams remain readable when projected and leaves room for speaker notes.
+```bash
+python generate_mermaid.py new_diagram.md new_diagram_NL.md
+```
 
-When a topic requires more detail (e.g. reference documentation, complex hierarchies),
-create a **compact version** for slides alongside a **detailed version** for other uses.
-Name the detailed version with a `_detailed` suffix (e.g. `topic_detailed.md`).
+This writes `{stem}.svg` and `{stem}.png` to `mermaid-output/`.
 
-## Verification
-- Run `python generate_mermaid.py` to regenerate all diagrams.
-- Run `python generate_mermaid.py topic.md topic_NL.md` to regenerate specific files.
-- Check that both SVG and PNG were created in `mermaid-output/`.
-- Verify the SVG uses the expected Bitroot palette:
-  - Background: `#F8FAFA` (surface)
-  - Node fill: `#EDF1F1` (surface-elev)
-  - Node border: `#269FBA` (primary)
-  - Text: `#2D3333` (on-surface)
-  - Arrow/lines: `#5C78D9` (secondary)
-- Update `README.md` with the new source/output entries in the Mermaid table.
+## README update
+
+After creating new diagrams, add entries to the Mermaid Diagrams table in
+`README.md`:
+
+```markdown
+| `new_diagram.md` | EN | `{stem}.svg`, `{stem}.png` |
+| `new_diagram_NL.md` | NL | `{stem}.svg`, `{stem}.png` |
+```
