@@ -107,6 +107,8 @@ derived from `bitroot.json` and rendered via the Mermaid CLI.
 | `scientific_method.md` | EN | `{stem}.svg`, `{stem}.png` |
 | `cen_clc_tr_18115_data_management.md` | EN | `{stem}.svg`, `{stem}.png` |
 | `cen_clc_tr_18115_data_management_NL.md` | NL | `{stem}.svg`, `{stem}.png` |
+| `iso_23894_risk_management_cycle.md` | EN | `{stem}.svg`, `{stem}.png` |
+| `iso_23894_risk_management_cycle_NL.md` | NL | `{stem}.svg`, `{stem}.png` |
 
 ## Code Snippets
 
