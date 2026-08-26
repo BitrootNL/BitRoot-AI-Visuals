@@ -128,39 +128,6 @@ Bitroot syntax-highlighting theme and rendered via carbon-now-cli.
 | `model_selection/` | LazyPredict comparison output | `model_selection/*.py.png` |
 | `preprocessing/` | Data cleaning, binning, normalization, etc. | `preprocessing/*.py.png` |
 
-## Slide Bases
-
-Text-free SVG and PNG base structures for presentations (PowerPoint, Google
-Slides).  These are backdrops — you add labels and annotations on top in
-your presentation tool.
-
-All bases are generated from `bases/` (a standalone Python module, independent
-from `CCPlots`).  Variants are configured in `bases_config.json`.
-
-1. Install Node dependencies: `npm install`
-2. Generate all bases: `python generate_bases.py`
-
-| Generator | Variants | Outputs (`bases-output/`) |
-|---|---|---|
-| `pyramid` | 3, 4, 5 layers | `pyramid{suffix}.svg`, `.png` |
-| `grid` | 2×2, 2×3, 3×1, 3×3 | `grid_{rows}x{cols}.svg`, `.png` |
-| `timeline` | 3, 5, 7 ticks | `timeline_{n}.svg`, `.png` |
-| `process` | 3, 4, 5 blocks | `process_{n}.svg`, `.png` |
-| `layers` | 3, 4, 5 bars | `layers_{n}.svg`, `.png` |
-| `venn` | 2, 3 sets | `venn_{n}.svg`, `.png` |
-
-**Adding a new base?** The easiest way is an AI tool.  Use the prompt
-template below, or read the full instructions in
-`.agent-instructions/slide-bases.instructions.md`:
-
-> Create a new base generator for [structure] in the `bases/` module.
-> It should return an SVG styled with the Bitroot palette via
-> `bases.palette.resolve_color()`.  Add variants to `bases_config.json`
-> and register the generator in `generate_bases.py`.
-
-The AI writes the generator, the config, and the registration — you just
-run `python generate_bases.py` and the SVG/PNG appear in `bases-output/`.
-
 ## Styling
 
 All visuals follow the **Bitroot** palette defined in
